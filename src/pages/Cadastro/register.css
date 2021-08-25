@@ -1,0 +1,107 @@
+.register {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    height: 100vh;
+    width: 100%;
+    background-color: #121214;
+    color: white;
+}
+
+.register-box {
+    background-color: #29292E;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 80px;
+    padding: 30px;
+    width: 500px;
+    height: 600px;
+}
+
+.register-box h1 {
+    font-family: 'Roboto Slab';
+    font-size: 40px;
+    margin-bottom: 50px;
+}
+
+.register-box h4 {
+    font-family: 'Roboto Slab';
+    font-weight: 300;
+    margin-top: 40px;
+    font-size: 25px;
+    font-weight: 600;
+    color: #e1e1e6;
+}
+
+/*Dados do usuario*/
+
+.register-registerInputData {
+    display: flex;
+    align-items: center;
+    color: gray;
+    background-color:#141416;
+    border-radius: 10px;
+    padding: 3px;
+    width: 75%;
+    height: 50px;
+    margin-bottom: 20px;
+    
+}
+
+.register-registerInputData svg {
+    margin-left: 10px;
+    font-size: large;
+}
+
+.register-registerInputData input {
+    opacity: 500%;
+    background: transparent;
+    width: 100%;
+    outline-width: 0;
+    color: #E1E1E6;
+    border: none;
+    font-size: 17px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+/*Campo Genero*/
+.register-registerInputSelect-box {
+    display: flex;
+    align-items: center;
+    color: gray;
+    background-color:#141416;
+    border-radius: 10px;
+    border: 0px;
+    padding: 3px;
+    width: 75%;
+    height: 50px;
+}
+
+
+
+
+/*botao Confirmar Cadastro*/
+
+.register-box button {
+    width: 73%;
+    background-color: #111010;
+    color: #EFF2F5;
+    font-weight: 800;
+    height: 55px;
+    border-radius: 10px;
+    font-size: 18px;
+    margin-top: 20px;
+    border: none;
+    outline-width: 0;
+    
+}
+
+.register-box button:hover {
+    background-color: #292992;
+    color: #EFF2F5;
+    cursor: pointer;
+}
