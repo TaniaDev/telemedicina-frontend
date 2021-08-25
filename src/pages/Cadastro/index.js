@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import './register.css'
+import logo from "../../img/logoAzul.png"
 
-import { MdEmail, MdLock, MdAccountCircle, MdChangeHistory, MdDateRange } from "react-icons/md"
+import { MdEmail, MdLock, MdAccountCircle, MdChangeHistory, MdDateRange, MdKeyboardArrowLeft } from "react-icons/md"
 
 function Register() {
     const [nome, setNome] = useState("")
@@ -15,15 +16,13 @@ function Register() {
     return (
         
         <div className="register">
-            {/*
-            <div className="register-logo">
-                <img 
-                    src="https://anzuns.org/wp-content/uploads/2018/02/admin_login.png" 
-                    alt="MdLockregister App" 
-                />
-            </div>
-            */}
             <div className="register-box">
+                <button type="submit" className= "botao-voltar">
+                <MdKeyboardArrowLeft/>
+                    Voltar
+                </button>  
+
+
                 <h1>Cadastro</h1>
 
                 <div className= "register-registerInputData">
@@ -86,10 +85,17 @@ function Register() {
                 </div>
 
 
-                <button type="submit">
+                <button type="submit" className= "botao-cadastro">
                     Confirmar Cadastro
                 </button>  
 
+            </div>
+
+            <div className="register-logo">
+                <img 
+                    src={logo} 
+                    alt="MdLockLogin App" 
+                />
             </div>
         </div>
         
