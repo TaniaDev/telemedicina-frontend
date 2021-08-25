@@ -4,6 +4,7 @@ import logo from "../../img/logoAzul.png"
 import { MdEmail, MdLock, MdAccountCircle, MdChangeHistory, MdDateRange, MdTrendingFlat } from "react-icons/md"
 import { BsBoxArrowInLeft } from "react-icons/bs"
 import api from '../../services/api'
+import { Link } from 'react-router-dom'
 
 function Cadastro() {
     const [nome, setNome] = useState("")
@@ -108,9 +109,12 @@ function Cadastro() {
                     />    
                 </div>
 
+                <Link to = {"/usuarios"}>
                 <button type="submit" className= "botao-cadastro" onClick={handleCadastro}>
+                    
                     Confirmar Cadastro
                 </button>  
+                </Link>
 
             </div>
 
