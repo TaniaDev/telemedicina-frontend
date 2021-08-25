@@ -1,24 +1,22 @@
 import React, { useState } from 'react'
 import { MdEmail, MdLock } from "react-icons/md"
 import { HiEye, HiEyeOff } from "react-icons/hi"
-import { useHistory } from "react-router-dom";
 import logo from "../../img/logoAzul.png"
 import './login.css'
 import api from '../../services/api';
 
 function Login() {
-    let history = useHistory()
     const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    const [senha, setSenha] = useState("")
     const [show, setShow] = useState(false)
 
     const handleLogin = async e => {
         e.preventDefault()
-        if (!email || !password) {
+        if (!email || !senha) {
             alert("Preencha todos os dados para fazer login");
         } else {
             try {
-                const response = await api.post("/login", { email: email, senha: password });
+                const response = await api.post("/login", { email: email, senha: senha });
                 console.log(response.data);
     
             } catch (err) {
@@ -59,8 +57,8 @@ function Login() {
                     <input
                         placeholder="Digite sua senha"
                         type={show ? "text" : "password"}
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
+                        value={senha}
+                        onChange={e => setSenha(e.target.value)}
                     />
                     <div className="login-eye">
                         {show ? (

@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import './register.css'
 import logo from "../../img/logoAzul.png"
-
 import { MdEmail, MdLock, MdAccountCircle, MdChangeHistory, MdDateRange, MdKeyboardArrowLeft } from "react-icons/md"
+import api from '../../services/api'
 
 function Register() {
     const [nome, setNome] = useState("")
@@ -12,6 +12,25 @@ function Register() {
     const [senha, setSenha] = useState("")
     const [confirmasenha, setConfirmaSenha] = useState("")
 
+    const handleCadastro = async e => {
+        e.preventDefault()
+        if(!nome || !nascimento || !genero || !email || !senha) {
+            alert("Preencha todos os dados para realizar o cadastro.")
+        } else {
+            try {
+                const response = await api.post("/cadastro", { 
+                    nome: nome,
+                    dt_nascimento: nascimento,
+                    genero: genero,
+                    email: email,
+                    senha: senha
+                });
+                console.log(response.data);
+            } catch (err) {
+                console.error("ops! ocorreu um erro" + err);
+            }
+        }
+    }
 
     return (
         
@@ -49,8 +68,8 @@ function Register() {
                     <MdChangeHistory/>
                     <select className= "register-registerInputSelect-box " value={genero} onChange={e => setGenero(e.target.value)}>
                         <option>Informe seu genero</option>
-                        <option value="M">Masculino</option>
-                        <option value="F">Feminino</option>
+                        <option value="H">Homem</option>
+                        <option value="M">Mulher</option>
                         <option value="O">Outro</option>
                     </select>        
                 </div>
@@ -85,7 +104,7 @@ function Register() {
                 </div>
 
 
-                <button type="submit" className= "botao-cadastro">
+                <button type="submit" className= "botao-cadastro" onClick={handleCadastro}>
                     Confirmar Cadastro
                 </button>  
 
