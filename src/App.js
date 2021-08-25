@@ -1,12 +1,11 @@
 import './App.css';
 import React from 'react'
-import Login from '../src/pages/Login'
-import Cadastro from '../src/pages/Cadastro'
+import Routes from './routes/routes'
 
 function App() {
   return (
     <div className="App">
-      <Cadastro />
+      <Routes />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { MdEmail, MdLock } from "react-icons/md"
 import { HiEye, HiEyeOff } from "react-icons/hi"
+import { Link } from 'react-router-dom'
 import logo from "../../img/logoAzul.png"
 import './login.css'
 import api from '../../services/api';
@@ -75,15 +76,19 @@ function Login() {
                     </div> 
                 </div>
 
-                <button type="submit" onClick={handleLogin}>
-                    Entrar
-                </button>
+                    <Link to={'/usuarios'}>
+                        <button type="submit" onClick={handleLogin}>
+                            Entrar
+                        </button>
+                    </Link>
 
                 <h4>Não tenho conta!</h4>
-
-                <button type="submit">
-                    Cadastrar
-                </button>  
+                
+                <Link to={'/cadastro'}>
+                    <button type="submit">
+                        Cadastrar 
+                    </button>
+                </Link>
 
             </div>
         </div>
