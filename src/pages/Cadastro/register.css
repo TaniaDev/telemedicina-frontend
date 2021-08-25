@@ -110,12 +110,24 @@
 }
 
 .register-box .botao-cadastro:hover {
-    background-color: #292992;
-    color: #EFF2F5;
+    background-color: #25c8dd;
+    color: #000000;
     cursor: pointer;
 }
 
 .register-box .botao-voltar {
-    color:seagreen;
-  
+   background-color: #29292E;
+   opacity: 500%;
+   font-size: 40px;
+   margin-right: 450px;
+   border-style: none;
+   border-radius: 10px;
+   color: #EFF2F5;
+   height: 45px;
+
 }
+
+.register-box .botao-voltar:hover {
+    color: #25c8dd;
+    cursor: pointer;
+}    
