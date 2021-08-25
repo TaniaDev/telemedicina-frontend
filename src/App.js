@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import React from 'react'
 import Login from '../src/pages/Login'
+import Cadastro from '../src/pages/Cadastro'
 
 
 
@@ -9,7 +10,7 @@ import Login from '../src/pages/Login'
 function App() {
   return (
     <div className="App">
-      <Login />
+      <Cadastro />
     </div>
   );
 }
