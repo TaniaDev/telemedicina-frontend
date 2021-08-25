@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import './register.css'
 import logo from "../../img/logoAzul.png"
-import { MdEmail, MdLock, MdAccountCircle, MdChangeHistory, MdDateRange, MdKeyboardArrowLeft } from "react-icons/md"
+import { MdEmail, MdLock, MdAccountCircle, MdChangeHistory, MdDateRange, MdTrendingFlat } from "react-icons/md"
+import { BsBoxArrowInLeft } from "react-icons/bs"
 import api from '../../services/api'
 
 function Register() {
@@ -36,9 +37,8 @@ function Register() {
         
         <div className="register">
             <div className="register-box">
-                <button type="submit" className= "botao-voltar">
-                <MdKeyboardArrowLeft/>
-                    Voltar
+                <button type="link" className= "botao-voltar">
+                <BsBoxArrowInLeft/>
                 </button>  
 
 
