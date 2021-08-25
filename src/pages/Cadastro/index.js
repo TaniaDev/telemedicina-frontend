@@ -5,7 +5,7 @@ import { MdEmail, MdLock, MdAccountCircle, MdChangeHistory, MdDateRange, MdTrend
 import { BsBoxArrowInLeft } from "react-icons/bs"
 import api from '../../services/api'
 
-function Register() {
+function Cadastro() {
     const [nome, setNome] = useState("")
     const [nascimento, setNascimento] = useState("")
     const [genero, setGenero] = useState("")
@@ -15,18 +15,23 @@ function Register() {
 
     const handleCadastro = async e => {
         e.preventDefault()
-        if(!nome || !nascimento || !genero || !email || !senha) {
-            alert("Preencha todos os dados para realizar o cadastro.")
-        } else {
-            try {
-                const response = await api.post("/cadastro", { 
+        const data = { 
                     nome: nome,
                     dt_nascimento: nascimento,
                     genero: genero,
                     email: email,
                     senha: senha
-                });
-                console.log(response.data);
+                }
+        if(!nome || !nascimento || !genero || !email || !senha) {
+            alert("Preencha todos os dados para realizar o cadastro.")
+        } else if (confirmasenha !== senha) {
+            alert("Senhas não correspondem.")
+        }
+        else {
+            try {
+                const response = await api.post("/cadastro", data);
+                console.log(response.data)
+                alert('Seu cadastro foi realizado!')
             } catch (err) {
                 console.error("ops! ocorreu um erro" + err);
             }
@@ -103,7 +108,6 @@ function Register() {
                     />    
                 </div>
 
-
                 <button type="submit" className= "botao-cadastro" onClick={handleCadastro}>
                     Confirmar Cadastro
                 </button>  
@@ -121,4 +125,4 @@ function Register() {
     )
 }
 
-export default Register
+export default Cadastro
