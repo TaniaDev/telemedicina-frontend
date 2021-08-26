@@ -113,9 +113,12 @@ function Cadastro() {
                     />    
                 </div>
 
+                <Link to = {"/usuarios"}>
                 <button type="submit" className= "botao-cadastro" onClick={handleCadastro}>
+                    
                     Confirmar Cadastro
                 </button>  
+                </Link>
 
             </div>
 
