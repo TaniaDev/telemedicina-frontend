@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import './register.css'
 import logo from "../../img/logoAzul.png"
-import { MdEmail, MdLock, MdAccountCircle, MdChangeHistory, MdDateRange, MdTrendingFlat } from "react-icons/md"
+import { MdEmail, MdLock, MdAccountCircle, MdChangeHistory, MdDateRange } from "react-icons/md"
 import { BsBoxArrowInLeft } from "react-icons/bs"
 import api from '../../services/api'
+import { Link } from 'react-router-dom'
 
 function Cadastro() {
+    let history = useHistory();
     const [nome, setNome] = useState("")
     const [nascimento, setNascimento] = useState("")
     const [genero, setGenero] = useState("")
@@ -32,6 +35,7 @@ function Cadastro() {
                 const response = await api.post("/cadastro", data);
                 console.log(response.data)
                 alert('Seu cadastro foi realizado!')
+                history.push('/login');
             } catch (err) {
                 console.error("ops! ocorreu um erro" + err);
             }
@@ -42,10 +46,11 @@ function Cadastro() {
         
         <div className="register">
             <div className="register-box">
-                <button type="link" className= "botao-voltar">
-                <BsBoxArrowInLeft/>
-                </button>  
-
+                <Link to='/login'>
+                    <button type="link" className= "botao-voltar">
+                    <BsBoxArrowInLeft/>
+                    </button> 
+                </Link>
 
                 <h1>Cadastro</h1>
 

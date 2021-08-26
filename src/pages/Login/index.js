@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import { MdEmail, MdLock } from "react-icons/md"
 import { HiEye, HiEyeOff } from "react-icons/hi"
 import { Link } from 'react-router-dom'
@@ -7,29 +8,34 @@ import './login.css'
 import api from '../../services/api';
 
 function Login() {
+    let history = useHistory();
     const [email, setEmail] = useState("")
     const [senha, setSenha] = useState("")
-    const [show, setShow] = useState(false)
+    const [isShowing, setIsShowing] = useState(false)
+    const [loading, setLoading] = useState(false)
 
-    const handleLogin = async e => {
-        e.preventDefault()
-        if (!email || !senha) {
-            alert("Preencha todos os dados para fazer login");
-        } else {
-            try {
-                const response = await api.post("/login", { email: email, senha: senha });
-                console.log(response.data);
-    
-            } catch (err) {
-                console.error("ops! ocorreu um erro" + err) 
-            }
-                
+    async function handleLogin() {
+        try {
+            const res = await api.post("/login", { email: email, senha: senha });
+            console.log(res.data);
+            setLoading(false);
+            history.push('/usuarios');
+        } catch (err) {
+            console.error("ops! ocorreu um erro" + err)
         }
     }
 
-    const handleClick = (e) => {
+    function loadLogin() {
+        setLoading(true);
+        setTimeout(
+           () => handleLogin(),
+           2000
+        )
+    }
+
+    const handleChangeEyeIcon = (e) => {
         e.preventDefault()
-        setShow(!show);
+        setIsShowing(!isShowing);
     }
 
     return (
@@ -57,38 +63,24 @@ function Login() {
                     <MdLock/>
                     <input
                         placeholder="Digite sua senha"
-                        type={show ? "text" : "password"}
+                        type={isShowing ? "text" : "password"}
                         value={senha}
                         onChange={e => setSenha(e.target.value)}
                     />
-                    <div className="login-eye">
-                        {show ? (
-                            <HiEye
-                                size={20}
-                                onClick={handleClick}
-                            />
-                        ) : (
-                            <HiEyeOff
-                                size={20}
-                                onClick={handleClick}
-                                />
-                            )}
+                    <div className="login-eye" onClick={handleChangeEyeIcon}>
+                        {isShowing ? <HiEye size={20} /> : <HiEyeOff size={20} />}
                     </div> 
                 </div>
-
-                    <Link to={'/usuarios'}>
-                        <button type="submit" onClick={handleLogin}>
-                            Entrar
+                        
+                        <button type="submit" onClick={loadLogin} disabled={loading}>
+                            {loading? "carregando..." : "Entrar"}
                         </button>
-                    </Link>
 
                 <h4>Não tenho conta!</h4>
-                
-                <Link to={'/cadastro'}>
-                    <button type="submit">
-                        Cadastrar 
-                    </button>
-                </Link>
+
+                <button type="submit" onClick={() => history.push('/cadastro')}>
+                    Cadastrar 
+                </button>
 
             </div>
         </div>
