@@ -105,3 +105,11 @@
     color: #EFF2F5;
     cursor: pointer;
 }
+
+register-registerInputSelect-box :focus-visible{
+    outline: 0px;
+}
+
+select:focus-visible {
+    outline: 0px;
+}
