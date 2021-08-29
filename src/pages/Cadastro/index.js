@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './register.css'
+import api from '../../services/api';
 
 import { MdEmail, MdLock, MdAccountCircle, MdChangeHistory, MdDateRange } from "react-icons/md"
 
@@ -11,6 +12,31 @@ function Register() {
     const [senha, setSenha] = useState("")
     const [confirmasenha, setConfirmaSenha] = useState("")
 
+    async function Create(){
+        if(!nome){
+            return alert("Informe seu nome");
+        }else if(!nascimento){
+            return alert("Informe sua data de nascimento");
+        }else if(!genero){
+            return alert("Informe seu genero");
+        }else if(!email){
+            return alert("Insira seu e-mail");
+        }else if(!senha){
+            return alert("Insira uma senha");
+        }else if(!confirmasenha){
+            return alert("Confirme a senha");
+        }
+
+        await api.post('/cadastro', {
+            nome,
+            dt_nascimento: nascimento,
+            genero,
+            email, 
+            senha
+          }).then(response =>
+            console.log("Criado com sucesso")
+          )
+    }
 
     return (
         
@@ -86,7 +112,7 @@ function Register() {
                 </div>
 
 
-                <button type="submit">
+                <button onClick={Create}>
                     Confirmar Cadastro
                 </button>  
 
