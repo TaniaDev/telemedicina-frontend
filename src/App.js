@@ -1,11 +1,7 @@
-import { useEffect, useState } from 'react';
 import './App.css';
 import React from 'react'
 import Login from '../src/pages/Login'
 import Cadastro from '../src/pages/Cadastro'
-
-
-
 
 function App() {
   return (

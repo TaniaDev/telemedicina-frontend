@@ -1,23 +1,43 @@
 import React, { useState } from 'react'
-import './login.css'
-
 import { MdEmail, MdLock } from "react-icons/md"
 import { HiEye, HiEyeOff } from "react-icons/hi"
+import { useHistory } from "react-router-dom";
+import logo from "../../img/logoAzul.png"
+import './login.css'
+import api from '../../services/api';
 
 function Login() {
+    let history = useHistory()
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [show, setShow] = useState(false)
+
+    const handleLogin = async e => {
+        e.preventDefault()
+        if (!email || !password) {
+            alert("Preencha todos os dados para fazer login");
+        } else {
+            try {
+                const response = await api.post("/login", { email: email, senha: password });
+                console.log(response.data);
+    
+            } catch (err) {
+                console.error("ops! ocorreu um erro" + err) 
+            }
+                
+        }
+    }
 
     const handleClick = (e) => {
         e.preventDefault()
         setShow(!show);
     }
+
     return (
         <div className="login">
             <div className="login-logo">
                 <img 
-                    src="https://anzuns.org/wp-content/uploads/2018/02/admin_login.png" 
+                    src={logo} 
                     alt="MdLockLogin App" 
                 />
             </div>
@@ -46,18 +66,18 @@ function Login() {
                         {show ? (
                             <HiEye
                                 size={20}
-                                OnClick={handleClick}
+                                onClick={handleClick}
                             />
                         ) : (
                             <HiEyeOff
                                 size={20}
-                                OnClick={handleClick}
-                            />
-                        )}
+                                onClick={handleClick}
+                                />
+                            )}
                     </div> 
                 </div>
 
-                <button type="submit">
+                <button type="submit" onClick={handleLogin}>
                     Entrar
                 </button>
 
