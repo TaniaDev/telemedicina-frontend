@@ -1,49 +1,35 @@
-import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import photo from "../../img/photo_register.png"
-import { AccountBox, EmojiPeople, Email, Lock } from '@material-ui/icons'
+import React, { useState, useEffect } from 'react'
+import { useHistory, useParams } from 'react-router-dom'
+import { AccountBox, Email, Lock } from '@material-ui/icons'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import api from '../../services/api'
 import { Link } from 'react-router-dom'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
-import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Paper, NativeSelect, TextField } from '@material-ui/core'
+import { Box, Button, FormControl, InputLabel, Paper, NativeSelect, TextField } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
-    img: {
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover'
-    },
     buttonBack: {
         borderStyle: 'none',
         borderRadius: 10
     },
     container: {
-        marginTop: 20,
-        marginLeft: 20,
+        marginLeft: 70,
         display: 'flex',
         padding: 10,
-        alignItems: 'center',
-        flexDirection: 'column',
+        alignItems: 'right',
         justifyContent: 'center',
-        width: 500,
+        flexDirection: 'column',
+        width: 1000,
         height: 550
-
     },
     containerItem: {
-        flex: 1
-    },
-    selectEmpty: {
-    marginTop: theme.spacing(2),
-    },
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
+        flex: 1,
+        marginLeft: 30
     }
 }))
 
-function Cadastro() {
+function UsuariosEditar() {
     let history = useHistory();
     const classes = useStyles();
     const [nome, setNome] = useState("")
@@ -52,9 +38,22 @@ function Cadastro() {
     const [email, setEmail] = useState("")
     const [senha, setSenha] = useState("")
     const [confirmasenha, setConfirmaSenha] = useState("")
+    const { id } = useParams()
 
-    const handleCadastro = async e => {
-        e.preventDefault()
+    useEffect(() => {
+      async function getUsuario() {
+        var response = await api.get(`/usuario/${id}`)
+        console.log(response)
+        setNome(response.data.nome);
+        setNascimento(response.data.nascimento);
+        setGenero(response.data.genero);
+        setEmail(response.data.email);
+        setSenha(response.data.senha);
+      }
+      getUsuario();
+    },[])
+
+    async function atualizar(id){
         const data = {
                     nome: nome,
                     dt_nascimento: nascimento,
@@ -62,33 +61,34 @@ function Cadastro() {
                     email: email,
                     senha: senha
                 }
-        if(!nome || !nascimento || !genero || !email || !senha) {
-            alert("Preencha todos os dados para realizar o cadastro.")
-        } else if (confirmasenha !== senha) {
-            alert("Senhas não correspondem.")
-        }
-        else {
-            try {
-                const response = await api.post("/cadastro", data);
+          if(nome !== '' && nascimento !== '' && genero !== '' && email !== '' && senha !== ''){
+            if(!senha) {
+              alert("Por favor, digite a senha para confirmar a alteração.")
+            } else if (confirmasenha !== senha) {
+              alert("Senhas não correspondem.")
+            }
+            else {
+              try {
+                const response = await api.put(`/usuario/editar/${id}`, {data});
                 console.log(response.data)
-                alert('Seu cadastro foi realizado!')
-                history.push('/login');
+                alert('Alteração realizada!')
+                history.push('/index');
             } catch (err) {
                 console.error("ops! ocorreu um erro" + err);
             }
+          }
         }
     }
 
     return (
-        <Grid container style={{ minHeight: '100vh' }} spacing={3}>
-            <Grid container item xs={12} sm={6}>
-                <Link to="/login">
+      <>
+                <Link to="/index">
                     <Button type="link" className={classes.buttonBack}>
                         <ArrowBackIcon/>
                     </Button>
                 </Link>
-                <Paper className={classes.container}>
-                    <h1 className={classes.containerItem}>Cadastro</h1>
+              <Paper className={classes.container}>
+                    <h1 className={classes.containerItem}>Atualizar Dados</h1>
                     <Box className={classes.containerItem}>
                         <TextField
                             style={{width: 400}}
@@ -102,14 +102,12 @@ function Cadastro() {
                                     <AccountBox />
                                 </InputAdornment> ),}}
                         />
-                    </Box>
-                    <Box className={classes.containerItem}>
                         <TextField
-                            style={{width: 400}}
+                            style={{width: 400, marginLeft: 15}}
                             variant="filled"
                             type="date"
                             label="Informe sua data de nascimento"
-                            value={nascimento}
+                            defaultValue={nascimento}
                             onChange={e => setNascimento(e.target.value)}
                             InputLabelProps={{
                                 shrink: true,
@@ -131,10 +129,8 @@ function Cadastro() {
                                 <option value="O">Outro</option>
                             </NativeSelect>
                             </FormControl>
-                    </Box>
-                    <Box className={classes.containerItem}>
-                        <TextField
-                            style={{width: 400}}
+                       <TextField
+                            style={{width: 400, marginLeft: 15}}
                             type="email"
                             variant="filled"
                             label="Informe seu email"
@@ -145,7 +141,7 @@ function Cadastro() {
                                 <InputAdornment position="start">
                                     <Email />
                                 </InputAdornment> ),}}
-                        />
+                      />
                     </Box>
                     <Box className={classes.containerItem}>
                         <TextField
@@ -161,10 +157,8 @@ function Cadastro() {
                                     <Lock/>
                                 </InputAdornment> ),}}
                         />
-                    </Box>
-                    <Box className={classes.containerItem}>
                         <TextField
-                            style={{width: 400}}
+                            style={{width: 400, marginLeft: 15}}
                             type="password"
                             variant="filled"
                             label="Digite a senha novamente"
@@ -178,17 +172,13 @@ function Cadastro() {
                         />
                     </Box>
                     <Box className={classes.containerItem}>
-                        <Button variant="contained" color="primary" type="submit" onClick={handleCadastro}>
-                            Confirmar Cadastro
+                        <Button variant="contained" color="primary" type="submit" onClick={() => atualizar(id)}>
+                            Confirmar Alteração
                         </Button>
                     </Box>
                 </Paper>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-                <img className={classes.img} src={photo} alt="Telemedicina" />
-            </Grid>
-        </Grid>
+      </>
     )
 }
 
-export default Cadastro
+export default UsuariosEditar

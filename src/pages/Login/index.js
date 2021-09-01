@@ -60,7 +60,7 @@ function Login() {
             const res = await api.post("/login", { email: email, senha: senha });
             console.log(res.data);
             setLoading(false);
-            history.push('/usuarios');
+            history.push('/index');
         } catch (err) {
             console.error("ops! ocorreu um erro" + err)
         }
@@ -90,7 +90,7 @@ function Login() {
                     <div className={classes.containerItem} style={{ maxWidth: 400, minWidth: 300 }}>
                         <Grid container className={classes.containerLogo}>
                             <img className={classes.logo} src={logo} alt="Telemedicina" />
-                            <p className={classes.title}>ENTRAR NO WEBMED</p>
+                            <h1 className={classes.title}>ENTRAR NO WEBMED</h1>
                         </Grid>
                         <TextField className={classes.marginItem} InputProps={{
                             startAdornment: (
@@ -120,11 +120,12 @@ function Login() {
                             variant="filled" />
                             <div className={classes.containerItem}>
                                 <Button className={classes.marginItem} variant="contained" color="primary" onClick={loadLogin} disabled={loading}>
-                                {loading? "carregando..." : "Entrar"}
-                            </Button>
-                            <Button className={classes.marginItem} variant="contained" color="secundary" onClick={() => history.push('/cadastro')}>
-                                Cadastrar
-                            </Button>
+                                    {loading? "carregando..." : "Entrar"}
+                                </Button>
+                                <p className={classes.title} style={{alignSelf: 'center'}}>Você é novo?</p>
+                                <Button className={classes.marginItem} variant='outlined' color="primary" onClick={() => history.push('/cadastro')}>
+                                    Cadastrar
+                                </Button>
                             </div>
                     </div>
                 </Grid>
