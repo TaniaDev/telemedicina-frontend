@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import './register.css'
-import api from '../../services/api';
-
+import logo from "../../img/logoAzul.png"
 import { MdEmail, MdLock, MdAccountCircle, MdChangeHistory, MdDateRange } from "react-icons/md"
+import { BsBoxArrowInLeft } from "react-icons/bs"
+import api from '../../services/api'
+import { Link } from 'react-router-dom'
 
-function Register() {
+function Cadastro() {
+    let history = useHistory();
     const [nome, setNome] = useState("")
     const [nascimento, setNascimento] = useState("")
     const [genero, setGenero] = useState("")
@@ -12,44 +16,42 @@ function Register() {
     const [senha, setSenha] = useState("")
     const [confirmasenha, setConfirmaSenha] = useState("")
 
-    async function Create(){
-        if(!nome){
-            return alert("Informe seu nome");
-        }else if(!nascimento){
-            return alert("Informe sua data de nascimento");
-        }else if(!genero){
-            return alert("Informe seu genero");
-        }else if(!email){
-            return alert("Insira seu e-mail");
-        }else if(!senha){
-            return alert("Insira uma senha");
-        }else if(!confirmasenha){
-            return alert("Confirme a senha");
+    const handleCadastro = async e => {
+        e.preventDefault()
+        const data = { 
+                    nome: nome,
+                    dt_nascimento: nascimento,
+                    genero: genero,
+                    email: email,
+                    senha: senha
+                }
+        if(!nome || !nascimento || !genero || !email || !senha) {
+            alert("Preencha todos os dados para realizar o cadastro.")
+        } else if (confirmasenha !== senha) {
+            alert("Senhas não correspondem.")
         }
-
-        await api.post('/cadastro', {
-            nome,
-            dt_nascimento: nascimento,
-            genero,
-            email, 
-            senha
-          }).then(response =>
-            console.log("Criado com sucesso")
-          )
+        else {
+            try {
+                const response = await api.post("/cadastro", data);
+                console.log(response.data)
+                alert('Seu cadastro foi realizado!')
+                history.push('/login');
+            } catch (err) {
+                console.error("ops! ocorreu um erro" + err);
+            }
+        }
     }
 
     return (
         
         <div className="register">
-            {/*
-            <div className="register-logo">
-                <img 
-                    src="https://anzuns.org/wp-content/uploads/2018/02/admin_login.png" 
-                    alt="MdLockregister App" 
-                />
-            </div>
-            */}
             <div className="register-box">
+                <Link to='/login'>
+                    <button type="link" className= "botao-voltar">
+                    <BsBoxArrowInLeft/>
+                    </button> 
+                </Link>
+
                 <h1>Cadastro</h1>
 
                 <div className= "register-registerInputData">
@@ -76,8 +78,8 @@ function Register() {
                     <MdChangeHistory/>
                     <select className= "register-registerInputSelect-box " value={genero} onChange={e => setGenero(e.target.value)}>
                         <option>Informe seu genero</option>
-                        <option value="M">Masculino</option>
-                        <option value="F">Feminino</option>
+                        <option value="H">Homem</option>
+                        <option value="M">Mulher</option>
                         <option value="O">Outro</option>
                     </select>        
                 </div>
@@ -111,15 +113,21 @@ function Register() {
                     />    
                 </div>
 
-
-                <button onClick={Create}>
+                <button type="submit" className= "botao-cadastro" onClick={handleCadastro}>
                     Confirmar Cadastro
                 </button>  
 
+            </div>
+
+            <div className="register-logo">
+                <img 
+                    src={logo} 
+                    alt="MdLockLogin App" 
+                />
             </div>
         </div>
         
     )
 }
 
-export default Register
+export default Cadastro

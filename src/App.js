@@ -1,13 +1,10 @@
-import './App.css';
 import React from 'react'
-import Login from '../src/pages/Login'
-import Cadastro from '../src/pages/Cadastro'
-import Listagem from '../src/pages/Listagem'
+import Routes from './routes/routes'
 
 function App() {
   return (
     <div className="App">
-      <Listagem />
+      <Routes />
     </div>
   );
 }

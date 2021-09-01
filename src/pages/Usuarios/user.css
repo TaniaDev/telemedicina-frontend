@@ -1,0 +1,95 @@
+.user {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    height: 100vh;
+    width: 100%;
+    background-color: #121214;
+    color: white;
+}
+
+.user-box {
+    background-color: #29292E;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 80px;
+    padding: 300px;
+    width: 500px;
+    height: 100px;
+}
+
+.user-box h1 {
+    font-family: 'Roboto Slab';
+    font-size: 40px;
+    margin-bottom: 50px;
+}
+
+.user-box h4 {
+    font-family: 'Roboto Slab';
+    font-weight: 300;
+    margin-top: 40px;
+    font-size: 25px;
+    font-weight: 600;
+    color: #e1e1e6;
+}
+
+.user-box .botao-atualizar{
+    width: 73%;
+    background-color: #111010;
+    color: #EFF2F5;
+    font-weight: 800;
+    height: 55px;
+    border-radius: 10px;
+    font-size: 18px;
+    margin-top: 20px;
+    border: none;
+    outline-width: 0;
+    
+}
+
+.user-box .botao-atualizar:hover {
+    background-color: #25c8dd;
+    color: #000000;
+    cursor: pointer;
+}
+
+.user-box .botao-criar{
+    width: 73%;
+    background-color: #111010;
+    color: #EFF2F5;
+    font-weight: 800;
+    height: 55px;
+    border-radius: 10px;
+    font-size: 18px;
+    margin-top: 20px;
+    border: none;
+    outline-width: 0;
+    
+}
+
+.user-box .botao-criar:hover {
+    background-color: #25c8dd;
+    color: #000000;
+    cursor: pointer;
+}
+
+
+.user-box .botao-voltar {
+   background-color: #29292E;
+   opacity: 500%;
+   font-size: 40px;
+   margin-right: 450px;
+   border-style: none;
+   border-radius: 10px;
+   color: #EFF2F5;
+   height: 45px;
+
+}
+
+.user-box .botao-voltar:hover {
+    color: #25c8dd;
+    cursor: pointer;
+}
