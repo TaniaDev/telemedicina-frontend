@@ -53,7 +53,7 @@ function Cadastro() {
     const [senha, setSenha] = useState("")
     const [confirmasenha, setConfirmaSenha] = useState("")
 
-    const handleCadastro = async e => {
+    async function handleCadastro(e) {
         e.preventDefault()
         const data = {
                     nome: nome,
@@ -178,7 +178,7 @@ function Cadastro() {
                         />
                     </Box>
                     <Box className={classes.containerItem}>
-                        <Button variant="contained" color="primary" type="submit" onClick={handleCadastro}>
+                        <Button variant="contained" color="primary" type="submit" onClick={e => handleCadastro(e)}>
                             Confirmar Cadastro
                         </Button>
                     </Box>
