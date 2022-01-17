@@ -9,7 +9,7 @@ import UsuariosEditar from '../pages/UsuariosListagem/UsuariosEditar'
 export default function Routes() {
     return (
         <Router>
-            <Route exact path='/' exact component={Login} />
+            <Route exact path='/' component={Login} />
             <Route path='/cadastro' exact component={Cadastro} />
             <Route path='/login' exact component={Login} />
             <Route path='/index' exact component={UsuariosListagem} />

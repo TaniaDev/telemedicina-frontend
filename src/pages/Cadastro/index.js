@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import photo from "../../img/photo_register.png"
-import { AccountBox, EmojiPeople, Email, Lock } from '@material-ui/icons'
-import InputAdornment from '@material-ui/core/InputAdornment'
+import { AccountBox, ArrowBack, Email, Lock } from '@mui/icons-material'
 import api from '../../services/api'
 import { Link } from 'react-router-dom'
-import ArrowBackIcon from '@material-ui/icons/ArrowBack'
-import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Paper, NativeSelect, TextField } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { Box, Button, FormControl, Grid, InputAdornment, InputLabel, Paper, NativeSelect, TextField } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles((theme) => ({
     img: {
@@ -84,7 +82,7 @@ function Cadastro() {
             <Grid container item xs={12} sm={6}>
                 <Link to="/login">
                     <Button type="link" className={classes.buttonBack}>
-                        <ArrowBackIcon/>
+                        <ArrowBack/>
                     </Button>
                 </Link>
                 <Paper className={classes.container}>

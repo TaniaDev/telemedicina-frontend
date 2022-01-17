@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
-import { AccountBox, Email, Lock } from '@material-ui/icons'
-import InputAdornment from '@material-ui/core/InputAdornment'
+import { AccountBox, ArrowBack, Email, Lock } from '@mui/icons-material'
+import { Box, Button, FormControl, InputAdornment, InputLabel, Paper, NativeSelect, TextField } from '@mui/material'
 import api from '../../services/api'
 import { Link } from 'react-router-dom'
-import ArrowBackIcon from '@material-ui/icons/ArrowBack'
-import { Box, Button, FormControl, InputLabel, Paper, NativeSelect, TextField } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles((theme) => ({
     buttonBack: {
@@ -51,7 +49,7 @@ function UsuariosEditar() {
         setSenha(response.data.senha);
       }
       getUsuario();
-    },[])
+    })
 
     async function atualizar(id){
         const data = {
@@ -84,7 +82,7 @@ function UsuariosEditar() {
       <>
                 <Link to="/index">
                     <Button type="link" className={classes.buttonBack}>
-                        <ArrowBackIcon/>
+                        <ArrowBack/>
                     </Button>
                 </Link>
               <Paper className={classes.container}>

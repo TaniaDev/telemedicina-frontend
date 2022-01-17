@@ -1,17 +1,11 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import VisibilityIcon from '@material-ui/icons/Visibility'
-import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
-import HttpsIcon from '@material-ui/icons/Https'
-import EmailIcon from '@material-ui/icons/Email'
+import { Button, Grid, InputAdornment, TextField } from '@mui/material'
+import { Email, Https, Visibility, VisibilityOff } from '@mui/icons-material'
 import logo from "../../img/logoAzulHoriz.png"
 import photo from "../../img/photo_login.png"
 import api from '../../services/api'
-import Grid from '@material-ui/core/Grid'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles((theme) => ({
     logo: {
@@ -95,7 +89,7 @@ function Login() {
                         <TextField className={classes.marginItem} InputProps={{
                             startAdornment: (
                             <InputAdornment position="start">
-                                <EmailIcon />
+                                <Email />
                             </InputAdornment> ),}}
                             value={email}
                             onChange={e => setEmail(e.target.value)}
@@ -104,12 +98,12 @@ function Login() {
                         <TextField className={classes.marginItem} InputProps={{
                             startAdornment: (
                             <InputAdornment position="start">
-                                <HttpsIcon />
+                                <Https />
                             </InputAdornment> ),
                             endAdornment: (
                             <InputAdornment position="end">
                                 <div onClick={handleChangeEyeIcon}>
-                                    {isShowing ? <VisibilityIcon size={20} /> : <VisibilityOffIcon size={20} />}
+                                    {isShowing ? <Visibility size={20} /> : <VisibilityOff size={20} />}
                                 </div>
                             </InputAdornment>
                             ),}}

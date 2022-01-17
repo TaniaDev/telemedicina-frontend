@@ -1,16 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
 import api from '../../services/api'
-import { makeStyles, Theme } from '@material-ui/core/styles'
-import Paper from '@material-ui/core/paper'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableContainer from '@material-ui/core/TableContainer'
-import TableHead from '@material-ui/core/TableHead'
-import { Button, ButtonGroup } from '@material-ui/core'
-import TablePagination from '@material-ui/core/TablePagination'
-import TableRow from '@material-ui/core/TableRow'
+import { makeStyles } from '@mui/styles'
+import { Button, ButtonGroup, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow }from '@mui/material'
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -25,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function UsuariosListagem(){
-    let history = useHistory();
     const classes = useStyles()
     const [users, setUsers] = useState([])
 
