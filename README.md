@@ -18,11 +18,11 @@
 - [x] Cadastro de médico
 - [ ] ** Listar todas as funcionalidade do sistema **
 
-<br/><h4 align="center" id="demonstrativo">Demonstrativo da Aplicação</h4>
+<br/><h4 align="center" id="demonstrativo">👀 Demonstrativo da Aplicação</h4>
 
 <p>** Inserir prints ou gifs**</p>
 
-<br/><h4 align="center" id="comoRodar">Pré-requisitos e como rodar a aplicação</h4>
+<br/><h4 align="center" id="comoRodar">📋 Pré-requisitos e como rodar a aplicação</h4>
 
 <h5>Clone este repositório</h5>
 $ git clone https://github.com/TaniaDev/telemedicina-frontend.git
@@ -39,7 +39,7 @@ $ npm install
 
 <h5> O servidor iniciará na porta:3000</h5>
 
-<br/><h3 id="tecnologias">🛠 Tecnologias</h3>
+<br/><h3 id="tecnologias" align="center">🔧 Tecnologias</h3>
 
 As seguintes ferramentas foram usadas na construção do projeto:
 - [React](https://pt-br.reactjs.org/)
@@ -48,9 +48,9 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - [Axios](https://axios-http.com/docs/intro)
 - [React Router Dom ](https://v5.reactrouter.com/web/guides/quick-start)
 
-<br/><h3 id="contribuicao"> 🛠 Contribuição</h3>
+<br/><h3 id="contribuicao" align="center"> 🖇️ Contribuição</h3>
 
-<table>
+<table align="center">
 	<tr>
 	    <td align="center"><a href="https://github.com/LeonhardDuarth13"><img 				style="border-radius: 50%;" 	src="https://avatars.githubusercontent.com/u/61330383?v=4" width="100px;" alt=""/><br /><sub><b>Leonardo Duartes</b></sub></a><br /><a href="https://github.com/LeonhardDuarth13" title="Github Leonardo">👨‍🚀</a></td>
 	    <td align="center"><a href="https://github.com/TaniaDev"><img 				style="border-radius: 50%;" 	src="https://avatars.githubusercontent.com/u/60274024?v=4" width="100px;" alt=""/><br /><sub><b>Tânia deAruda</b></sub></a><br /><a href="https://github.com/TaniaDev" title="Github Leonardo">👨‍🚀</a></td>
