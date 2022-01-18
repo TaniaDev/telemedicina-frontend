@@ -1,70 +1,59 @@
-# Getting Started with Create React App
+<h1 align="center">TeleMedicina</h1>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<p>Aplicativo de telemedicina, tem como objetivo democratizar o acesso a saúde pública de maneira acessível e simplificada.</p>
 
-## Available Scripts
+<p align="center">
+ <a href="#features">Features</a> •
+ <a href="#demonstrativo">Demonstrativo</a> • 
+  <a href="#comoRodar">Como rodar a aplicação</a> • 
+ <a href="#tecnologias">Tecnologias</a> • 
+ <a href="#contribuicao">Contribuição</a> 
+</p>
 
-In the project directory, you can run:
+<br/><h4 align="center" id="features"> 
+	🚧  Em construção...  🚧
+</h4>
 
-### `yarn start`
+- [x] Cadastro de paciente
+- [x] Cadastro de médico
+- [ ] ** Listar todas as funcionalidade do sistema **
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<br/><h4 align="center" id="demonstrativo">Demonstrativo da Aplicação</h4>
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+<p>** Inserir prints ou gifs**</p>
 
-### `yarn test`
+<br/><h4 align="center" id="comoRodar">Pré-requisitos e como rodar a aplicação</h4>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<h5>Clone este repositório</h5>
+$ git clone https://github.com/TaniaDev/telemedicina-frontend.git
 
-### `yarn build`
+<h5>Acesse a pasta do projeto no terminal/cmd</h5>
+$ cd telemedicina-frontend
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<h5>Instale as dependências</h5>
+$ npm install
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<h5>Execute a aplicação</h5>
+<small>Antes de executar a aplicação é necessário rodar o projeto back-end. <a href="https://github.com/TaniaDev/telemedicina-backend">Ainda não baixou?</a></small>
+<br/>$ npm start
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<h5> O servidor iniciará na porta:3000</h5>
 
-### `yarn eject`
+<br/><h3 id="tecnologias">🛠 Tecnologias</h3>
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+As seguintes ferramentas foram usadas na construção do projeto:
+- [React](https://pt-br.reactjs.org/)
+- [MUI](https://mui.com/pt/)
+- [Jest](https://jestjs.io/pt-BR/)
+- [Axios](https://axios-http.com/docs/intro)
+- [React Router Dom ](https://v5.reactrouter.com/web/guides/quick-start)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<br/><h3 id="contribuicao"> 🛠 Contribuição</h3>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<table>
+	<tr>
+	    <td align="center"><a href="https://github.com/LeonhardDuarth13"><img 				style="border-radius: 50%;" 	src="https://avatars.githubusercontent.com/u/61330383?v=4" width="100px;" alt=""/><br /><sub><b>Leonardo Duartes</b></sub></a><br /><a href="https://github.com/LeonhardDuarth13" title="Github Leonardo">👨‍🚀</a></td>
+	    <td align="center"><a href="https://github.com/TaniaDev"><img 				style="border-radius: 50%;" 	src="https://avatars.githubusercontent.com/u/60274024?v=4" width="100px;" alt=""/><br /><sub><b>Tânia deAruda</b></sub></a><br /><a href="https://github.com/TaniaDev" title="Github Leonardo">👨‍🚀</a></td>
+	    <td align="center"><a href="https://github.com/wrodriguess"><img 				style="border-radius: 50%;" 	src="https://avatars.githubusercontent.com/u/56493042?v=4" width="100px;" alt=""/><br /><sub><b>William Rodrigues</b></sub></a><br /><a href="https://github.com/wrodriguess" title="Github William">👨‍🚀</a></td>
+	</tr>
+</table>
