@@ -7,43 +7,43 @@ import { Link } from 'react-router-dom'
 import { Box, Button, FormControl, Grid, InputAdornment, InputLabel, Paper, NativeSelect, TextField } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 
-const useStyles = makeStyles((theme) => ({
-    img: {
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover'
-    },
-    buttonBack: {
-        borderStyle: 'none',
-        borderRadius: 10
-    },
-    container: {
-        marginTop: 20,
-        marginLeft: 20,
-        display: 'flex',
-        padding: 10,
-        alignItems: 'center',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        width: 500,
-        height: 550
+// const useStyles = makeStyles((theme) => ({
+//     img: {
+//         width: '100%',
+//         height: '100%',
+//         objectFit: 'cover'
+//     },
+//     buttonBack: {
+//         borderStyle: 'none',
+//         borderRadius: 10
+//     },
+//     container: {
+//         marginTop: 20,
+//         marginLeft: 20,
+//         display: 'flex',
+//         padding: 10,
+//         alignItems: 'center',
+//         flexDirection: 'column',
+//         justifyContent: 'center',
+//         width: 500,
+//         height: 550
 
-    },
-    containerItem: {
-        flex: 1
-    },
-    selectEmpty: {
-    marginTop: theme.spacing(2),
-    },
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
-    }
-}))
+//     },
+//     containerItem: {
+//         flex: 1
+//     },
+//     selectEmpty: {
+//     marginTop: theme.spacing(2),
+//     },
+//     formControl: {
+//         margin: theme.spacing(1),
+//         minWidth: 120,
+//     }
+// }))
 
 function Cadastro() {
     let history = useHistory();
-    const classes = useStyles();
+    // const classes = useStyles();
     const [nome, setNome] = useState("")
     const [nascimento, setNascimento] = useState("")
     const [genero, setGenero] = useState("")
@@ -70,7 +70,7 @@ function Cadastro() {
                 const response = await api.post("/cadastro", data);
                 console.log(response.data)
                 alert('Seu cadastro foi realizado!')
-                history.push('/login');
+                history.push('/');
             } catch (err) {
                 console.error("ops! ocorreu um erro" + err);
             }
@@ -81,13 +81,13 @@ function Cadastro() {
         <Grid container style={{ minHeight: '100vh' }} spacing={3}>
             <Grid container item xs={12} sm={6}>
                 <Link to="/login">
-                    <Button type="link" className={classes.buttonBack}>
+                    <Button type="link">
                         <ArrowBack/>
                     </Button>
                 </Link>
-                <Paper className={classes.container}>
-                    <h1 className={classes.containerItem}>Cadastro</h1>
-                    <Box className={classes.containerItem}>
+                <Paper >
+                    <h1>Cadastro</h1>
+                    <Box>
                         <TextField
                             style={{width: 400}}
                             variant="filled"
@@ -101,7 +101,7 @@ function Cadastro() {
                                 </InputAdornment> ),}}
                         />
                     </Box>
-                    <Box className={classes.containerItem}>
+                    <Box>
                         <TextField
                             style={{width: 400}}
                             variant="filled"
@@ -114,8 +114,8 @@ function Cadastro() {
                             }}
                         />
                     </Box>
-                    <Box className={classes.containerItem}>
-                        <FormControl className={classes.formControl}>
+                    <Box>
+                        <FormControl>
                         <InputLabel>Gênero</InputLabel>
                             <NativeSelect
                                 style={{width: 400}}
@@ -130,7 +130,7 @@ function Cadastro() {
                             </NativeSelect>
                             </FormControl>
                     </Box>
-                    <Box className={classes.containerItem}>
+                    <Box>
                         <TextField
                             style={{width: 400}}
                             type="email"
@@ -145,7 +145,7 @@ function Cadastro() {
                                 </InputAdornment> ),}}
                         />
                     </Box>
-                    <Box className={classes.containerItem}>
+                    <Box>
                         <TextField
                             style={{width: 400}}
                             type="password"
@@ -160,7 +160,7 @@ function Cadastro() {
                                 </InputAdornment> ),}}
                         />
                     </Box>
-                    <Box className={classes.containerItem}>
+                    <Box>
                         <TextField
                             style={{width: 400}}
                             type="password"
@@ -175,7 +175,7 @@ function Cadastro() {
                                 </InputAdornment> ),}}
                         />
                     </Box>
-                    <Box className={classes.containerItem}>
+                    <Box>
                         <Button variant="contained" color="primary" type="submit" onClick={e => handleCadastro(e)}>
                             Confirmar Cadastro
                         </Button>
@@ -183,7 +183,7 @@ function Cadastro() {
                 </Paper>
             </Grid>
             <Grid item xs={12} sm={6}>
-                <img className={classes.img} src={photo} alt="Telemedicina" />
+                <img src={photo} alt="Telemedicina" />
             </Grid>
         </Grid>
     )

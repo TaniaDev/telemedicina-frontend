@@ -3,20 +3,8 @@ import api from '../../services/api'
 import { makeStyles } from '@mui/styles'
 import { Button, ButtonGroup, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow }from '@mui/material'
 
-const useStyles = makeStyles((theme) => ({
-    paper: {
-        padding: theme.spacing(2),
-        display: 'flex',
-        overflow: 'auto',
-        flexDirection: 'column'
-    },
-    alignTableItens: {
-        alignItem: 'center'
-    }
-}))
-
 function UsuariosListagem(){
-    const classes = useStyles()
+    
     const [users, setUsers] = useState([])
 
     useEffect(() => {
@@ -42,10 +30,10 @@ function UsuariosListagem(){
     }
 
     return (
-        <Paper className={classes.paper}>
+        <Paper>
             <h2>Listagem de Usuários</h2>
             <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="simple table">
+                <Table aria-label="simple table">
                 <TableHead>
                     <TableRow>
                         <TableCell>ID</TableCell>
@@ -60,7 +48,7 @@ function UsuariosListagem(){
                 </TableHead>
                 <TableBody>
                     {users.map(u => (
-                        <TableRow className={classes.alignTableItens} key={u.id}>
+                        <TableRow key={u.id}>
                             <TableCell component="th" scope="row">{u.id}</TableCell>
                             <TableCell component="th" scope="row">{u.nome}</TableCell>
                             <TableCell>{new Date(u.dt_nascimento).toLocaleDateString('pt-br')}</TableCell>

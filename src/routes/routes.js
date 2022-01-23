@@ -9,13 +9,13 @@ import UsuariosEditar from '../pages/UsuariosListagem/UsuariosEditar'
 export default function Routes() {
     return (
         <Router>
-            <Route exact path='/' component={Login} />
-            <Route path='/cadastro' exact component={Cadastro} />
-            <Route path='/login' exact component={Login} />
-            <Route path='/index' exact component={UsuariosListagem} />
-            <Route path='/usuario/cadastrar' exact component={UsuariosCadastrar} />
-            <Route path='/usuario/editar/:id' exact component={UsuariosEditar} />
-            <Route path='/usuario/:id' exact component={UsuariosEditar} />
+            <Route path='/' exact component={Login} />
+            <Route path='/cadastro' component={Cadastro} />
+            {/* <Route path='/login' component={Login} /> Mesma página que a rota raiz */}
+            <Route path='/index' component={UsuariosListagem} /> 
+            <Route path='/usuario/cadastrar' component={UsuariosCadastrar} />
+            <Route path='/usuario/editar/:id' component={UsuariosEditar} /> {/* Falta resolver o problema do value={xxx} */}
+            {/* <Route path='/usuario/:id' component={UsuariosEditar} /> Mesma página que a rota usuario/editar/:id */}
         </Router>
     );
 }
