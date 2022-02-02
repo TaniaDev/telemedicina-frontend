@@ -31,7 +31,7 @@ function UsuariosEditar() {
     let history = useHistory();
     const classes = useStyles();
     const [nome, setNome] = useState("")
-    const [nascimento, setNascimento] = useState("")
+    const [dt_nascimento, setDt_Nascimento] = useState("")
     const [genero, setGenero] = useState("")
     const [email, setEmail] = useState("")
     const [senha, setSenha] = useState("")
@@ -41,25 +41,20 @@ function UsuariosEditar() {
     useEffect(() => {
       async function getUsuario() {
         var response = await api.get(`/usuario/${id}`)
-        console.log(response)
+        // console.log(response)
         setNome(response.data.nome);
-        setNascimento(response.data.nascimento);
+        setDt_Nascimento(response.data.dt_nascimento);
         setGenero(response.data.genero);
         setEmail(response.data.email);
         setSenha(response.data.senha);
       }
       getUsuario();
-    })
+    }, [])
 
     async function atualizar(id){
-        const data = {
-                    nome: document.getElementById('nome').value,
-                    dt_nascimento: document.getElementById('nascimento').value,
-                    genero: document.getElementById('genero').value,
-                    email: document.getElementById('email').value,
-                    senha: document.getElementById('senha').value
-                }
-          if(nome !== '' && nascimento !== '' && genero !== '' && email !== '' && senha !== ''){
+        const data = {nome, dt_nascimento, genero, email, senha}
+          if(nome !== '' && dt_nascimento !== '' && genero !== '' && email !== '' && senha !== ''){
+              console.log('1')
             if(!senha) {
               alert("Por favor, digite a senha para confirmar a alteração.")
             } 
@@ -67,7 +62,9 @@ function UsuariosEditar() {
             //   alert("Senhas não correspondem.")
             // }
             else {
+                console.log('3')
               try {
+                console.log('4')
                 const response = await api.put(`/usuario/editar/${id}`, {data});
                 console.log(response.data)
                 alert('Alteração realizada!')
@@ -94,8 +91,8 @@ function UsuariosEditar() {
                             variant="filled"
                             label="Informe seu nome"
                             id="nome"
-                            // value={nome}
-                            // onChange={e => setNome(e.target.value)}
+                            value={nome}
+                            onChange={e => setNome(e.target.value)}
                             InputProps={{
                                 startAdornment: (
                                 <InputAdornment position="start">
@@ -107,9 +104,9 @@ function UsuariosEditar() {
                             variant="filled"
                             type="date"
                             label="Informe sua data de nascimento"
-                            id="nascimento"
-                            // defaultValue={nascimento}
-                            // onChange={e => setNascimento(e.target.value)}
+                            id="dt_nascimento"
+                            value={dt_nascimento}
+                            onChange={e => setDt_Nascimento(e.target.value)}
                             InputLabelProps={{
                                 shrink: true,
                             }}
@@ -122,8 +119,8 @@ function UsuariosEditar() {
                                 style={{width: 400}}
                                 variant="filled"
                                 id="genero"
-                                // value={genero}
-                                // onChange={e => setGenero(e.target.value)}
+                                value={genero}
+                                onChange={e => setGenero(e.target.value)}
                             >
                                 <option aria-label="None" value="" />
                                 <option value="H">Homem</option>
@@ -137,8 +134,8 @@ function UsuariosEditar() {
                             variant="filled"
                             label="Informe seu email"
                             id="email"
-                            // value={email}
-                            // onChange={e => setEmail(e.target.value)}
+                            value={email}
+                            onChange={e => setEmail(e.target.value)}
                             InputProps={{
                                 startAdornment: (
                                 <InputAdornment position="start">
@@ -153,8 +150,8 @@ function UsuariosEditar() {
                             variant="filled"
                             label="Informe sua senha"
                             id="senha"
-                            // value={senha}
-                            // onChange={e => setSenha(e.target.value)}
+                            value={senha}
+                            onChange={e => setSenha(e.target.value)}
                             InputProps={{
                                 startAdornment: (
                                 <InputAdornment position="start">
@@ -167,8 +164,8 @@ function UsuariosEditar() {
                             variant="filled"
                             label="Digite a senha novamente"
                             id="confirmasenha"
-                            // value={confirmasenha}
-                            // onChange={e => setConfirmaSenha(e.target.value)}
+                            value={confirmasenha}
+                            onChange={e => setConfirmaSenha(e.target.value)}
                             InputProps={{
                                 startAdornment: (
                                 <InputAdornment position="start">
