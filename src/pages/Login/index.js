@@ -66,6 +66,20 @@ function Login() {
         }
     }
 
+    async function esqueceuASenha(){
+        try{
+            if(!email || email == null){
+                alert('Preencha o e-mail e clique em esqueceu a senha novamente')
+                return
+            }
+
+            const res = await api.post("/usuario/esqueceu_a_senha", { email });
+            window.location.href = `/usuario/redefinir_senha/${res.data.token}`
+        } catch (err) {
+            console.error("ops! ocorreu um erro" + err)
+        }
+    }
+
     // function loadLogin() {
     //     setLoading(true);
     //     setTimeout(
@@ -122,6 +136,7 @@ function Login() {
                                 <Button className={classes.marginItem} variant="contained" color="primary" onClick={handleLogin} disabled={loading}>
                                     {loading? "carregando..." : "Entrar"}
                                 </Button>
+                                <p style={{alignSelf: 'center'}}><a href="#" onClick={esqueceuASenha}>Esqueceu a senha?</a></p>
                                 <p className={classes.title} style={{alignSelf: 'center'}}>Você é novo?</p>
                                 <Button className={classes.marginItem} variant='outlined' color="primary" onClick={() => history.push('/cadastro')}>
                                     Cadastrar
