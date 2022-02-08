@@ -52,21 +52,27 @@ function Login() {
     async function handleLogin() {
         try {
             const res = await api.post("/login", { email: email, senha: senha });
-            console.log(res.data);
-            setLoading(false);
-            history.push('/index');
+            // console.log(res.data);
+            const usuario = res.data.usuario
+
+            if(!usuario){
+                alert("E-mail e/ou senha incorreto(s)!")
+            }else{
+                setLoading(false);
+                history.push('/index');
+            }
         } catch (err) {
             console.error("ops! ocorreu um erro" + err)
         }
     }
 
-    function loadLogin() {
-        setLoading(true);
-        setTimeout(
-           () => handleLogin(),
-           2000
-        )
-    }
+    // function loadLogin() {
+    //     setLoading(true);
+    //     setTimeout(
+    //        () => handleLogin(),
+    //        2000
+    //     )
+    // }
 
     const handleChangeEyeIcon = (e) => {
         e.preventDefault()
@@ -113,7 +119,7 @@ function Login() {
                             label="Digite sua senha"
                             variant="filled" />
                             <div className={classes.containerItem}>
-                                <Button className={classes.marginItem} variant="contained" color="primary" onClick={loadLogin} disabled={loading}>
+                                <Button className={classes.marginItem} variant="contained" color="primary" onClick={handleLogin} disabled={loading}>
                                     {loading? "carregando..." : "Entrar"}
                                 </Button>
                                 <p className={classes.title} style={{alignSelf: 'center'}}>Você é novo?</p>
