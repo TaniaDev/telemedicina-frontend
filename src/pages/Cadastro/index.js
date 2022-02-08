@@ -67,7 +67,7 @@ function Cadastro() {
         }
         else {
             try {
-                const response = await api.post("/cadastro", data);
+                const response = await api.post("/cadastrar", data);
                 console.log(response.data)
                 alert('Seu cadastro foi realizado!')
                 history.push('/');
