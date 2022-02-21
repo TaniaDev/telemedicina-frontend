@@ -1,6 +1,6 @@
 <h1 align="center">TeleMedicina</h1>
 
-<p>Aplicativo de telemedicina, tem como objetivo democratizar o acesso a saúde pública de maneira acessível e simplificada.</p>
+<p align="center">A plataforma web para Telemedicina tem como objetivo democratizar o acesso a saúde pública de maneira acessível e simplificada, utilizando chamadas de vídeo para consultas médicas a distância.</p>
 
 <p align="center">
  <a href="#features">Features</a> •
