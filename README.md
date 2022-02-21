@@ -31,10 +31,10 @@
 <br/><h4 align="center" id="demonstrativo">👀 Demonstrativo da Aplicação</h4>
 
 <h5 align="center">Tela de Login</h5>
-![image](https://user-images.githubusercontent.com/60274024/155027817-1582e032-9edf-4519-a449-128c40ced069.png)
+![image](https://user-images.githubusercontent.com/60274024/155029471-6f0bfd52-83f4-4459-9f42-7f499c00f5be.png)
 
 <h5 align="center">Tela de Cadastro</h5>
-![image](https://user-images.githubusercontent.com/60274024/155027846-86532bf8-2acf-4fe3-ac10-b8eff7f77b51.png)
+![image](https://user-images.githubusercontent.com/60274024/155029487-2bb6ab35-63af-42bd-af7e-6e4cc2032e6a.png)
 
 
 <br/><h4 align="center" id="comoRodar">📋 Pré-requisitos e como rodar a aplicação</h4>
