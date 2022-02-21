@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import api from '../../services/api'
-import { makeStyles } from '@mui/styles'
 import { Button, ButtonGroup, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow }from '@mui/material'
 
 function UsuariosListagem(){

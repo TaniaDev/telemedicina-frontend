@@ -1,49 +1,25 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import photo from "../../img/photo_register.png"
-import { AccountBox, ArrowBack, Email, Lock } from '@mui/icons-material'
+import { AccountBox, Email, Lock } from '@mui/icons-material'
+import logo from "../../img/logoAzulHoriz.png"
 import api from '../../services/api'
-import { Link } from 'react-router-dom'
-import { Box, Button, FormControl, Grid, InputAdornment, InputLabel, Paper, NativeSelect, TextField } from '@mui/material'
-import { makeStyles } from '@mui/styles'
-
-// const useStyles = makeStyles((theme) => ({
-//     img: {
-//         width: '100%',
-//         height: '100%',
-//         objectFit: 'cover'
-//     },
-//     buttonBack: {
-//         borderStyle: 'none',
-//         borderRadius: 10
-//     },
-//     container: {
-//         marginTop: 20,
-//         marginLeft: 20,
-//         display: 'flex',
-//         padding: 10,
-//         alignItems: 'center',
-//         flexDirection: 'column',
-//         justifyContent: 'center',
-//         width: 500,
-//         height: 550
-
-//     },
-//     containerItem: {
-//         flex: 1
-//     },
-//     selectEmpty: {
-//     marginTop: theme.spacing(2),
-//     },
-//     formControl: {
-//         margin: theme.spacing(1),
-//         minWidth: 120,
-//     }
-// }))
+import { Box, FormControl, InputAdornment, InputLabel, MenuItem, Select } from '@mui/material'
+import {
+    ButtonRegister,
+    Container,
+    DoubleItem,
+    InputItem,
+    Logo,
+    LogoContainer,
+    PaperStyled,
+    Principal,
+    RegisterContainer,
+    Text,
+    Title
+ } from '../../styles/Cadastro'
 
 function Cadastro() {
     let history = useHistory();
-    // const classes = useStyles();
     const [nome, setNome] = useState("")
     const [nascimento, setNascimento] = useState("")
     const [genero, setGenero] = useState("")
@@ -78,114 +54,108 @@ function Cadastro() {
     }
 
     return (
-        <Grid container style={{ minHeight: '100vh' }} spacing={3}>
-            <Grid container item xs={12} sm={6}>
-                <Link to="/login">
-                    <Button type="link">
-                        <ArrowBack/>
-                    </Button>
-                </Link>
-                <Paper >
-                    <h1>Cadastro</h1>
-                    <Box>
-                        <TextField
-                            style={{width: 400}}
-                            variant="filled"
-                            label="Informe seu nome"
-                            value={nome}
-                            onChange={e => setNome(e.target.value)}
-                            InputProps={{
-                                startAdornment: (
-                                <InputAdornment position="start">
-                                    <AccountBox />
-                                </InputAdornment> ),}}
-                        />
-                    </Box>
-                    <Box>
-                        <TextField
-                            style={{width: 400}}
-                            variant="filled"
-                            type="date"
-                            label="Informe sua data de nascimento"
-                            value={nascimento}
-                            onChange={e => setNascimento(e.target.value)}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
-                    </Box>
-                    <Box>
-                        <FormControl>
-                        <InputLabel>Gênero</InputLabel>
-                            <NativeSelect
-                                style={{width: 400}}
+        <Principal>
+            <PaperStyled>
+                <RegisterContainer>
+                    <LogoContainer>
+                        <Logo src={logo} alt="Telemedicina" />
+                        <Title>Cadastro</Title>
+                        <Text>Faça seu login para entrar na plataforma.</Text>
+                    </LogoContainer>
+                    <Container>
+                        <Box>
+                            <InputItem
                                 variant="filled"
-                                value={genero}
-                                onChange={e => setGenero(e.target.value)}
-                            >
-                                <option aria-label="None" value="" />
-                                <option value="H">Homem</option>
-                                <option value="M">Mulher</option>
-                                <option value="O">Outro</option>
-                            </NativeSelect>
+                                label="Informe seu nome"
+                                value={nome}
+                                onChange={e => setNome(e.target.value)}
+                                InputProps={{
+                                    startAdornment: (
+                                    <InputAdornment position="start">
+                                        <AccountBox />
+                                    </InputAdornment> ),}}
+                            />
+                        </Box>
+                        <DoubleItem>
+                            <InputItem
+                                style={{ width: 232 }}
+                                variant="filled"
+                                type="date"
+                                label="Informe sua data de nascimento"
+                                value={nascimento}
+                                onChange={e => setNascimento(e.target.value)}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                            <FormControl variant="filled">
+                                <InputLabel>Gênero</InputLabel>
+                                <Select
+                                    style={{ width: 232 }}                        
+                                    value={genero}
+                                    onChange={e => setGenero(e.target.value)}
+                                >
+                                    <MenuItem value="H">Homem</MenuItem>
+                                    <MenuItem value="M">Mulher</MenuItem>
+                                    <MenuItem value="O">Outro</MenuItem>
+                                </Select>
                             </FormControl>
-                    </Box>
-                    <Box>
-                        <TextField
-                            style={{width: 400}}
-                            type="email"
-                            variant="filled"
-                            label="Informe seu email"
-                            value={email}
-                            onChange={e => setEmail(e.target.value)}
-                            InputProps={{
-                                startAdornment: (
-                                <InputAdornment position="start">
-                                    <Email />
-                                </InputAdornment> ),}}
-                        />
-                    </Box>
-                    <Box>
-                        <TextField
-                            style={{width: 400}}
-                            type="password"
-                            variant="filled"
-                            label="Informe sua senha"
-                            value={senha}
-                            onChange={e => setSenha(e.target.value)}
-                            InputProps={{
-                                startAdornment: (
-                                <InputAdornment position="start">
-                                    <Lock/>
-                                </InputAdornment> ),}}
-                        />
-                    </Box>
-                    <Box>
-                        <TextField
-                            style={{width: 400}}
-                            type="password"
-                            variant="filled"
-                            label="Digite a senha novamente"
-                            value={confirmasenha}
-                            onChange={e => setConfirmaSenha(e.target.value)}
-                            InputProps={{
-                                startAdornment: (
-                                <InputAdornment position="start">
-                                    <Lock/>
-                                </InputAdornment> ),}}
-                        />
-                    </Box>
-                    <Box>
-                        <Button variant="contained" color="primary" type="submit" onClick={e => handleCadastro(e)}>
+                        </DoubleItem>
+                        <Box>
+                            <InputItem
+                                type="email"
+                                variant="filled"
+                                label="Informe seu email"
+                                value={email}
+                                onChange={e => setEmail(e.target.value)}
+                                InputProps={{
+                                    startAdornment: (
+                                    <InputAdornment position="start">
+                                        <Email />
+                                    </InputAdornment> ),}}
+                            />
+                        </Box>
+                        <Box>
+                            <InputItem
+                                type="password"
+                                variant="filled"
+                                label="Informe sua senha"
+                                value={senha}
+                                onChange={e => setSenha(e.target.value)}
+                                InputProps={{
+                                    startAdornment: (
+                                    <InputAdornment position="start">
+                                        <Lock/>
+                                    </InputAdornment> ),}}
+                            />
+                        </Box>
+                        <Box>
+                            <InputItem
+                                type="password"
+                                variant="filled"
+                                label="Digite a senha novamente"
+                                value={confirmasenha}
+                                onChange={e => setConfirmaSenha(e.target.value)}
+                                InputProps={{
+                                    startAdornment: (
+                                    <InputAdornment position="start">
+                                        <Lock/>
+                                    </InputAdornment> ),}}
+                            />
+                        </Box>
+                    </Container>    
+                    <Container>
+                        <ButtonRegister variant="contained" color="primary" type="submit" onClick={e => handleCadastro(e)}>
                             Confirmar Cadastro
-                        </Button>
-                    </Box>
-                </Paper>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-                <img src={photo} alt="Telemedicina" />
-            </Grid>
-        </Grid>
+                        </ButtonRegister>
+                        <Text style={{alignSelf: 'center'}}>Você já possui uma conta?</Text>
+                        <ButtonRegister variant='outlined' color="primary" onClick={() => history.push('/')}>
+                            Fazer Login
+                        </ButtonRegister>
+                    </Container>
+                </RegisterContainer>
+            </PaperStyled>
+        </Principal>
     )
 }
 
