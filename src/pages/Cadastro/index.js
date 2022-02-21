@@ -7,6 +7,7 @@ import api from '../../services/api'
 import { Link } from 'react-router-dom'
 import { Box, Button, FormControl, Grid, InputAdornment, InputLabel, Paper, NativeSelect, TextField } from '@mui/material'
 import { makeStyles } from '@mui/styles'
+import UnstyledTabsCustomized from './UnstyledTabsCustomized'
 
 // const useStyles = makeStyles((theme) => ({
 //     img: {
@@ -84,6 +85,7 @@ function Cadastro() {
                     </Button>
                 </Link>
                 <Paper >
+                    <UnstyledTabsCustomized/>
                     <h1>Cadastro</h1>
                     <Box>
                         <TextField
