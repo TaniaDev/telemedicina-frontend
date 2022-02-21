@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Button, Grid, InputAdornment, TextField } from '@mui/material'
-import { Email, Https, Visibility, VisibilityOff } from '@mui/icons-material'
+import { Email, Https, LocalConvenienceStoreOutlined, Visibility, VisibilityOff } from '@mui/icons-material'
 import logo from "../../img/logoAzulHoriz.png"
 import photo from "../../img/photo_login.png"
 import api from '../../services/api'
@@ -51,13 +51,25 @@ function Login() {
 
     async function handleLogin() {
         try {
-            const res = await api.post("/login", { email: email, senha: senha });
-            // console.log(res.data);
-            const usuario = res.data.usuario
+            if(!email){
+                alert("Campo e-mail é obrigatório!")
+                return
+            }
+            
+            if(!senha){
+                alert("Campo senha é obrigatório!")
+                return
+            }
 
-            if(!usuario){
+            const res = await api.post("/login", { email: email, senha: senha });
+
+            const usuario = res.data
+
+            if(!usuario.accessToken){
                 alert("E-mail e/ou senha incorreto(s)!")
+                return
             }else{
+                localStorage.setItem("token", usuario.accessToken)
                 setLoading(false);
                 history.push('/index');
             }
@@ -79,14 +91,6 @@ function Login() {
             console.error("ops! ocorreu um erro" + err)
         }
     }
-
-    // function loadLogin() {
-    //     setLoading(true);
-    //     setTimeout(
-    //        () => handleLogin(),
-    //        2000
-    //     )
-    // }
 
     const handleChangeEyeIcon = (e) => {
         e.preventDefault()
