@@ -1,7 +1,7 @@
 function TerceiroPassoPaciente() {
     return(
         <>
-            <h1>TERCEIRO PASSO (PACIENTE)</h1>
+            <h2>TERCEIRO PASSO (PACIENTE)</h2>
         </>
     )
 }
