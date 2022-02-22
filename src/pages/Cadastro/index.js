@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import photo from "../../img/photo_register.png"
-import { AccountBox, ArrowBack, Email, Lock, LocalPhone } from '@mui/icons-material'
+import { AccountBox, Email, Lock, LocalPhone } from '@mui/icons-material'
 import api from '../../services/api'
-import { Link } from 'react-router-dom'
-import { Box, Button, FormControl, InputAdornment, InputLabel, MenuItem, NativeSelect, Select, TextField } from '@mui/material'
+import { Box, FormControl, InputAdornment, InputLabel, MenuItem, Select } from '@mui/material'
 import UnstyledTabsCustomized from './UnstyledTabsCustomized'
 import logo from '../../img/logoAzulHoriz.png'
 import {
