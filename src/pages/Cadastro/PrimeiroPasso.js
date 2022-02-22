@@ -1,7 +1,7 @@
 function PrimeiroPasso(){
     return(
         <>
-            <h1>PRIMEIRO PASSO</h1>
+            <h2>PRIMEIRO PASSO</h2>
         </>
     )
 }

@@ -19,7 +19,7 @@ function Reset_Password(){
             }
             const res = await api.post(`/usuario/redefinir_senha/${token}`, { senha });
     
-            if(res.status == 200){
+            if(res.status === 200){
                 alert('Senha alterada!')
                 window.location.href = '/'
             }          
