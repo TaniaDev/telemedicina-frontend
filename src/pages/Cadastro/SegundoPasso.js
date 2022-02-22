@@ -1,7 +1,8 @@
 function SegundoPasso(){
     return(
         <>
-            <h1>SEGUNDO PASSO</h1>
+            <h1>ENDEREÇO</h1>
+            {/* id_usuario, cep, numero, complemento, cidade, estado */}
         </>
     )
 }
