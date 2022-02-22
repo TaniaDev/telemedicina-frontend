@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import photo from "../../img/photo_register.png"
-import { AccountBox, ArrowBack, Email, Lock } from '@mui/icons-material'
+import { AccountBox, ArrowBack, Email, Lock, LocalPhone } from '@mui/icons-material'
+
 import api from '../../services/api'
 import { Link } from 'react-router-dom'
 import { Box, Button, FormControl, Grid, InputAdornment, InputLabel, Paper, NativeSelect, TextField } from '@mui/material'
 import { makeStyles } from '@mui/styles'
+import UnstyledTabsCustomized from './UnstyledTabsCustomized'
 
 // const useStyles = makeStyles((theme) => ({
 //     img: {
@@ -45,34 +47,31 @@ function Cadastro() {
     let history = useHistory();
     // const classes = useStyles();
     const [nome, setNome] = useState("")
-    const [nascimento, setNascimento] = useState("")
+    const [dt_nascimento, setDt_nascimento] = useState("")
     const [genero, setGenero] = useState("")
+    const [tipo, setTipo] = useState("")
     const [email, setEmail] = useState("")
+    const [telefone, setTelefone] = useState("")
     const [senha, setSenha] = useState("")
     const [confirmasenha, setConfirmaSenha] = useState("")
 
     async function handleCadastro(e) {
         e.preventDefault()
-        const data = {
-                    nome: nome,
-                    dt_nascimento: nascimento,
-                    genero: genero,
-                    email: email,
-                    senha: senha
-                }
-        if(!nome || !nascimento || !genero || !email || !senha) {
+        const data = {nome, dt_nascimento, genero, telefone, email, senha, tipo}
+
+        if(!nome || !dt_nascimento || !genero || !telefone || !email || !senha || !tipo) {
             alert("Preencha todos os dados para realizar o cadastro.")
         } else if (confirmasenha !== senha) {
             alert("Senhas não correspondem.")
         }
         else {
             try {
-                const response = await api.post("/cadastro", data);
+                const response = await api.post("/cadastrar", {nome, dt_nascimento, genero, telefone, email, senha, tipo});
                 console.log(response.data)
                 alert('Seu cadastro foi realizado!')
                 history.push('/');
             } catch (err) {
-                console.error("ops! ocorreu um erro" + err);
+                // console.error("ops! ocorreu um erro" + err);
             }
         }
     }
@@ -86,6 +85,7 @@ function Cadastro() {
                     </Button>
                 </Link>
                 <Paper >
+                    <UnstyledTabsCustomized/>
                     <h1>Cadastro</h1>
                     <Box>
                         <TextField
@@ -107,8 +107,8 @@ function Cadastro() {
                             variant="filled"
                             type="date"
                             label="Informe sua data de nascimento"
-                            value={nascimento}
-                            onChange={e => setNascimento(e.target.value)}
+                            value={dt_nascimento}
+                            onChange={e => setDt_nascimento(e.target.value)}
                             InputLabelProps={{
                                 shrink: true,
                             }}
@@ -133,6 +133,21 @@ function Cadastro() {
                     <Box>
                         <TextField
                             style={{width: 400}}
+                            type="tel"
+                            variant="filled"
+                            label="Informe seu telefone"
+                            value={telefone}
+                            onChange={e => setTelefone(e.target.value)}
+                            InputProps={{
+                                startAdornment: (
+                                <InputAdornment position="start">
+                                    <LocalPhone />
+                                </InputAdornment> ),}}
+                        />
+                    </Box>
+                    <Box>
+                        <TextField
+                            style={{width: 400}}
                             type="email"
                             variant="filled"
                             label="Informe seu email"
@@ -144,6 +159,21 @@ function Cadastro() {
                                     <Email />
                                 </InputAdornment> ),}}
                         />
+                    </Box>
+                    <Box>
+                        <FormControl>
+                        <InputLabel>Tipo de Usuário</InputLabel>
+                            <NativeSelect
+                                style={{width: 400}}
+                                variant="filled"
+                                value={tipo}
+                                onChange={e => setTipo(e.target.value)}
+                            >
+                                <option aria-label="None" value="" />
+                                <option value="Medico">Médico</option>
+                                <option value="Paciente">Paciente</option>
+                            </NativeSelect>
+                            </FormControl>
                     </Box>
                     <Box>
                         <TextField

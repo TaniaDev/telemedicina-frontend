@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Button, Grid, InputAdornment, TextField } from '@mui/material'
-import { Email, Https, Visibility, VisibilityOff } from '@mui/icons-material'
+import { Email, Https, LocalConvenienceStoreOutlined, Visibility, VisibilityOff } from '@mui/icons-material'
 import logo from "../../img/logoAzulHoriz.png"
 import photo from "../../img/photo_login.png"
 import api from '../../services/api'
@@ -51,21 +51,45 @@ function Login() {
 
     async function handleLogin() {
         try {
+            if(!email){
+                alert("Campo e-mail é obrigatório!")
+                return
+            }
+            
+            if(!senha){
+                alert("Campo senha é obrigatório!")
+                return
+            }
+
             const res = await api.post("/login", { email: email, senha: senha });
-            console.log(res.data);
-            setLoading(false);
-            history.push('/index');
+
+            const usuario = res.data
+
+            if(!usuario.accessToken){
+                alert("E-mail e/ou senha incorreto(s)!")
+                return
+            }else{
+                localStorage.setItem("token", usuario.accessToken)
+                setLoading(false);
+                history.push('/index');
+            }
         } catch (err) {
             console.error("ops! ocorreu um erro" + err)
         }
     }
 
-    function loadLogin() {
-        setLoading(true);
-        setTimeout(
-           () => handleLogin(),
-           2000
-        )
+    async function esqueceuASenha(){
+        try{
+            if(!email || email == null){
+                alert('Preencha o e-mail e clique em esqueceu a senha novamente')
+                return
+            }
+
+            const res = await api.post("/usuario/esqueceu_a_senha", { email });
+            window.location.href = `/usuario/redefinir_senha/${res.data.token}`
+        } catch (err) {
+            console.error("ops! ocorreu um erro" + err)
+        }
     }
 
     const handleChangeEyeIcon = (e) => {
@@ -113,9 +137,10 @@ function Login() {
                             label="Digite sua senha"
                             variant="filled" />
                             <div className={classes.containerItem}>
-                                <Button className={classes.marginItem} variant="contained" color="primary" onClick={loadLogin} disabled={loading}>
+                                <Button className={classes.marginItem} variant="contained" color="primary" onClick={handleLogin} disabled={loading}>
                                     {loading? "carregando..." : "Entrar"}
                                 </Button>
+                                <p style={{alignSelf: 'center'}}><a href="#" onClick={esqueceuASenha}>Esqueceu a senha?</a></p>
                                 <p className={classes.title} style={{alignSelf: 'center'}}>Você é novo?</p>
                                 <Button className={classes.marginItem} variant='outlined' color="primary" onClick={() => history.push('/cadastro')}>
                                     Cadastrar
