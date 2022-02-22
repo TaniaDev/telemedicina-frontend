@@ -1,7 +1,7 @@
 function TerceiroPassoMedico(){
     return(
         <>
-            <h1>TERCEIRO PASSO (MÉDICO)</h1>
+            <h2>TERCEIRO PASSO (MÉDICO)</h2>
         </>
     )
 }
