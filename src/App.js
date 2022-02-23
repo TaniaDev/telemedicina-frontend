@@ -1,5 +1,5 @@
 import React from 'react'
-import Routes from './routes/routes'
+import Routes from './routes.js'
 
 function App() {
   return (
@@ -9,5 +9,5 @@ function App() {
   );
 }
 
-export default App;
+export default App
 
