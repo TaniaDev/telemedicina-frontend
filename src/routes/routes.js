@@ -1,7 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Cadastro from '../pages/Cadastro'
-import Teste from '../pages/Cadastro/Teste'
 import Login from '../pages/Login'
 import UsuariosListagem from '../pages/UsuariosListagem'
 import UsuariosEditar from '../pages/UsuariosListagem/UsuariosEditar'

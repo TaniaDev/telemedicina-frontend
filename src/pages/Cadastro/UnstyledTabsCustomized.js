@@ -6,10 +6,6 @@ import TabPanelUnstyled from '@mui/base/TabPanelUnstyled';
 import { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
 import TabUnstyled, { tabUnstyledClasses } from '@mui/base/TabUnstyled';
 
-import PrimeiroPasso from './PrimeiroPasso'
-import SegundoPasso from './SegundoPasso'
-import TerceiroPassoMedico from './TerceiroPassoMedico'
-import TerceiroPassoPaciente from './TerceiroPassoPaciente'
 
 const blue = {
   50: '#F0F7FF',
@@ -87,10 +83,10 @@ export default function UnstyledTabsCustomized() {
         <Tab>3º Passo Paciente</Tab>
         <Tab>3º Passo Médico</Tab>
       </TabsList>
-      <TabPanel value={0}><PrimeiroPasso/></TabPanel>
-      <TabPanel value={1}><SegundoPasso/></TabPanel>
-      <TabPanel value={2}><TerceiroPassoPaciente/></TabPanel>
-      <TabPanel value={3}><TerceiroPassoMedico/></TabPanel>
+      <TabPanel value={0}>BLA</TabPanel>
+      <TabPanel value={1}>BLA2</TabPanel>
+      <TabPanel value={2}>BLA3</TabPanel>
+      <TabPanel value={3}>BLA4</TabPanel>
     </TabsUnstyled>
   );
 }
