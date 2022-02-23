@@ -46,8 +46,8 @@ function Login() {
                 return
             }else{
                 localStorage.setItem("token", usuario.accessToken)
-                setLoading(false);
-                history.push('/index');
+                setLoading(false)
+                history.push('/admin')
             }
         } catch (err) {
             console.error("ops! ocorreu um erro" + err)
