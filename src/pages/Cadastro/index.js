@@ -433,14 +433,13 @@ function Cadastro() {
                                 <ButtonRegister variant='contained' color="primary" id="setaDireita" disabled={true}><ChevronRight/></ButtonRegister>
                             </DoubleItem>
                         </Container>
-
-                        
-                    </div>
-                    <Container sx={{display: 'flex'}}>
+                        <Container sx={{display: 'flex'}}>
                             <ButtonRegister variant="contained" color="primary" type="submit" onClick={e => handleCadastro(e)}>
                                 Confirmar Cadastro
                             </ButtonRegister>
                         </Container>
+                    </div>
+                    
                     <Container>
                         <Text style={{alignSelf: 'center'}}>Você já possui uma conta?</Text>
                         <ButtonRegister variant='outlined' color="primary" onClick={() => history.push('/')}>
