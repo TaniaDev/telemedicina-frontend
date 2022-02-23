@@ -11,7 +11,7 @@ export default function Routes() {
     return (
         <Router>
             <Route path='/' exact component={Login} />
-            <Route path='/cadastro' component={Teste} />
+            <Route path='/cadastro' component={Cadastro} />
             {/* <Route path='/login' component={Login} /> Mesma página que a rota raiz */}
             <Route path='/index' component={UsuariosListagem} /> 
             <Route path='/usuario/editar/:id' component={UsuariosEditar} /> {/* Falta resolver o problema do value={xxx} */}
