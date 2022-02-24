@@ -56,8 +56,8 @@ function UsuariosListagem(){
                                 <TableCell>{new Date(u.dt_nascimento).toLocaleDateString('pt-br')}</TableCell>
                                 <TableCell>{u.genero}</TableCell>
                                 <TableCell>{u.email}</TableCell>
-                                <TableCell>{new Date(u.created_at).toLocaleString('pt-br')}</TableCell>
-                                <TableCell>{new Date(u.updated_at).toLocaleString('pt-br')}</TableCell>
+                                <TableCell>{new Date(u.criado_em).toLocaleString('pt-br')}</TableCell>
+                                <TableCell>{new Date(u.atualizado_em).toLocaleString('pt-br')}</TableCell>
                                 <TableCell>
                                     <ButtonGroup aria-label="outlined primary button group">
                                         <Button color="primary" href={`/usuario/editar/${u.id}`}>Atualizar</Button>
