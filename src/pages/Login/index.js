@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { InputAdornment } from '@mui/material'
 import { Email, Https, LocalConvenienceStoreOutlined, Visibility, VisibilityOff } from '@mui/icons-material'
@@ -25,6 +25,16 @@ function Login() {
     const [isShowing, setIsShowing] = useState(false)
     const [loading, setLoading] = useState(false)
 
+    useEffect(() => {
+        verificaLogado()
+    },[])
+
+    function verificaLogado(){
+        if(localStorage.getItem('token') != null){
+            history.push('/inicio');
+        }
+    }
+
     async function handleLogin() {
         try {
             if(!email){
@@ -47,7 +57,7 @@ function Login() {
             }else{
                 localStorage.setItem("token", usuario.accessToken)
                 setLoading(false)
-                history.push('/admin')
+                history.push('/inicio')
             }
         } catch (err) {
             console.error("ops! ocorreu um erro" + err)

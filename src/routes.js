@@ -11,6 +11,7 @@ import Configuracoes from './pages/Configuracoes'
 import UsuariosListagem from './pages/UsuariosListagem'
 import UsuariosEditar from './pages/UsuariosListagem/UsuariosEditar'
 import Reset_Password from './pages/Reset_Password'
+import AgendarConsulta from './pages/Consultas/AgendarConsulta'
 
 export default function Routes() {
     return (
@@ -26,6 +27,8 @@ export default function Routes() {
                 <Route path='/usuario/editar/:id' exact component={UsuariosEditar} /> {/* Falta resolver o problema do value={xxx} */}
                 {/* <Route path='/usuario/:id' exact component={UsuariosEditar} /> Mesma página que a rota usuario/editar/:id */}
                 <Route path='/usuario/redefinir_senha/:token' exact component={Reset_Password} />
+
+                <Route path='/consulta/agendar' exact component={AgendarConsulta} />
             </Switch>
         </Router>
     );

@@ -6,8 +6,10 @@ import Navbar from '../../components/Navbar'
 function UsuariosListagem(){
     
     const [users, setUsers] = useState([])
+    const [tipo, setTipo] = useState("")
 
     useEffect(() => {
+        getType()
         async function loadUsers(){
         const response = await api.get('/index')
         setUsers(response.data)
@@ -15,11 +17,16 @@ function UsuariosListagem(){
         loadUsers();
     },[])
 
+    async function getType(){
+        const result = await api.get('/usuario/getType')
+        setTipo(result.data.tipo)
+    }
+
     async function remove(id){
         const res = window.confirm('Deseja realmente excluir?')
         if(res){
             try {
-                const result = await api.delete(`/usuario/${id}`)
+                const result = await api.put(`/usuario/${id}`)
                 console.log(result.data)
                 alert('Usuário excluido com sucesso!')
                 window.location.reload()
@@ -32,6 +39,8 @@ function UsuariosListagem(){
     return (
         <>
             <Navbar/>
+            {tipo === 'Medico' && <h1>MEDICO</h1>}
+            {tipo === 'Paciente' && <h1>PACIENTE</h1>}
             <Paper>
                 <h2>Listagem de Usuários</h2>
                 <TableContainer component={Paper}>
