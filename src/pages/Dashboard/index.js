@@ -3,7 +3,7 @@ import api from '../../services/api'
 import { useHistory, Link } from 'react-router-dom'
 import {Box, Button } from '@mui/material'
 
-import Navbar from '../../components/Navbar'
+import NavBar from '../../components/NavBar/NavBar'
 import {Principal} from '../../styles/Dashboard'
 
 function Dashboard() {
@@ -33,7 +33,7 @@ function Dashboard() {
 
     return (
         <>
-            <Navbar />
+            <NavBar user={tipo} exit={logout}/>
             {/* <Box sx={{marginX: 10}}>
                 <Button variant="contained" size="large" color="primary" sx={{margin: 1}}><h1>primary</h1></Button>
                 <Button variant="contained" size="large" color="secondary" sx={{margin: 1}}><h1>secondary</h1></Button>

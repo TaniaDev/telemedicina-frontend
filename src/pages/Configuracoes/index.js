@@ -7,7 +7,7 @@ import TabPanelUnstyled from '@mui/base/TabPanelUnstyled';
 import { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
 import TabUnstyled, { tabUnstyledClasses } from '@mui/base/TabUnstyled';
 import api from '../../services/api'
-import NavBar from '../../components/Navbar'
+import NavBar from '../../components/NavBar/NavBar'
 import FormUsuario from '../../components/Configuracoes/FormUsuario'
 import FormEndereco from '../../components/Configuracoes/FormEndereco'
 import FormPaciente from '../../components/Configuracoes/FormPaciente'
@@ -112,20 +112,20 @@ export default function Configuracoes() {
 
   return (
     <Container>
-      <NavBar/>
+      <NavBar user={tipo}/>
       <Button variant="contained" size="large" color="error" sx={{ margin: 1 }} onClick={desativarConta}><h4>DESATIVAR CONTA</h4></Button>
       <TabsUnstyled defaultValue={0}>
         <TabsList>
           <Tab>Dados de Acesso</Tab>
           <Tab>Endereço</Tab>
-          {tipo == 'Paciente' && <Tab>Dados do Paciente</Tab>}
+          {tipo === 'Paciente' && <Tab>Dados do Paciente</Tab>}
         </TabsList>
         <TabPanel value={0}>
           <FormUsuario/>
         </TabPanel>
         <TabPanel value={1}><FormEndereco/></TabPanel>
         <TabPanel value={2}>
-          {tipo == 'Paciente' && <FormPaciente/>}
+          {tipo === 'Paciente' && <FormPaciente/>}
         </TabPanel>
       </TabsUnstyled>
     </Container>

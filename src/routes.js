@@ -14,6 +14,7 @@ import Reset_Password from './pages/Reset_Password'
 import AgendarConsulta from './pages/Consultas/AgendarConsulta'
 
 export default function Routes() {
+        
     return (
         <Router history={history}>
             <Switch>
@@ -31,5 +32,5 @@ export default function Routes() {
                 <Route path='/consulta/agendar' exact component={AgendarConsulta} />
             </Switch>
         </Router>
-    );
+    )
 }
