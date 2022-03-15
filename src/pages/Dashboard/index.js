@@ -31,6 +31,20 @@ function Dashboard() {
         setTipo(result.data.tipo)
     }
 
+    function agendarConsulta(){
+        history.push('/consulta/agendar')
+    }
+
+    function minhasConsultas(){
+        history.push('/consultas')
+    }
+
+    function configuracoes(){
+        history.push('/config')
+    }
+
+
+
     return (
         <>
             <Navbar />
@@ -48,16 +62,15 @@ function Dashboard() {
 
             <h2>USUÁRIO</h2>
                 <Button variant="contained" size="large" color="secondary" sx={{margin: 1}} onClick={logout}><h2>Logout</h2></Button>
-                <Link to="/config">
-                    <Button variant="contained" size="large" color="secondary" sx={{margin: 1}}><h2>Configurações</h2></Button>
-                </Link>
+                <Button variant="contained" size="large" color="secondary" sx={{margin: 1}} onClick={configuracoes}><h2>Configurações</h2></Button>
                 <Button variant="contained" size="large" color="secondary" sx={{margin: 1}}><h2>Realizar Consulta (Video Chamada)</h2></Button>
                 <Button variant="contained" size="large" color="secondary" sx={{margin: 1}}><h2>CONSULTAS</h2></Button>
 
             {tipo === 'Paciente' && 
                 <>
                     <h2>PACIENTE</h2>
-                    <Button variant="contained" size="large" color="success" sx={{margin: 1}}><h2>Agendar Consulta</h2></Button>
+                    <Button variant="contained" size="large" color="success" sx={{margin: 1}} onClick={agendarConsulta}><h2>Agendar Consulta</h2></Button>
+                    <Button variant="contained" size="large" color="success" sx={{margin: 1}} onClick={minhasConsultas}><h2>Minhas Consultas</h2></Button>
                 </>                    
             }
 
