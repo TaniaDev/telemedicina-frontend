@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import {Card, CardActions, CardContent, CardMedia, Button, Typography} from '@mui/material';
 
 import api from '../../services/api'
+import FormDialog from '../FormDialog'
 
 function CardConsulta({id_consulta, id_especialidade, id_medico, status, data}){
     const [medico, setMedico] = useState([])
@@ -55,17 +56,23 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, status, data}){
                     <b>Médico:</b> {medico.nome} 
                 </Typography>
 
-                <Typography gutterBottom variant="p" component="div">
-                    <b>Data:</b> {data}
-                </Typography>                    
+                {status != 'Cancelado' && 
+                    <Typography gutterBottom variant="p" component="div">
+                        <b>Data:</b> {data}
+                    </Typography>
+                }                    
             </CardContent>
 
-            <CardActions>
-                <Button size="small">Editar</Button>
-                <Button size="small" onClick={cancelarConsulta}>Cancelar</Button>
-            </CardActions>
-
+            {status != 'Cancelado' && 
+                <CardActions>
+                    <FormDialog idConsulta={id_consulta} status={status}/>
+                    <Button size="small" onClick={cancelarConsulta}>Cancelar</Button>
+                </CardActions>
+            }
+            
         </Card>
+
+        
 
     )
 }
