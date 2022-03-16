@@ -118,9 +118,9 @@ export default function NavBar(props) {
                     </Box>
                 </Box>
             </Drawer>
-            <Box height='100vh' marginLeft={theme.spacing(28)}>
+            {/*            <Box height='100vh' marginLeft={theme.spacing(28)}>
                 teste
-            </Box>
+                        </Box>*/}
 
         </>
     )
