@@ -4,11 +4,20 @@ import { Container, Button, Grid, TextField } from '@mui/material'
 import SaveIcon from '@mui/icons-material/Save';
 
 function Reset_Password(){  
-    const [email, setEmail] = useState('will@gmail.com')
+    const [email, setEmail] = useState('')
     const [senha, setSenha] = useState('')
+
+    useEffect(() => {
+        getEmail()
+    }, [])
 
     let url = window.location.pathname;
     let token = url.substring(url.lastIndexOf('/') + 1);
+
+    async function getEmail(){
+        const res = await api.get(`/usuario/getEmail/${token}`)
+        setEmail(res.data.email)
+    }
 
     async function redefinirSenha(e){
         e.preventDefault();

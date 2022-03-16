@@ -71,8 +71,9 @@ function Login() {
                 return
             }
 
-            const res = await api.post("/usuario/esqueceu_a_senha", { email });
-            window.location.href = `/usuario/redefinir_senha/${res.data.token}`
+            await api.post("/usuario/esqueceu_a_senha", { email });
+            
+            alert("Acesse o seu e-mail para redefinir a senha")
         } catch (err) {
             console.error("ops! ocorreu um erro" + err)
         }

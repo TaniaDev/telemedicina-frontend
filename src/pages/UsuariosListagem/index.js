@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import api from '../../services/api'
 import { Button, ButtonGroup, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow }from '@mui/material'
-import Navbar from '../../components/Navbar'
+import NavBar from '../../components/NavBar/NavBar'
 
 function UsuariosListagem(){
     
@@ -38,7 +38,7 @@ function UsuariosListagem(){
 
     return (
         <>
-            <Navbar/>
+            <NavBar />
             {tipo === 'Medico' && <h1>MEDICO</h1>}
             {tipo === 'Paciente' && <h1>PACIENTE</h1>}
             <Paper>
