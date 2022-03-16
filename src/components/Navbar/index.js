@@ -41,8 +41,6 @@ import {
 
 import logo from '../../img/logoBrancaHoriz.png';
 
-import { pacienteListItems, medicoListItems } from '../MenuList';
-
 const drawerWidth = 240;
 
 const menuId = 'primary-search-account-menu';
@@ -151,7 +149,6 @@ export default function Navbar() {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>{pacienteListItems}</List>
       </Drawer>
       <Main open={open}>
         <DrawerHeader />

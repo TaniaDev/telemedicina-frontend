@@ -15,6 +15,7 @@ import AgendarConsulta from './pages/Consultas/AgendarConsulta'
 import MinhasConsultas from './pages/Consultas/MinhasConsultas'
 
 export default function Routes() {
+        
     return (
         <Router history={history}>
             <Switch>
@@ -33,5 +34,5 @@ export default function Routes() {
                 <Route path='/consultas' exact component={MinhasConsultas} />
             </Switch>
         </Router>
-    );
+    )
 }

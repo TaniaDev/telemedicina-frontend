@@ -1,10 +1,10 @@
 import React from 'react'
-import Navbar from '../../components/Navbar'
+import NavBar from '../../components/NavBar/NavBar'
 
 export default function Perfil() {
   return (
     <div>
-        <Navbar />
+        <NavBar />
         <h1>Perfil</h1>
     </div>
 
