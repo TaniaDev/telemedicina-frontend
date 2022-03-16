@@ -11,32 +11,47 @@ function AgendarConsulta(){
         getDoctors()
     },[])
 
-    async function getDoctors(){
-        if(idEspecialidade != ''){
-            const response = await api.get('/medico/getDoctors', {id_especialidade: 'e2e8194a-877e-11ec-a8a3-0242ac120002'})
-            setDoctors(response.data)
-        }else{
-            const response = await api.get('/medico/getDoctors')
-            setDoctors(response.data)
-        }
-        
-    }
 
     async function getSpecialties(){
         const response = await api.get('/medico/especialidades')
         setSpecialties(response.data)
-        getDoctors()
     }
+    async function getDoctors(){
+        if(specialties != ''){
+            const response = await api.get('/medico/getDoctors', {id_especialidade: idEspecialidade})
+            setDoctors(response.data)
+        }else{
+            const response = await api.get('/medico/getDoctors')
+            setDoctors(response.data)
+        }        
+    }
+
+    function useRefreshSelectDoctors(){
+        alert('1')
+        useEffect(() => {
+            getDoctors()
+        },[])
+    }
+
+    function useRefreshSelectSpecialties(){
+        alert('2')
+        useEffect(() => {
+            getSpecialties()
+        },[])
+    }
+    
+
+    
 
     return(
         <>
             <h1>AGENDAR CONSULTA</h1><br/><hr/><br/>
 
             Especialidade<br/>
-            <select name="especialidade" onChange={e => setIdEspecialidade(e.target.value)}>
+            <select name="especialidade" onChange={e => setIdEspecialidade(e.target.value)} onBlur={useRefreshSelectDoctors}>
                 {specialties.map(specialty => (
-                        <option value={specialty.id}>{specialty.nome}</option>
-                    ))}
+                        <option value={specialty.id} >{specialty.nome}</option>
+                ))}
             </select>
             <br/><br/>
 

@@ -1,0 +1,10 @@
+.container{
+    display: flex;
+    flex-direction: row;
+}
+
+.title{
+    flex-grow: 12;
+    text-align: center;
+
+}

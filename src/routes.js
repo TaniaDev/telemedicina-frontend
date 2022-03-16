@@ -12,6 +12,7 @@ import UsuariosListagem from './pages/UsuariosListagem'
 import UsuariosEditar from './pages/UsuariosListagem/UsuariosEditar'
 import Reset_Password from './pages/Reset_Password'
 import AgendarConsulta from './pages/Consultas/AgendarConsulta'
+import MinhasConsultas from './pages/Consultas/MinhasConsultas'
 
 export default function Routes() {
         
@@ -30,6 +31,7 @@ export default function Routes() {
                 <Route path='/usuario/redefinir_senha/:token' exact component={Reset_Password} />
 
                 <Route path='/consulta/agendar' exact component={AgendarConsulta} />
+                <Route path='/consultas' exact component={MinhasConsultas} />
             </Switch>
         </Router>
     )

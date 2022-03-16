@@ -60,6 +60,7 @@ function Login() {
                 history.push('/inicio')
             }
         } catch (err) {
+            alert("E-mail e/ou senha incorreto(s)")
             console.error("ops! ocorreu um erro" + err)
         }
     }

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { LocationOn, LooksOne, Add, LocationCity} from '@mui/icons-material'
+import { LocationOn, LooksOne, Add, LocationCity, EmojiTransportation} from '@mui/icons-material'
 import api from '../../services/api'
 import { Box, InputAdornment, Button } from '@mui/material'
 import {DoubleItem, InputItem} from '../../styles/Cadastro'
 
 function FormEndereco() {
     const [cep, setCep] = useState("")
+    const [logradouro, setLogradouro] = useState("")
+    const [bairro, setBairro] = useState("")
     const [numero, setNumero] = useState("")
     const [complemento, setComplemento] = useState("")
     const [cidade, setCidade] = useState("")
@@ -22,6 +24,18 @@ function FormEndereco() {
         setComplemento(result.data.complemento)
         setCidade(result.data.cidade)     
         setEstado(result.data.estado)     
+    }
+
+    function checkCep(e){
+        const cepLimpo = cep.replace(/\D/g, '')
+        fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`)
+            .then(res => res.json())
+            .then(data => {
+                setLogradouro(data.logradouro)
+                setBairro(data.bairro)
+                setCidade(data.localidade)
+                setEstado(data.uf)
+        })
     }
 
     async function atualizarEndereco(){
@@ -53,22 +67,40 @@ function FormEndereco() {
 
     return (
         <>
+            <Box>
+                <InputItem
+                    style={{ width: 300 }}
+                    variant="filled"
+                    label="Informe seu cep"
+                    value={cep}
+                    onChange={e => setCep(e.target.value)}
+                    onBlur={checkCep}
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <LocationOn />
+                            </InputAdornment>),
+                    }}
+                />
+            </Box>
+
             <DoubleItem>
                 <Box>
                     <InputItem
                         style={{ width: 300 }}
                         variant="filled"
-                        label="Informe seu cep"
-                        value={cep}
-                        onChange={e => setCep(e.target.value)}
+                        label="Logradouro"
+                        value={logradouro}
+                        disabled={true}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <LocationOn />
+                                    <EmojiTransportation />
                                 </InputAdornment>),
                         }}
                     />
                 </Box>
+
                 <Box>
                     <InputItem
                         style={{ width: 300 }}
@@ -81,26 +113,43 @@ function FormEndereco() {
                                 <InputAdornment position="start">
                                     <LooksOne />
                                 </InputAdornment>),
-                        }}
+                    }}
                     />
                 </Box>
             </DoubleItem>
-
-            <Box>
-                <InputItem
-                    style={{ width: '100%' }}
-                    variant="filled"
-                    label="Complemento"
-                    value={complemento}
-                    onChange={e => setComplemento(e.target.value)}
-                    InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <Add />
-                            </InputAdornment>),
+            
+            <DoubleItem>
+                <Box>
+                    <InputItem
+                        style={{ width: 300 }}
+                        variant="filled"
+                        label="Bairro"
+                        value={bairro}
+                        disabled={true}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <EmojiTransportation />
+                                </InputAdornment>),
+                        }}
+                    />
+                </Box>
+                <Box>
+                    <InputItem
+                        style={{ width: 300 }}
+                        variant="filled"
+                        label="Complemento"
+                        value={complemento}
+                        onChange={e => setComplemento(e.target.value)}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <Add />
+                                </InputAdornment>),
                     }}
-                />
-            </Box>
+                    />
+                </Box>
+            </DoubleItem>
             <DoubleItem>
                 <Box>
                     <InputItem
@@ -108,7 +157,7 @@ function FormEndereco() {
                         variant="filled"
                         label="Cidade"
                         value={cidade}
-                        onChange={e => setCidade(e.target.value)}
+                        disabled={true}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -123,7 +172,7 @@ function FormEndereco() {
                         variant="filled"
                         label="Estado"
                         value={estado}
-                        onChange={e => setEstado(e.target.value)}
+                        disabled={true}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
