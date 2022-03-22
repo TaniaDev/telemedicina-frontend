@@ -1,11 +1,15 @@
-import { 
+import { useState, useEffect } from 'react'
+import {
     Box,
     Divider,
     Drawer,
+    IconButton,
     List,
     ListItemButton,
     ListItemIcon,
     ListItemText,
+    Typography,
+    useMediaQuery,
     useTheme
 } from '@mui/material'
 
@@ -21,15 +25,30 @@ import {
     Settings,
     
   } from '@mui/icons-material'
+import api from '../../services/api'
 import ListItemLink from './ListItemLink'
 import Logo from '../../img/logoAzul.png'
+import { useDrawerContext } from '../../context/DrawerContext'
 
-export default function NavBar(props) {
+export default function NavBar({ children, exit }) {
     const theme = useTheme()
+    const smDown = useMediaQuery(theme.breakpoints.down('sm'))
+    const [tipo, setTipo] = useState("")
 
+    const { isDrawerOpen, toggleDrawerOpen } = useDrawerContext()
+
+    useEffect(() => {
+        getType()
+    }, [])
+
+    async function getType(){
+        const result = await api.get('/usuario/getType')
+        setTipo(result.data.tipo)
+    }
+    
     return (
-        <>
-            <Drawer variant='permanent'>
+        <Box>
+            <Drawer open={isDrawerOpen} variant={smDown ? 'temporary' : 'permanent'} onClose={toggleDrawerOpen}>
                 <Box width={theme.spacing(28)} height='100%' display='flex' flexDirection='column'>
                     <Box width='100%' height={theme.spacing(20)} display='flex' alignItems='center' justifyContent='center'>
                         <img src={Logo} alt='Telemedicina' width='100vh' height='100vh' />
@@ -42,86 +61,74 @@ export default function NavBar(props) {
                                 label='Página inicial'
                                 to='/inicio'                            
                             />
-                            {props.user === 'Admin' && 
-                                <>
-                                    <ListItemButton>
-                                        <ListItemIcon>
-                                            <Group />
-                                        </ListItemIcon>
-                                        <ListItemText primary="Gerenciar Usuários" />
-                                    </ListItemButton>
-                                </>                  
+                            {tipo === 'Admin' && 
+                                <ListItemLink
+                                    icon={<Group />}
+                                    label='Gerenciar Usuários'
+                                    to='/admin'                            
+                                />                 
                             }
-                            {props.user === 'Paciente' && 
+                            {tipo === 'Paciente' && 
                                 <>
-                                    <ListItemButton>
-                                        <ListItemIcon>
-                                            <DateRange />
-                                        </ListItemIcon>
-                                        <ListItemText primary="Minhas Consultas" />
-                                    </ListItemButton>
-                                    <ListItemButton>
-                                        <ListItemIcon>
-                                            <InsertInvitation />
-                                        </ListItemIcon>
-                                        <ListItemText primary="Nova Consulta" />
-                                    </ListItemButton>
-                                    <ListItemButton>
-                                        <ListItemIcon>
-                                            <Assignment />
-                                        </ListItemIcon>
-                                        <ListItemText primary="Histórico Médico" />
-                                    </ListItemButton>
+                                    <ListItemLink
+                                        icon={<DateRange />}
+                                        label='Minhas Consultas'
+                                        to='/consultas'
+                                    />
+                                    <ListItemLink
+                                        icon={<InsertInvitation />}
+                                        label='Agendar Consulta'
+                                        to='/consulta/agendar'
+                                    />
+                                    <ListItemLink
+                                        icon={<Assignment />}
+                                        label='Histórico Médico'
+                                        to='/'
+                                    />
                                 </>                        
                             }
-                            {props.user === 'Medico' && 
+                            {tipo === 'Medico' && 
                                 <>
-                                    <ListItemButton>
-                                        <ListItemIcon>
-                                            <DateRange />
-                                        </ListItemIcon>
-                                        <ListItemText primary="Minha Agenda" />
-                                    </ListItemButton>
-                                    <ListItemButton>
-                                        <ListItemIcon>
-                                            <MedicalServices />
-                                        </ListItemIcon>
-                                        <ListItemText primary="Lista de Pacientes" />
-                                    </ListItemButton>
-                                    <ListItemButton>
-                                        <ListItemIcon>
-                                            <Assignment />
-                                        </ListItemIcon>
-                                        <ListItemText primary="Históricos" />
-                                    </ListItemButton>
+                                    <ListItemLink
+                                        icon={<DateRange />}
+                                        label='Minha Agenda'
+                                        to='/'
+                                    />
+                                    <ListItemLink
+                                        icon={<MedicalServices />}
+                                        label='Lista de Pacientes'
+                                        to=''
+                                    />
+                                    <ListItemLink
+                                        icon={<Assignment />}
+                                        label='Históricos'
+                                        to=''
+                                    />
                                 </>     
                             }
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <Person />
-                                </ListItemIcon>
-                                <ListItemText primary="Perfil" />
-                            </ListItemButton>                             
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <Settings />
-                                </ListItemIcon>
-                                <ListItemText primary="Configurações" />
-                            </ListItemButton> 
-                            <ListItemButton onClick={props.exit}>
-                                <ListItemIcon>
-                                    <ExitToApp />
-                                </ListItemIcon>
-                                <ListItemText primary="Sair" />
-                            </ListItemButton> 
+                            <ListItemLink
+                                icon={<Person />}
+                                label='Perfil'
+                                to='/perfil'
+                            />                             
+                            <ListItemLink
+                                icon={<Settings />}
+                                label='Configurações'
+                                to='/config'
+                            />
+                            <ListItemLink
+                                icon={<ExitToApp />}
+                                label='Sair'
+                                to='exit'
+                            />
                         </List>
                     </Box>
                 </Box>
             </Drawer>
-            {/*            <Box height='100vh' marginLeft={theme.spacing(28)}>
-                teste
-                        </Box>*/}
+            <Box height='100vh' marginLeft={smDown ? 0 : theme.spacing(28)}>
+                {children}
+            </Box>
 
-        </>
+        </Box>
     )
 }

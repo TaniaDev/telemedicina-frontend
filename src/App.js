@@ -3,12 +3,15 @@ import { CssBaseline, ThemeProvider } from '@mui/material'
 
 import { theme } from './themes'
 import Routes from './routes'
+import DrawerProvider from './context/DrawerContext'
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline>
-        <Routes />
+        <DrawerProvider>
+          <Routes />
+        </DrawerProvider>
       </CssBaseline>
     </ThemeProvider>
   );
