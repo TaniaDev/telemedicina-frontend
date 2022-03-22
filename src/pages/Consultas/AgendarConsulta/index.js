@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import api from '../../../services/api'
+import BaseLayout from '../../../layouts/BaseLayout'
+import NavBar from '../../../components/NavBar/NavBar'
 
 function AgendarConsulta(){
     let history = useHistory();
@@ -41,34 +43,34 @@ function AgendarConsulta(){
     }
 
     return(
-        <>
-            <h1>AGENDAR CONSULTA</h1><br/><hr/><br/>
+        <NavBar>
+            <BaseLayout title='Agendar Consulta'>
 
-            Especialidade<br/>
-            <select name="especialidade" onChange={e => setIdEspecialidade(e.target.value)} onBlur={getDoctorsBySpecialty}>
-            <option >Selecione uma Especialidade</option>
-                {specialties.map(specialty => (
-                        <option value={specialty.id} >{specialty.nome}</option>
-                ))}
-            </select>
-            <br/><br/>
-
-            Medico<br/>
-            <select name="medico" onChange={e => setIdMedico(e.target.value)} onBlur={getSpecialtieByDoctor}>
+                Especialidade<br/>
+                <select name="especialidade" onChange={e => setIdEspecialidade(e.target.value)} onBlur={getDoctorsBySpecialty}>
+                <option >Selecione uma Especialidade</option>
+                    {specialties.map(specialty => (
+                            <option value={specialty.id} >{specialty.nome}</option>
+                    ))}
+                </select>
+                <br/><br/>
+                
+                Medico<br/>
+                <select name="medico" onChange={e => setIdMedico(e.target.value)} onBlur={getSpecialtieByDoctor}>
                 <option >Selecione um médico(a)</option>
                 {doctors.map(doctor => (
                     <option value={doctor.id_usuario}>CRM: {doctor.crm}</option>
                 ))}
-            </select><br/><br/>
+                </select><br/><br/>
+                
+                Data e hora<br/>
+                <input type="datetime-local" id="meeting-time" onChange={e => setDtHrConsulta(e.target.value)}/>
             
-            Data e hora<br/>
-            <input type="datetime-local" id="meeting-time" onChange={e => setDtHrConsulta(e.target.value)}/>
-            
-            <br/><br/>
-            <button onClick={createAppointment}><h3>Cadastrar</h3></button>
-
-            
-        </>
+                <br/><br/>
+                <button onClick={createAppointment}><h3>Cadastrar</h3></button>
+                  
+           </BaseLayout>
+       </NavBar>
     )
 }
 
