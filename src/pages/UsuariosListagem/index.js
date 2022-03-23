@@ -1,21 +1,38 @@
 import React, { useState, useEffect } from 'react'
 import api from '../../services/api'
-import { Button, ButtonGroup, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow }from '@mui/material'
-import NavBar from '../../components/NavBar/NavBar'
+import { 
+    Box,
+    Button,
+    ButtonGroup,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    TextField,
+    useTheme
+} from '@mui/material'
+import { Add, BorderColor, Delete, Event } from '@mui/icons-material'
+import { ButtonTool, PaperStyled } from '../../styles/UsuariosListagem'
+import NavBar from '../../components/NavBar'
 import BaseLayout from '../../layouts/BaseLayout'
 
 function UsuariosListagem(){
-    
+    const theme = useTheme()
     const [users, setUsers] = useState([])
     const [tipo, setTipo] = useState("")
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         getType()
         async function loadUsers(){
-        const response = await api.get('/index')
-        setUsers(response.data)
+            const response = await api.get('/admin')
+            setUsers(response.data)
+            setLoading(false)
         }
-        loadUsers();
+        loadUsers()
     },[])
 
     async function getType(){
@@ -37,15 +54,45 @@ function UsuariosListagem(){
         }
     }
 
+    if (loading) {
+        return <div>Carregando dados...</div>
+    }
+
     return (
         <>
             <NavBar>
                 <BaseLayout title='Gerenciar Usuários'>
+                    <Box
+                        display='flex'
+                        alignItems='center'
+                        height={theme.spacing(5)}
+                    >
+                        {/*<TextField
+                            size='small'
+                            placeholder='Pesquisar...'
+                        />*/}
+                        <Box
+                            flex={1}
+                            display='flex'
+                            justifyContent='end'
+                            marginBottom={2}
+                        >
+                            <Button
+                                color='primary'
+                                variant='contained'
+                                disableElevation
+                                startIcon={<Add/>}
+                            >
+                                Novo Usuário
+                            </Button>
+                        </Box>
+                    </Box>
+                    
                     {tipo === 'Medico' && <h1>MEDICO</h1>}
                     {tipo === 'Paciente' && <h1>PACIENTE</h1>}
-                    <Paper>
+                    <PaperStyled>
                         <h2>Listagem de Usuários</h2>
-                        <TableContainer component={Paper}>
+                        <TableContainer component={Paper} elevation={0}>
                             <Table aria-label="simple table">
                             <TableHead>
                                 <TableRow>
@@ -71,8 +118,9 @@ function UsuariosListagem(){
                                         <TableCell>{new Date(u.atualizado_em).toLocaleString('pt-br')}</TableCell>
                                         <TableCell>
                                             <ButtonGroup aria-label="outlined primary button group">
-                                                <Button color="primary" href={`/usuario/editar/${u.id}`}>Atualizar</Button>
-                                                <Button color="secondary" onClick={() => remove(u.id)}>Excluir</Button>
+                                                <ButtonTool color="primary" href={`/usuario/consultas/${u.id}`}><Event/></ButtonTool>
+                                                <ButtonTool color="primary" href={`/usuario/editar/${u.id}`}><BorderColor/></ButtonTool>
+                                                <ButtonTool color="error" onClick={() => remove(u.id)}><Delete/></ButtonTool>
                                             </ButtonGroup>
                                         </TableCell>
                                     </TableRow>
@@ -80,7 +128,7 @@ function UsuariosListagem(){
                             </TableBody>
                             </Table>
                         </TableContainer>
-                    </Paper>
+                    </PaperStyled>
                 </BaseLayout>
             </NavBar>
         </>

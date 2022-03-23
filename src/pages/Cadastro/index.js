@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { 
     AccountBox, Email, Lock, LocalPhone, LocationOn, LooksOne, Add, LocationCity, MonitorWeight, 
     Height,  PestControl, Coronavirus, SmokingRooms, Medication, ChevronRight, KeyboardArrowLeft
@@ -23,7 +23,7 @@ import {
  } from '../../styles/Cadastro'
 
 function Cadastro() {
-    let history = useHistory();
+    const navigate = useNavigate()
     const [nome, setNome] = useState("")
     const [dt_nascimento, setDt_nascimento] = useState("")
     const [genero, setGenero] = useState("")
@@ -61,9 +61,9 @@ function Cadastro() {
 
                 console.log(response.data)
                 alert('Seu cadastro foi realizado!')
-                history.push('/');
+                navigate('/');
             } catch (err) {
-                // console.error("ops! ocorreu um erro" + err);
+                console.error("ops! ocorreu um erro: " + err);
             }
         }
     }
@@ -442,7 +442,7 @@ function Cadastro() {
                     
                     <Container>
                         <Text style={{alignSelf: 'center'}}>Você já possui uma conta?</Text>
-                        <ButtonRegister variant='outlined' color="primary" onClick={() => history.push('/')}>
+                        <ButtonRegister variant='outlined' color="primary" onClick={() => navigate('/')}>
                             Fazer Login
                         </ButtonRegister>
                     </Container>

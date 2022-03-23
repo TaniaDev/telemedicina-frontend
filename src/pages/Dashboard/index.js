@@ -1,31 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import api from '../../services/api'
-import { useHistory, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Box, Button } from '@mui/material'
 
-import NavBar from '../../components/NavBar/NavBar'
+import NavBar from '../../components/NavBar'
 import BaseLayout from '../../layouts/BaseLayout'
 // import { Principal } from '../../styles/Dashboard'
 
 function Dashboard() {
-    let history = useHistory();
+    const navigate = useNavigate()
     const [tipo, setTipo] = useState("")
 
     useEffect(() => {
-        verificaLogado()
         getType()
-    },[])
-
-    function verificaLogado(){
-        if(localStorage.getItem('token') == null){
-            history.push('/');
-        }
-    }
-
-    function logout(){
-        localStorage.removeItem("token")
-        verificaLogado()
-    }
+    }, [])
 
     async function getType(){
         const result = await api.get('/usuario/getType')
@@ -33,18 +21,16 @@ function Dashboard() {
     }
 
     function agendarConsulta(){
-        history.push('/consulta/agendar')
+        navigate('/consulta/agendar')
     }
 
     function minhasConsultas(){
-        history.push('/consultas')
+        navigate('/consultas')
     }
 
     function configuracoes(){
-        history.push('/config')
+        navigate('/config')
     }
-
-
 
     return (
         <>
@@ -64,7 +50,6 @@ function Dashboard() {
                     <br/><hr/><br/>
 
                     <h2>USUÁRIO</h2>
-                        <Button variant="contained" size="large" color="secondary" sx={{margin: 1}} onClick={logout}><h2>Logout</h2></Button>
                         <Button variant="contained" size="large" color="secondary" sx={{margin: 1}} onClick={configuracoes}><h2>Configurações</h2></Button>
                         <Button variant="contained" size="large" color="secondary" sx={{margin: 1}}><h2>Realizar Consulta (Video Chamada)</h2></Button>
                         <Button variant="contained" size="large" color="secondary" sx={{margin: 1}}><h2>CONSULTAS</h2></Button>

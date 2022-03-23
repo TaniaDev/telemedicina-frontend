@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react'
 import { Container, Button, Grid, TextField } from '@mui/material'
 import SaveIcon from '@mui/icons-material/Save';
 
-function Reset_Password(){  
+function ResetPassword(){  
     const [email, setEmail] = useState('')
     const [senha, setSenha] = useState('')
 
@@ -42,7 +42,7 @@ function Reset_Password(){
             <Grid container marginY={5}> 
                 <Grid item xs={4}></Grid>
                 <Grid item xs={4}>
-                    <h1>RESET PASSWORD</h1>
+                    <h1>REDEFINIR SENHA</h1>
                 </Grid>
                 <Grid item xs={4}></Grid>
             </Grid>
@@ -61,4 +61,4 @@ function Reset_Password(){
     )
 }
 
-export default Reset_Password
+export default ResetPassword

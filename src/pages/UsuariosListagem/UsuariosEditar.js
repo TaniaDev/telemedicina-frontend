@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { AccountBox, ArrowBack, Email, Lock } from '@mui/icons-material'
 import { Box, Button, FormControl, InputAdornment, InputLabel, Paper, NativeSelect, TextField } from '@mui/material'
 import api from '../../services/api'
@@ -28,8 +28,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function UsuariosEditar() {
-    let history = useHistory();
-    const classes = useStyles();
+    const navigate = useNavigate()
+    const classes = useStyles()
     const [nome, setNome] = useState("")
     const [dt_nascimento, setDt_Nascimento] = useState("")
     const [genero, setGenero] = useState("")
@@ -68,7 +68,7 @@ function UsuariosEditar() {
                 const response = await api.put(`/usuario/editar/${id}`, {data});
                 console.log(response.data)
                 alert('Alteração realizada!')
-                history.push('/index');
+                navigate('/index');
             } catch (err) {
                 console.error("ops! ocorreu um erro" + err);
             }
