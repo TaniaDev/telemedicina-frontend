@@ -7,12 +7,12 @@ import TabPanelUnstyled from '@mui/base/TabPanelUnstyled';
 import { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
 import TabUnstyled, { tabUnstyledClasses } from '@mui/base/TabUnstyled';
 import api from '../../services/api'
-import NavBar from '../../components/NavBar/NavBar'
+import NavBar from '../../components/NavBar'
 import FormUsuario from '../../components/Configuracoes/FormUsuario'
 import FormEndereco from '../../components/Configuracoes/FormEndereco'
 import FormPaciente from '../../components/Configuracoes/FormPaciente'
 import { Button } from '@mui/material'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Container } from '../../styles/Configuracoes'
 import BaseLayout from '../../layouts/BaseLayout'
 
@@ -85,7 +85,7 @@ const TabsList = styled(TabsListUnstyled)`
 `;
 
 export default function Configuracoes() {
-  let history = useHistory();
+  const navigate = useNavigate()
   const [tipo, setTipo] = useState("")
 
   useEffect(() => {
@@ -104,7 +104,7 @@ export default function Configuracoes() {
             await api.put('/usuario/disable')
             alert('Usuário desativado!')
             localStorage.removeItem("token")
-            history.push('/');
+            navigate('/');
         } catch (err) {
             alert("ops! ocorreu um erro" + err)
         }

@@ -1,36 +1,27 @@
 import { useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import {
     ListItemButton,
     ListItemIcon,
     ListItemText,
     Icon
 } from '@mui/material'
+import { useAuthContext } from '../../../context/AuthContext'
 
 
 export default function ListItemLink(props) {
-    let history = useHistory()
+    const navigate = useNavigate()
+    const { logout } = useAuthContext()
 
-    useEffect(() => {
-        verificaLogado()
-    }, [])
-
-    function verificaLogado(){
-        if(localStorage.getItem('token') == null){
-            history.push('/');
-        }
-    }
-    
-    function logout(){
-        localStorage.removeItem("token")
-        verificaLogado()
+    const handleLogout = () => {
+        logout()
     }
     
     const handleClick = () => {
         if (props.to === 'exit') {
-            logout()
+            handleLogout()
         } else {
-            history.push(props.to)
+            navigate(props.to)
         }
     }
 

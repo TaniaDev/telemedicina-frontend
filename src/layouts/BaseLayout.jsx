@@ -14,11 +14,11 @@ export default function BaseLayout({ children, title, toolbar }) {
             <AppBar position='relative'>
                 <Box padding={1} height={theme.spacing(12)} display='flex' alignItems='center'>
                     {smDown && (
-                        <IconButton onClick={toggleDrawerOpen}>
-                            <Menu/>
+                        <IconButton onClick={toggleDrawerOpen} color="inherit">
+                            <Menu />
                         </IconButton>
                     )}
-                    <Typography marginLeft='4%' fontFamily='Roboto Slab' variant='h5'>
+                    <Typography marginLeft='4%' variant='h5'>
                         {title}
                     </Typography>
                 </Box>
@@ -28,7 +28,7 @@ export default function BaseLayout({ children, title, toolbar }) {
                     {toolbar}
                 </Box>
             )}
-            <Box marginLeft='5%' height='100%' display='flex' flexDirection='column' gap={1}>
+            <Box margin='3% 5% 0 5%'height='100%' display='flex' flexDirection='column' gap={1}>
                 <Box>
                     {children}
                 </Box>

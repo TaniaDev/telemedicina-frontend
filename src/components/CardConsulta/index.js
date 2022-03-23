@@ -1,17 +1,26 @@
 import React, { useState, useEffect } from 'react'
-import {Card, CardActions, CardContent, CardMedia, Button, Typography} from '@mui/material';
-
+import {Box, Card, CardActions, CardContent, CardMedia, Button, Typography} from '@mui/material';
+import { BorderColor, Delete } from '@mui/icons-material'
 import api from '../../services/api'
 import FormDialog from '../FormDialog'
+import { useNavigate } from 'react-router-dom';
 
-function CardConsulta({id_consulta, id_especialidade, id_medico, status, data}){
+function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, status, data}){
+    let navigate = useNavigate()
+    const [paciente, setPaciente] = useState([])
     const [medico, setMedico] = useState([])
     const [especialidade, setEspecialidade] = useState([])
 
     useEffect(() => {
         getDoctor()
         getSpecialtie()
+        getPaciente()
     },[])
+
+    async function getPaciente(){
+        const result = await api.get(`/paciente/getPaciente/${id_paciente}`)
+        setPaciente(result.data)
+    }
 
     async function getDoctor(){
         const result = await api.get(`/medico/getDoctor/${id_medico}`)
@@ -31,44 +40,76 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, status, data}){
             alert('Consulta Cancelada!')
         }
     }
+    async function removerConsulta(id){
+        const res = window.confirm('Deseja realmente excluir?')
+        if(res){
+            try {
+                const result = await api.delete(`/admin/consultas/deletar/${id_consulta}`)
+                console.log(result.data)
+                alert('Consulta excluida com sucesso!')
+                window.location.reload()
+            } catch(err) {
+                alert("ops! ocorreu um erro" + err)
+            }
+        }
+    }
     
     return(
         <Card sx={{ 
             maxWidth: 300,
             margin: 3,
         }}>
-            <CardMedia
-                component="img"
-                alt="green iguana"
-                height="140"
-                image="https://via.placeholder.com/300x140"
-            />
+            <Box
+                display='flex'
+                flexDirection='column'
+                alignContent='center'
+                alignItems='center'
+            >
+                <Typography gutterBottom variant="h6" component="div" alignSelf='center'>
+                    <b>Data</b>
+                </Typography>
+            {status != 'Cancelado' ? 
+                    <Typography gutterBottom variant="p" component="div">
+                        {data}
+                    </Typography>
+                :
+                    <Typography gutterBottom variant="p" component="div">
+                        Cancelada
+                    </Typography>
+                }
+            </Box>
             <CardContent>
                 <Typography gutterBottom variant="p" component="span">
                     <b>Status:</b> {status}
-                </Typography>               
-
+                </Typography>
+                {/*{(status === 'Agendado') &&
+                    <Typography gutterBottom variant="p" component="div">
+                        <b>Paciente:</b> {paciente.nome} 
+                    </Typography>
+                }*/}              
                 <Typography gutterBottom variant="p" component="div">
                     <b>Especialidade:</b> {especialidade.nome}
                 </Typography>
 
                 <Typography gutterBottom variant="p" component="div">
                     <b>Médico:</b> {medico.nome} 
-                </Typography>
-
-                {status != 'Cancelado' && 
-                    <Typography gutterBottom variant="p" component="div">
-                        <b>Data:</b> {data}
-                    </Typography>
-                }                    
+                </Typography>         
             </CardContent>
-
-            {status != 'Cancelado' && 
+          
+            <Box display='flex' alignItems='center' justifyContent='center'>
                 <CardActions>
-                    <FormDialog idConsulta={id_consulta} status={status}/>
-                    <Button size="small" onClick={cancelarConsulta}>Cancelar</Button>
+                        <Button size="small" color='error' onClick={removerConsulta}><Delete/></Button>
+                        <Button size="small" color='secondary' onClick={() => navigate(`/consulta/editar/${id_consulta}`)}><BorderColor/></Button>
+                        {status === 'Agendado' ? 
+                            <>
+                                <Button size="small" color='warning' disabled>Cancelar</Button>
+                                
+                            </>
+                        :
+                            <Button size="small" color='warning' disabled>Agendar</Button>
+                        }
                 </CardActions>
-            }
+            </Box>
             
         </Card>
 

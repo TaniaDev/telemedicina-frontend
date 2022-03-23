@@ -6,6 +6,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { BorderColor } from '@mui/icons-material'
 
 import api from '../../services/api'
 
@@ -29,7 +30,7 @@ export default function FormDialog({idConsulta}) {
   return (
     <div>
       <Button size="small" onClick={handleClickOpen}>
-        Alterar Data
+        <BorderColor/>
       </Button>
 
       <Dialog open={open} onClose={handleClose}>

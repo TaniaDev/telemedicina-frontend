@@ -6,17 +6,13 @@ import {
   SearchIconWrapper,
   StyledInputBase,
   Logo,
-  Main,
-
-
+  Main
 } from './style'
-import MenuItem from '../MenuItem'
 import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -26,18 +22,6 @@ import Badge from '@mui/material/Badge';
 import SearchIcon from '@mui/icons-material/Search';
 import { AccountCircle, Notifications } from '@mui/icons-material';
 import MoreIcon from '@mui/icons-material/MoreVert';
-
-import {
-  Assignment,
-  ExitToApp,
-  Dashboard,
-  DateRange,
-  InsertInvitation,
-  MedicalServices,
-  Person,
-  Settings,
-  
-} from '@mui/icons-material'
 
 import logo from '../../img/logoBrancaHoriz.png';
 
