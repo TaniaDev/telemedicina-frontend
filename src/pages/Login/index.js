@@ -92,7 +92,7 @@ function Login() {
                             >
                                Entrar 
                             </ButtonLogin>
-                            <Text style={{alignSelf: 'center'}} textDecaration='none'>
+                            <Text style={{alignSelf: 'center'}} textDecoration='none'>
                                 <Link to="/recuperar-senha">
                                     Esqueceu a senha?
                                 </Link>
