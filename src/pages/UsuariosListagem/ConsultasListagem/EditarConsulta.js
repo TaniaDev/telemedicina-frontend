@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Button } from '@mui/material';
 import NavBar from '../../../components/NavBar'
@@ -9,8 +9,19 @@ export default function EditarConsulta() {
     let navigate = useNavigate()
     let params = useParams()
     const [newDate, setNewDate] = useState("")
+    const [consulta, setConsulta] = useState([])
 
-  async function changeDate(){
+    useEffect(() => {
+      getConsulta()
+  },[])
+
+  async function getConsulta(){
+    const response = await api.get(`/consulta/${params.id}`)
+    console.log('consultas: ', response.results)
+    setConsulta(response.data)
+  }
+  
+    async function changeDate(){
     await api.put('/consulta/changeDate', {id_consulta: params.id, new_date: newDate})
     alert('Data da consulta atualizada com sucesso')
   }

@@ -9,32 +9,21 @@ export default function AdicionarConsulta() {
     let navigate = useNavigate()
     let params = useParams()
     const [dataConsulta, setDataConsulta] = useState("")
-    const [especialidade, setEspecialidade] = useState([])
-    const [usuario, setUsuario] = useState([])
-    const [consultas, setConsultas] = useState([])
-    const [loading, setLoading] = useState(true)
-  
+    const [especialidade, setEspecialidade] = useState([]) 
+
     useEffect(() => {
-        async function loadConsultas(){
-            const response = await api.get(`/admin/consultas/${params.id}`)
-            setConsultas(response.data.results)
-            console.log(response.data.results)
-            setUsuario(response.data.others)
-            setLoading(false)
-
-        }
-        loadConsultas()
-    },[])
-
-
+      getSpecialtieByDoctor()
+    }, [])
+    
     async function criarConsulta(e){
       e.preventDefault()
-      await api.post('/admin/consultas/criar', {id_medico: consultas.id_medico, id_especialidade: especialidade, dt_hr_consulta: dataConsulta})
+      await api.post(`/admin/consultas/criar`, { id_medico: params.id, id_especialidade: especialidade, dt_hr_consulta: dataConsulta })
       alert('Consulta criada com sucesso')
+      navigate(`/usuario/consultas/${params.id}`)
     }
     
     async function getSpecialtieByDoctor(){
-      const response = await api.get(`/medico/getSpecialtieByDoctor/${consultas.id_medico}`)
+      const response = await api.get(`/medico/getSpecialtieByDoctor/${params.id}`)
       setEspecialidade(response.data)
       console.log(response.data)
   }
@@ -47,10 +36,10 @@ export default function AdicionarConsulta() {
             <br/>
             
             <select name="especialidade" onChange={e => setEspecialidade(e.target.value)} onBlur={getSpecialtieByDoctor}>
-            <option>Selecione uma Especialidade</option>
-                {especialidade.map(specialty => (
-                    <option value={specialty.id}>{specialty.nome}</option>
-                ))}
+              <option>Selecione uma Especialidade</option>
+              {especialidade.map(specialty => (
+                <option value={specialty.id}>{specialty.nome}</option>
+              ))}
             </select>
 
             <br/>
@@ -66,5 +55,5 @@ export default function AdicionarConsulta() {
         </BaseLayout>
     </NavBar>
 
-  );
+  )
 }

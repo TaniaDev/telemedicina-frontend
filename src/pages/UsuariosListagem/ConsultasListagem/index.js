@@ -11,7 +11,6 @@ import { ButtonTool, PaperStyled } from '../../../styles/UsuariosListagem'
 import NavBar from '../../../components/NavBar'
 import CardConsulta from '../../../components/CardConsulta'
 import BaseLayout from '../../../layouts/BaseLayout'
-import FormDialogCreate from '../../../components/FormDialogCreate'
 import { configure } from '@testing-library/react'
 
 function ConsultasListagem(){
@@ -65,7 +64,7 @@ function ConsultasListagem(){
                                     variant='contained'
                                     disableElevation
                                     startIcon={<Add/>}
-                                    onClick={() => navigate('/consulta/adicionar')}
+                                    onClick={() => navigate(`/consulta/adicionar/${params.id}`)}
                                 >
                                     Adicionar Consultas
                                 </Button>
