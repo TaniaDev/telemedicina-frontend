@@ -14,13 +14,13 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
     useEffect(() => {
         getDoctor()
         getSpecialtie()
-        //getPaciente()
+        getPaciente()
     },[])
 
-    //async function getPaciente(){
-    //    const result = await api.get(`/paciente/getPaciente/${id_paciente}`)
-    //   setPaciente(result.data)
-    //}
+    async function getPaciente(){
+        const result = await api.get(`/paciente/getPaciente/${id_paciente}`)
+       setPaciente(result.data)
+    }
 
     async function getDoctor(){
         const result = await api.get(`/medico/getDoctor/${id_medico}`)
@@ -82,11 +82,11 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
                 <Typography gutterBottom variant="p" component="span">
                     <b>Status:</b> {status}
                 </Typography>
-                {/*{(status === 'Agendado') &&
+                {(status === 'Agendado') &&
                     <Typography gutterBottom variant="p" component="div">
                         <b>Paciente:</b> {paciente.nome} 
                     </Typography>
-                }*/}              
+                }              
                 <Typography gutterBottom variant="p" component="div">
                     <b>Especialidade:</b> {especialidade.nome}
                 </Typography>

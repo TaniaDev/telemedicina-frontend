@@ -81,7 +81,7 @@ function ConsultasListagem(){
                             status={consulta.status}
                             id_especialidade={consulta.id_especialidade}
                             id_medico={consulta.id_medico}
-                            id_paciente={consulta.id_}
+                            id_paciente={consulta.id_paciente}
                             data={consulta.dt_hr_consulta}
                         />
                     ))}
