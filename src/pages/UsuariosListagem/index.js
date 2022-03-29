@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import api from '../../services/api'
 import { Button, ButtonGroup, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow }from '@mui/material'
 import NavBar from '../../components/NavBar/NavBar'
+import BaseLayout from '../../layouts/BaseLayout'
 
 function UsuariosListagem(){
     
@@ -38,47 +39,50 @@ function UsuariosListagem(){
 
     return (
         <>
-            <NavBar />
-            {tipo === 'Medico' && <h1>MEDICO</h1>}
-            {tipo === 'Paciente' && <h1>PACIENTE</h1>}
-            <Paper>
-                <h2>Listagem de Usuários</h2>
-                <TableContainer component={Paper}>
-                    <Table aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>ID</TableCell>
-                            <TableCell>NOME</TableCell>
-                            <TableCell>DATA DE NASCIMENTO</TableCell>
-                            <TableCell>GÊNERO</TableCell>
-                            <TableCell>E-MAIL</TableCell>
-                            <TableCell>CRIADO EM</TableCell>
-                            <TableCell>ATUALIZADO EM</TableCell>
-                            <TableCell>AÇÕES</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {users.map(u => (
-                            <TableRow key={u.id}>
-                                <TableCell component="th" scope="row">{u.id}</TableCell>
-                                <TableCell component="th" scope="row">{u.nome}</TableCell>
-                                <TableCell>{new Date(u.dt_nascimento).toLocaleDateString('pt-br')}</TableCell>
-                                <TableCell>{u.genero}</TableCell>
-                                <TableCell>{u.email}</TableCell>
-                                <TableCell>{new Date(u.criado_em).toLocaleString('pt-br')}</TableCell>
-                                <TableCell>{new Date(u.atualizado_em).toLocaleString('pt-br')}</TableCell>
-                                <TableCell>
-                                    <ButtonGroup aria-label="outlined primary button group">
-                                        <Button color="primary" href={`/usuario/editar/${u.id}`}>Atualizar</Button>
-                                        <Button color="secondary" onClick={() => remove(u.id)}>Excluir</Button>
-                                    </ButtonGroup>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                    </Table>
-                </TableContainer>
-            </Paper>
+            <NavBar>
+                <BaseLayout title='Gerenciar Usuários'>
+                    {tipo === 'Medico' && <h1>MEDICO</h1>}
+                    {tipo === 'Paciente' && <h1>PACIENTE</h1>}
+                    <Paper>
+                        <h2>Listagem de Usuários</h2>
+                        <TableContainer component={Paper}>
+                            <Table aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>ID</TableCell>
+                                    <TableCell>NOME</TableCell>
+                                    <TableCell>DATA DE NASCIMENTO</TableCell>
+                                    <TableCell>GÊNERO</TableCell>
+                                    <TableCell>E-MAIL</TableCell>
+                                    <TableCell>CRIADO EM</TableCell>
+                                    <TableCell>ATUALIZADO EM</TableCell>
+                                    <TableCell>AÇÕES</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {users.map(u => (
+                                    <TableRow key={u.id}>
+                                        <TableCell component="th" scope="row">{u.id}</TableCell>
+                                        <TableCell component="th" scope="row">{u.nome}</TableCell>
+                                        <TableCell>{new Date(u.dt_nascimento).toLocaleDateString('pt-br')}</TableCell>
+                                        <TableCell>{u.genero}</TableCell>
+                                        <TableCell>{u.email}</TableCell>
+                                        <TableCell>{new Date(u.criado_em).toLocaleString('pt-br')}</TableCell>
+                                        <TableCell>{new Date(u.atualizado_em).toLocaleString('pt-br')}</TableCell>
+                                        <TableCell>
+                                            <ButtonGroup aria-label="outlined primary button group">
+                                                <Button color="primary" href={`/usuario/editar/${u.id}`}>Atualizar</Button>
+                                                <Button color="secondary" onClick={() => remove(u.id)}>Excluir</Button>
+                                            </ButtonGroup>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </Paper>
+                </BaseLayout>
+            </NavBar>
         </>
     )
 }

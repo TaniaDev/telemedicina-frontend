@@ -14,6 +14,7 @@ import FormPaciente from '../../components/Configuracoes/FormPaciente'
 import { Button } from '@mui/material'
 import { useHistory } from 'react-router-dom'
 import { Container } from '../../styles/Configuracoes'
+import BaseLayout from '../../layouts/BaseLayout'
 
 
 const blue = {
@@ -111,23 +112,26 @@ export default function Configuracoes() {
   }
 
   return (
-    <Container>
-      <NavBar user={tipo}/>
-      <Button variant="contained" size="large" color="error" sx={{ margin: 1 }} onClick={desativarConta}><h4>DESATIVAR CONTA</h4></Button>
-      <TabsUnstyled defaultValue={0}>
-        <TabsList>
-          <Tab>Dados de Acesso</Tab>
-          <Tab>Endereço</Tab>
-          {tipo === 'Paciente' && <Tab>Dados do Paciente</Tab>}
-        </TabsList>
-        <TabPanel value={0}>
-          <FormUsuario/>
-        </TabPanel>
-        <TabPanel value={1}><FormEndereco/></TabPanel>
-        <TabPanel value={2}>
-          {tipo === 'Paciente' && <FormPaciente/>}
-        </TabPanel>
-      </TabsUnstyled>
-    </Container>
-  );
+    <NavBar>
+      <BaseLayout title='Configurações'>
+        <Container>
+          <Button variant="contained" size="large" color="error" sx={{ margin: 1 }} onClick={desativarConta}><h4>DESATIVAR CONTA</h4></Button>
+          <TabsUnstyled defaultValue={0}>
+            <TabsList>
+              <Tab>Dados de Acesso</Tab>
+              <Tab>Endereço</Tab>
+              {tipo === 'Paciente' && <Tab>Dados do Paciente</Tab>}
+            </TabsList>
+            <TabPanel value={0}>
+              <FormUsuario/>
+            </TabPanel>
+            <TabPanel value={1}><FormEndereco/></TabPanel>
+            <TabPanel value={2}>
+              {tipo === 'Paciente' && <FormPaciente/>}
+            </TabPanel>
+          </TabsUnstyled>
+        </Container>
+      </BaseLayout>
+    </NavBar>
+  )
 }

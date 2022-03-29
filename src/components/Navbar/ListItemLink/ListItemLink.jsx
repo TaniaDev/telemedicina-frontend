@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import {
     ListItemButton,
@@ -8,11 +9,29 @@ import {
 
 
 export default function ListItemLink(props) {
-    const history = useHistory()
+    let history = useHistory()
 
+    useEffect(() => {
+        verificaLogado()
+    }, [])
+
+    function verificaLogado(){
+        if(localStorage.getItem('token') == null){
+            history.push('/');
+        }
+    }
+    
+    function logout(){
+        localStorage.removeItem("token")
+        verificaLogado()
+    }
+    
     const handleClick = () => {
-        history(props.to)
-        props.onClick?.()
+        if (props.to === 'exit') {
+            logout()
+        } else {
+            history.push(props.to)
+        }
     }
 
     return (
