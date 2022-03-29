@@ -18,6 +18,7 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
     useEffect(() => {
         getDoctor()
         getSpecialtie()
+        getType()
         //getPaciente()
         limitTimeForChange()
         dateNow()
@@ -93,19 +94,6 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
             }
         }
     }
-    async function removerConsulta(id){
-        const res = window.confirm('Deseja realmente excluir?')
-        if(res){
-            try {
-                const result = await api.delete(`/admin/consultas/deletar/${id_consulta}`)
-                console.log(result.data)
-                alert('Consulta excluida com sucesso!')
-                window.location.reload()
-            } catch(err) {
-                alert("ops! ocorreu um erro" + err)
-            }
-        }
-    }
     
     return(
         <Card sx={{ 
@@ -151,13 +139,15 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
           
             <Box display='flex' alignItems='center' justifyContent='center'>
                 <CardActions>
-                        {typeUser === 'Medico' || typeUser === 'Admin' ?
-                            <>
-                                <Button size="small" color='error' onClick={removerConsulta}><Delete/></Button>
-                                <Button size="small" color='secondary' onClick={() => navigate(`/consulta/editar/${id_consulta}`)}><BorderColor/></Button>
-                            </>
-                            :
-                            <></>
+                        {((typeUser === 'Medico' || typeUser === 'Admin') && status === 'Livre') &&
+                            <Button size="small" color='secondary' onClick={() => navigate(`/consulta/editar/${id_consulta}`)}>
+                                <BorderColor/>
+                            </Button>
+                        }
+                        {(typeUser === 'Admin') && 
+                                <Button size="small" color='error' onClick={removerConsulta}>
+                                    <Delete/>
+                                </Button>
                         }
 
                         {(status === 'Agendado') && (agora <= limitTime) ?
@@ -171,10 +161,7 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
                 </CardActions>
             </Box>
             
-        </Card>
-
-        
-
+        </Card>       
     )
 }
 
