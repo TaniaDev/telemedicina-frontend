@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import {Box, Card, CardActions, CardContent, CardMedia, Button, Typography} from '@mui/material';
+import {Box, Card, CardActions, CardContent, CardMedia, Button, Typography} from '@mui/material'
 import { BorderColor, Delete } from '@mui/icons-material'
 import api from '../../services/api'
-import FormDialog from '../FormDialog'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 
 function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, status, data}){
     let navigate = useNavigate()
@@ -77,7 +76,8 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
     async function cancelarConsulta(){
         const res = window.confirm('Deseja realmente cancelar a consulta?')
         if (res) {
-            await api.put('/consulta/cancelar', {id_consulta})
+            console.log(id_consulta)
+            await api.put(`/consulta/cancelar/${id_consulta}`)
             alert('Consulta Cancelada!')
             window.location.reload()
         }
