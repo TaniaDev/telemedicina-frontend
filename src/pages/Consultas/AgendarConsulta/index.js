@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import api from '../../../services/api'
 import BaseLayout from '../../../layouts/BaseLayout'
-import NavBar from '../../../components/NavBar/NavBar'
+import NavBar from '../../../components/NavBar'
 
 function AgendarConsulta(){
-    let history = useHistory();
+    let navigate = useNavigate()
     const [doctors, setDoctors] = useState([])
     const [specialties, setSpecialties] = useState([])
     const [idEspecialidade, setIdEspecialidade] = useState("")
@@ -39,7 +39,7 @@ function AgendarConsulta(){
         e.preventDefault()
         await api.post('/paciente/consulta/agendar', {id_medico: idMedico, dt_hr_consulta: dtHrConsulta, id_especialidade: idEspecialidade})
         alert('Consulta Cadastrada com sucesso!')
-        history.push('/');
+        navigate(`/inicio`);
     }
 
     return(

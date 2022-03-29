@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {Box, Card, CardActions, CardContent, Button, Typography} from '@mui/material';
+import {Box, Card, CardActions, CardContent, CardMedia, Button, Typography} from '@mui/material';
 import { BorderColor, Delete } from '@mui/icons-material'
 import api from '../../services/api'
 import FormDialog from '../FormDialog'
@@ -58,6 +58,11 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
         setTypeUser(result.data.tipo)
     }
 
+    //async function getPaciente(){
+    //    const result = await api.get(`/paciente/getPaciente/${id_paciente}`)
+    //   setPaciente(result.data)
+    //}
+
     async function getDoctor(){
         const result = await api.get(`/medico/getDoctor/${id_medico}`)
         setMedico(result.data)
@@ -81,6 +86,19 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
         if(res){
             try {
                 const result = await api.delete(`/admin/consultas/deletar/${id_consulta}`)
+                alert('Consulta excluida com sucesso!')
+                window.location.reload()
+            } catch(err) {
+                alert("ops! ocorreu um erro" + err)
+            }
+        }
+    }
+    async function removerConsulta(id){
+        const res = window.confirm('Deseja realmente excluir?')
+        if(res){
+            try {
+                const result = await api.delete(`/admin/consultas/deletar/${id_consulta}`)
+                console.log(result.data)
                 alert('Consulta excluida com sucesso!')
                 window.location.reload()
             } catch(err) {

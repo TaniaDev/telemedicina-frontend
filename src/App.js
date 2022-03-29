@@ -2,7 +2,7 @@ import React from 'react'
 import { CssBaseline, ThemeProvider } from '@mui/material'
 
 import { theme } from './themes'
-import Routes from './routes'
+import AppRoutes from './routes'
 import DrawerProvider from './context/DrawerContext'
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline>
         <DrawerProvider>
-          <Routes />
+          <AppRoutes />
         </DrawerProvider>
       </CssBaseline>
     </ThemeProvider>

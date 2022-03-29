@@ -3,7 +3,7 @@ import CardConsulta from '../../../components/CardConsulta'
 import './styles.css';
 import api from '../../../services/api'
 import BaseLayout from '../../../layouts/BaseLayout'
-import NavBar from '../../../components/NavBar/NavBar'
+import NavBar from '../../../components/NavBar'
 
 function MinhasConsultas(){
     const [appointments, setAppointments] = useState([])

@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useFormik } from 'formik'
 import { InputAdornment } from '@mui/material'
-import { Email, Https, LocalConvenienceStoreOutlined, Visibility, VisibilityOff } from '@mui/icons-material'
+import { Email, Https, Visibility, VisibilityOff } from '@mui/icons-material'
 import logo from "../../img/logoAzulHoriz.png"
-import api from '../../services/api'
+import { useAuthContext } from '../../context/AuthContext'
 import {
     ButtonLogin,
     Container,
@@ -17,68 +18,20 @@ import {
     Title
 } from '../../styles/Login'
 
-
 function Login() {
-    let history = useHistory();
-    const [email, setEmail] = useState("")
-    const [senha, setSenha] = useState("")
+    const navigate = useNavigate()
+    const { login } = useAuthContext()
     const [isShowing, setIsShowing] = useState(false)
-    const [loading, setLoading] = useState(false)
 
-    useEffect(() => {
-        verificaLogado()
-    },[])
-
-    function verificaLogado(){
-        if(localStorage.getItem('token') != null){
-            history.push('/inicio');
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            senha: ''
+        },
+        onSubmit: (values) => {
+            login(values.email, values.senha)
         }
-    }
-
-    async function handleLogin() {
-        try {
-            if(!email){
-                alert("Campo e-mail é obrigatório!")
-                return
-            }
-            
-            if(!senha){
-                alert("Campo senha é obrigatório!")
-                return
-            }
-
-            const res = await api.post("/login", { email: email, senha: senha });
-
-            const usuario = res.data
-
-            if(!usuario.accessToken){
-                alert("E-mail e/ou senha incorreto(s)!")
-                return
-            }else{
-                localStorage.setItem("token", usuario.accessToken)
-                setLoading(false)
-                history.push('/inicio')
-            }
-        } catch (err) {
-            alert("E-mail e/ou senha incorreto(s)")
-            console.error("ops! ocorreu um erro" + err)
-        }
-    }
-
-    async function esqueceuASenha(){
-        try{
-            if(!email || email == null){
-                alert('Preencha o e-mail e clique em esqueceu a senha novamente')
-                return
-            }
-
-            await api.post("/usuario/esqueceu_a_senha", { email });
-            
-            alert("Acesse o seu e-mail para redefinir a senha")
-        } catch (err) {
-            console.error("ops! ocorreu um erro" + err)
-        }
-    }
+    })
 
     const handleChangeEyeIcon = (e) => {
         e.preventDefault()
@@ -88,56 +41,68 @@ function Login() {
     return (
         <Principal columns={16}>
             <PaperStyled elevation={10}>
-            <LoginContainer>
-                    <LogoContainer>
-                        <Logo src={logo} alt="Telemedicina" />
-                        <Title>Olá novamente!</Title>
-                        <Text>Faça seu login para entrar na plataforma.</Text>
-                    </LogoContainer>
-                    <Container>
-                        <InputItem InputProps={{
-                            startAdornment: (
-                            <InputAdornment position="start">
-                                <Email />
-                            </InputAdornment> ),}}
-                            value={email}
-                            onChange={e => setEmail(e.target.value)}
-                            label="Digite seu email"
-                            variant="filled"
-                        />
-                        <InputItem InputProps={{
-                            startAdornment: (
-                            <InputAdornment position="start">
-                                <Https />
-                                </InputAdornment> ),
-                            endAdornment: (
-                            <InputAdornment position="end">
-                                <div onClick={handleChangeEyeIcon}>
-                                    {isShowing ? <Visibility size={20} /> : <VisibilityOff size={20} />}
-                                </div>
-                            </InputAdornment>
-                            ),}}
-                            type={isShowing ? "text" : "password"}
-                            value={senha}
-                            onChange={e => setSenha(e.target.value)}
-                            label="Digite sua senha"
-                            variant="filled"
-                        />
-                    </Container>
-                    <Container>
-                        <ButtonLogin variant="contained" color="primary" onClick={handleLogin} disabled={loading}>
-                            {loading? "carregando..." : "Entrar"}
-                        </ButtonLogin>
-			            <Text style={{alignSelf: 'center'}}>
-                            <a href="#" onClick={esqueceuASenha}>
-                                Esqueceu a senha?
-                            </a>
-                        </Text>
-                        <Text style={{alignSelf: 'center'}}>Você é novo?</Text>
-                        <ButtonLogin variant='outlined' color="primary" onClick={() => history.push('/cadastro')}>
-                            Cadastrar
-                        </ButtonLogin>
-                    </Container>
+                <LoginContainer>
+                    <form onSubmit={formik.handleSubmit}>
+                        <LogoContainer>
+                            <Logo src={logo} alt="Telemedicina" />
+                            <Title>Olá novamente!</Title>
+                            <Text>Faça seu login para entrar na plataforma.</Text>
+                        </LogoContainer> 
+                        <Container>
+                            <InputItem
+                                id='email'
+                                type='text'
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <Email />
+                                        </InputAdornment>
+                                    ),}}
+                                value={formik.email}
+                                onChange={formik.handleChange}
+                                label="Digite seu email"
+                                variant="filled"
+                            />
+                            <InputItem
+                                id='senha'
+                                type={isShowing ? "text" : "password"}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <Https />
+                                        </InputAdornment> ),
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <div onClick={handleChangeEyeIcon}>
+                                                {isShowing ? <Visibility size={20} /> : <VisibilityOff size={20} />}
+                                            </div>
+                                        </InputAdornment>
+                                ),}}
+                                value={formik.senha}
+                                onChange={formik.handleChange}
+                                label="Digite sua senha"
+                                variant="filled"
+                            />
+                        </Container>
+                        <Container>
+                            <ButtonLogin
+                                variant="contained"
+                                color="primary"
+                                type='submit'
+                            >
+                               Entrar 
+                            </ButtonLogin>
+                            <Text style={{alignSelf: 'center'}} textDecoration='none'>
+                                <Link to="/recuperar-senha">
+                                    Esqueceu a senha?
+                                </Link>
+                            </Text>
+                            <Text style={{alignSelf: 'center'}}>Você é novo?</Text>
+                            <ButtonLogin variant='outlined' color="primary" onClick={() => navigate('/cadastro')}>
+                                Cadastrar
+                            </ButtonLogin>
+                        </Container>
+                    </form>
                 </LoginContainer>
             </PaperStyled>
         </Principal>
