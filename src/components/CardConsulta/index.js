@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import {Box, Card, CardActions, CardContent, CardMedia, Button, Typography} from '@mui/material';
+import {Box, Card, CardActions, CardContent, CardMedia, Button, Typography} from '@mui/material'
 import { BorderColor, Delete } from '@mui/icons-material'
 import api from '../../services/api'
-import FormDialog from '../FormDialog'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 
 function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, status, data}){
     let navigate = useNavigate()
@@ -18,6 +17,7 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
     useEffect(() => {
         getDoctor()
         getSpecialtie()
+        getType()
         //getPaciente()
         limitTimeForChange()
         dateNow()
@@ -76,7 +76,8 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
     async function cancelarConsulta(){
         const res = window.confirm('Deseja realmente cancelar a consulta?')
         if (res) {
-            await api.put('/consulta/cancelar', {id_consulta})
+            console.log(id_consulta)
+            await api.put(`/consulta/cancelar/${id_consulta}`)
             alert('Consulta Cancelada!')
             window.location.reload()
         }
@@ -86,19 +87,6 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
         if(res){
             try {
                 const result = await api.delete(`/admin/consultas/deletar/${id_consulta}`)
-                alert('Consulta excluida com sucesso!')
-                window.location.reload()
-            } catch(err) {
-                alert("ops! ocorreu um erro" + err)
-            }
-        }
-    }
-    async function removerConsulta(id){
-        const res = window.confirm('Deseja realmente excluir?')
-        if(res){
-            try {
-                const result = await api.delete(`/admin/consultas/deletar/${id_consulta}`)
-                console.log(result.data)
                 alert('Consulta excluida com sucesso!')
                 window.location.reload()
             } catch(err) {
@@ -151,13 +139,15 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
           
             <Box display='flex' alignItems='center' justifyContent='center'>
                 <CardActions>
-                        {typeUser === 'Medico' || typeUser === 'Admin' ?
-                            <>
-                                <Button size="small" color='error' onClick={removerConsulta}><Delete/></Button>
-                                <Button size="small" color='secondary' onClick={() => navigate(`/consulta/editar/${id_consulta}`)}><BorderColor/></Button>
-                            </>
-                            :
-                            <></>
+                        {((typeUser === 'Medico' || typeUser === 'Admin') && status === 'Livre') &&
+                            <Button size="small" color='secondary' onClick={() => navigate(`/consulta/editar/${id_consulta}`)}>
+                                <BorderColor/>
+                            </Button>
+                        }
+                        {(typeUser === 'Admin') && 
+                                <Button size="small" color='error' onClick={removerConsulta}>
+                                    <Delete/>
+                                </Button>
                         }
 
                         {(status === 'Agendado') && (agora <= limitTime) ?
@@ -171,10 +161,7 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
                 </CardActions>
             </Box>
             
-        </Card>
-
-        
-
+        </Card>       
     )
 }
 

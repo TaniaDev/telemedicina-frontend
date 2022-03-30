@@ -20,14 +20,15 @@ export default function EditarConsulta() {
     const response = await api.get(`/consulta/${params.id}`)
     setConsulta(response.data)  
 
-    let horaConsulta = response.data.dt_hr_consulta
+    let horaConsulta = response.data[0].dt_hr_consulta
+    console.log(horaConsulta)
     setHrConsulta(horaConsulta.replace(':00.000Z', ''))
   }
   
   async function changeDate(){
     await api.put('/consulta/changeDate', {id_consulta: params.id, new_date: newDate})
     alert('Data da consulta atualizada com sucesso')
-    navigate(`/consultas`)
+    navigate(`/inicio`)
   }
 
   return (
