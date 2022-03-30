@@ -8,3 +8,7 @@ export const ButtonTool = styled(Button)({
 export const PaperStyled = styled(Paper)({
     padding: 8
 })
+
+export const ButtonBox = styled('div')({
+    display: 'flex'
+})

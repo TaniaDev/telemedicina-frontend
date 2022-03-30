@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import api from '../../services/api'
 import { 
     Box,
     Button,
-    ButtonGroup,
     Paper,
     Table,
     TableBody,
@@ -15,11 +15,12 @@ import {
     useTheme
 } from '@mui/material'
 import { Add, BorderColor, Delete, Event } from '@mui/icons-material'
-import { ButtonTool, PaperStyled } from '../../styles/UsuariosListagem'
+import { ButtonBox, ButtonTool, PaperStyled } from '../../styles/UsuariosListagem'
 import NavBar from '../../components/NavBar'
 import BaseLayout from '../../layouts/BaseLayout'
 
 function UsuariosListagem(){
+    let navigate = useNavigate()
     const theme = useTheme()
     const [users, setUsers] = useState([])
     const [tipo, setTipo] = useState("")
@@ -117,11 +118,32 @@ function UsuariosListagem(){
                                         <TableCell>{new Date(u.criado_em).toLocaleString('pt-br')}</TableCell>
                                         <TableCell>{new Date(u.atualizado_em).toLocaleString('pt-br')}</TableCell>
                                         <TableCell>
-                                            <ButtonGroup aria-label="outlined primary button group">
-                                                <ButtonTool color="primary" href={`/usuario/consultas/${u.id}`}><Event/></ButtonTool>
-                                                <ButtonTool color="primary" href={`/usuario/editar/${u.id}`}><BorderColor/></ButtonTool>
-                                                <ButtonTool color="error" onClick={() => remove(u.id)}><Delete/></ButtonTool>
-                                            </ButtonGroup>
+                                            <ButtonBox>
+                                                <ButtonTool
+                                                    size="small"
+                                                    variant="outlined"
+                                                    color="primary"
+                                                    onClick={() => navigate(`/usuario/consultas/${u.id}`)}
+                                                >
+                                                    <Event/>
+                                                </ButtonTool>
+                                                <ButtonTool
+                                                    size="small"
+                                                    variant="outlined"
+                                                    color="primary"
+                                                    onClick={() => navigate(`/usuario/editar/${u.id}`)}
+                                                >
+                                                    <BorderColor/>
+                                                </ButtonTool>
+                                                <ButtonTool
+                                                    size="small"
+                                                    variant="outlined"
+                                                    color="error"
+                                                    onClick={() => remove(u.id)}
+                                                >
+                                                    <Delete/>
+                                                </ButtonTool>
+                                            </ButtonBox>
                                         </TableCell>
                                     </TableRow>
                                 ))}

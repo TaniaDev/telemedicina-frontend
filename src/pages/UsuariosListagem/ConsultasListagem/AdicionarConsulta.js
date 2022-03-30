@@ -1,32 +1,48 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Typography } from '@mui/material'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import api from '../../../services/api'
 import NavBar from '../../../components/NavBar'
 import BaseLayout from '../../../layouts/BaseLayout'
 
 export default function AdicionarConsulta() {
     let navigate = useNavigate()
-    let params = useParams()
     const [dataConsulta, setDataConsulta] = useState("")
-    const [especialidade, setEspecialidade] = useState([]) 
+    const [especialidades, setEspecialidades] = useState([])
+    const [medicos, setMedicos] = useState([])
+    const [idEspecialidade, setIdEspecialidade] = useState("")
+    const [idMedico, setIdMedico] = useState("")
 
     useEffect(() => {
-      getSpecialtieByDoctor()
-    }, [])
-    
-    async function criarConsulta(e){
-      e.preventDefault()
-      await api.post(`/admin/consultas/criar`, { id_medico: params.id, id_especialidade: especialidade, dt_hr_consulta: dataConsulta })
-      alert('Consulta criada com sucesso')
-      navigate(`/usuario/consultas/${params.id}`)
-    }
-    
-    async function getSpecialtieByDoctor(){
-      const response = await api.get(`/medico/getSpecialtieByDoctor/${params.id}`)
-      setEspecialidade(response.data)
-      console.log(response.data)
+      getSpecialties()
+      getDoctors()
+  },[])
+
+
+  async function getSpecialties(){
+      const response = await api.get('/medico/especialidades')
+      setEspecialidades(response.data)
   }
+  async function getDoctors(){   
+      const response = await api.get('/medico/getDoctors')
+      setMedicos(response.data)
+  }    
+  async function getDoctorsBySpecialty(){  
+      const response = await api.get(`/medico/getDoctorsBySpecialty/${idEspecialidade}`)
+      setMedicos(response.data)
+  }   
+  async function getSpecialtieByDoctor(){
+      const response = await api.get(`/medico/getSpecialtieByDoctor/${idMedico}`)
+      setEspecialidades(response.data)
+  }
+
+  async function criarConsulta(e){
+      e.preventDefault()
+      await api.post('/consulta/criar', {id_medico: idMedico, dt_hr_consulta: dataConsulta, id_especialidade: idEspecialidade})
+      alert('Consulta criada com sucesso!')
+      navigate(`/admin`);
+  }
+
   return (
     <NavBar>
         <BaseLayout title='Adicionar Consulta'>
@@ -35,10 +51,23 @@ export default function AdicionarConsulta() {
             <Typography>Selecione a especialidade.</Typography>
             <br/>
             
-            <select name="especialidade" onChange={e => setEspecialidade(e.target.value)} onBlur={getSpecialtieByDoctor}>
+            <select name="especialidade" onChange={e => setIdEspecialidade(e.target.value)} onBlur={getDoctorsBySpecialty}>
               <option>Selecione uma Especialidade</option>
-              {especialidade.map(specialty => (
+              {especialidades.map(specialty => (
                 <option value={specialty.id}>{specialty.nome}</option>
+              ))}
+            </select>
+
+            <br/>
+            <br/>
+
+            <Typography>Selecione o Medico.</Typography>
+            <br/>
+            
+            <select name="medico" onChange={e => setIdMedico(e.target.value)} onBlur={getSpecialtieByDoctor}>
+              <option>Selecione um(a) médico(a)</option>
+              {medicos.map(doctor => (
+                <option value={doctor.id_usuario}> CRM: {doctor.crm}</option>
               ))}
             </select>
 
