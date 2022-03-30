@@ -33,8 +33,6 @@ function ConsultasListagem(){
         loadConsultas()
     },[])
 
-
-
     if (loading) {
         return <div>Carregando dados...</div>
     }
@@ -64,7 +62,7 @@ function ConsultasListagem(){
                                     variant='contained'
                                     disableElevation
                                     startIcon={<Add/>}
-                                    onClick={() => navigate(`/consulta/adicionar/${params.id}`)}
+                                    onClick={() => navigate('/consulta/adicionar')}
                                 >
                                     Adicionar Consultas
                                 </Button>
