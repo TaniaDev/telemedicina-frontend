@@ -50,7 +50,7 @@ export default function AppRoutes() {
                     <Route path='/admin' exact element={<Private><UsuariosListagem/></Private>} /> 
                     <Route path='/usuario/editar/:id' exact element={<Private><UsuariosEditar/></Private>} /> {/* Falta resolver o problema do value={xxx} */}
                     {/* <Route path='/usuario/:id' exact element={UsuariosEditar} /> Mesma página que a rota usuario/editar/:id */}
-                    <Route path='/consulta/agendar/:id' exact element={<Private><AgendarConsulta/></Private>} />
+                    <Route path='/consulta/agendar' exact element={<Private><AgendarConsulta/></Private>} />
                     <Route path='/consultas' exact element={<Private><MinhasConsultas/></Private>} />
                     <Route path='/consulta/editar/:id' exact element={<Private><EditarConsulta/></Private>} />
                     <Route path='/consulta/adicionar' exact element={<Private><AdicionarConsulta/></Private>} />

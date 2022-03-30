@@ -92,7 +92,7 @@ export default function NavBar({ children, exit }) {
                                     <ListItemLink
                                         icon={<DateRange />}
                                         label='Minha Agenda'
-                                        to='/'
+                                        to='/consultas'
                                     />
                                     <ListItemLink
                                         icon={<MedicalServices />}

@@ -1,25 +1,66 @@
 import React, { useState, useEffect } from 'react'
-import {Box, Card, CardActions, CardContent, CardMedia, Button, Typography} from '@mui/material';
+import {Box, Card, CardActions, CardContent, CardMedia, Button, Typography} from '@mui/material'
 import { BorderColor, Delete } from '@mui/icons-material'
 import api from '../../services/api'
-import FormDialog from '../FormDialog'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 
 function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, status, data}){
     let navigate = useNavigate()
     const [paciente, setPaciente] = useState([])
     const [medico, setMedico] = useState([])
     const [especialidade, setEspecialidade] = useState([])
+    const [typeUser, setTypeUser] = useState('')
+    const [limitTime, setLimitTime] = useState('')
+    const [agora, setAgora] = useState('')
+    const [formattedDate, setFormattedDate] = useState('')
 
     useEffect(() => {
         getDoctor()
         getSpecialtie()
+        getType()
         getPaciente()
-    },[])
+        limitTimeForChange()
+        dateNow()
+        formatDateAppointment()
+    }, [])
 
     async function getPaciente(){
         const result = await api.get(`/paciente/getPaciente/${id_paciente}`)
-       setPaciente(result.data)
+    setPaciente(result.data)
+    }
+
+    function limitTimeForChange(){
+        let dtHrConsulta = data
+        let hrConsulta = dtHrConsulta.substr(11, 2)
+        var limitTimeForChange = dtHrConsulta.replace('T'+hrConsulta, 'T'+(hrConsulta-1))
+        setLimitTime(limitTimeForChange)
+    }
+
+    function dateNow(){
+        let date = new Date()
+        let hour = date.getHours()
+        let minute = date.getMinutes()
+        let day = String(date.getDate()).padStart(2, '0');
+        let month = String(date.getMonth() + 1).padStart(2, '0');
+        let year = date.getFullYear();
+        let dateNow = year + '-' + month + '-' + day + 'T' + hour + ':' + minute + ':' + '00.000Z'
+        setAgora(dateNow)
+    }
+
+    function formatDateAppointment(){
+        let year = data.substr(0, 4)
+        let month = data.substr(5, 2)
+        let day = data.substr(8, 2)
+        let hour = data.substr(11, 2)
+        let minute = data.substr(14, 2)
+        let format = day + '/' + month + '/' + year + ' às ' + hour + 'H' + minute
+        setFormattedDate(format)
+        
+    }
+
+    async function getType(){
+        const result = await api.get('/usuario/getType')
+        setTypeUser(result.data.tipo)
     }
 
     async function getDoctor(){
@@ -29,15 +70,16 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
 
     async function getSpecialtie(){
         const result = await api.get(`/medico/getSpecialtie/${id_especialidade}`)
-        console.log(result.data)
         setEspecialidade(result.data)
     }
 
     async function cancelarConsulta(){
         const res = window.confirm('Deseja realmente cancelar a consulta?')
         if (res) {
-            await api.put('/consulta/cancelar', {id_consulta})
+            console.log(id_consulta)
+            await api.put(`/consulta/cancelar/${id_consulta}`)
             alert('Consulta Cancelada!')
+            window.location.reload()
         }
     }
     async function removerConsulta(id){
@@ -45,7 +87,6 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
         if(res){
             try {
                 const result = await api.delete(`/admin/consultas/deletar/${id_consulta}`)
-                console.log(result.data)
                 alert('Consulta excluida com sucesso!')
                 window.location.reload()
             } catch(err) {
@@ -70,7 +111,7 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
                 </Typography>
             {status != 'Cancelado' ? 
                     <Typography gutterBottom variant="p" component="div">
-                        {data}
+                        {formattedDate}
                     </Typography>
                 :
                     <Typography gutterBottom variant="p" component="div">
@@ -98,12 +139,21 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
           
             <Box display='flex' alignItems='center' justifyContent='center'>
                 <CardActions>
-                        <Button size="small" color='error' onClick={removerConsulta}><Delete/></Button>
-                        <Button size="small" color='secondary' onClick={() => navigate(`/consulta/editar/${id_consulta}`)}><BorderColor/></Button>
-                        {status === 'Agendado' ? 
+                        {((typeUser === 'Medico' || typeUser === 'Admin') && status === 'Livre') &&
+                            <Button size="small" color='secondary' onClick={() => navigate(`/consulta/editar/${id_consulta}`)}>
+                                <BorderColor/>
+                            </Button>
+                        }
+                        {(typeUser === 'Admin') && 
+                                <Button size="small" color='error' onClick={removerConsulta}>
+                                    <Delete/>
+                                </Button>
+                        }
+
+                        {(status === 'Agendado') && (agora <= limitTime) ?
                             <>
-                                <Button size="small" color='warning' disabled>Cancelar</Button>
                                 
+                                <Button size="small" color='warning' onClick={cancelarConsulta}>Cancelar</Button>
                             </>
                         :
                             <Button size="small" color='warning' disabled>Agendar</Button>
@@ -111,10 +161,7 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
                 </CardActions>
             </Box>
             
-        </Card>
-
-        
-
+        </Card>       
     )
 }
 
