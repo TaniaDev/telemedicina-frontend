@@ -82,6 +82,15 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
             window.location.reload()
         }
     }
+    async function agendarConsulta() {
+        const res = window.confirm('Deseja realmente agendar esta consulta?')
+        if (res) {
+            console.log(id_consulta)
+            await api.put(`/consulta/agendar/${id_consulta}`)
+            alert('Consulta Agendada!')
+            navigate('/consultas')
+        }
+    }
     async function removerConsulta(id){
         const res = window.confirm('Deseja realmente excluir?')
         if(res){
@@ -156,7 +165,7 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
                                 <Button size="small" color='warning' onClick={cancelarConsulta}>Cancelar</Button>
                             </>
                         :
-                            <Button size="small" color='warning' disabled>Agendar</Button>
+                            <Button size="small" color='success' onClick={agendarConsulta}>Agendar</Button>
                         }
                 </CardActions>
             </Box>
