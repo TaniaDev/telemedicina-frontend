@@ -6,39 +6,43 @@ import BaseLayout from '../../../layouts/BaseLayout'
 import api from '../../../services/api'
 
 export default function EditarConsulta() {
-    let navigate = useNavigate()
-    let params = useParams()
-    const [newDate, setNewDate] = useState("")
-    const [consulta, setConsulta] = useState([])
+  let navigate = useNavigate()
+  let params = useParams()
+  const [newDate, setNewDate] = useState("")
+  const [consulta, setConsulta] = useState([])
+  const [hrConsulta, setHrConsulta] = useState('')
 
-    useEffect(() => {
-      getConsulta()
+  useEffect(() => {
+    getConsulta()
   },[])
 
   async function getConsulta(){
     const response = await api.get(`/consulta/${params.id}`)
-    console.log('consultas: ', response.results)
-    setConsulta(response.data)
+    setConsulta(response.data)  
+
+    let horaConsulta = response.data[0].dt_hr_consulta
+    console.log(horaConsulta)
+    setHrConsulta(horaConsulta.replace(':00.000Z', ''))
   }
   
-    async function changeDate(){
+  async function changeDate(){
     await api.put('/consulta/changeDate', {id_consulta: params.id, new_date: newDate})
     alert('Data da consulta atualizada com sucesso')
+    navigate(`/inicio`)
   }
 
   return (
     <NavBar>
         <BaseLayout title='Editar Consulta'>
-        <h4>Nova Data</h4>
+          <h4>Nova Data</h4>
 
-            Selecione a nova data da consulta.
-            <h6>{newDate}</h6>
-            <input type="datetime-local" id="meeting-time" onChange={e => setNewDate(e.target.value)}/>
-        <br/>
-        <br/>
-          <Button onClick={changeDate}>Alterar</Button>
-          <Button color='error' onClick={() => navigate(`/admin`)}>Cancelar</Button>
-
+              Selecione a nova data da consulta.
+          
+              <input type="datetime-local" id="meeting-time" defaultValue={hrConsulta} onChange={e => setNewDate(e.target.value)}/>
+          <br/>
+          <br/>
+            <Button onClick={changeDate}>Alterar</Button>
+            <Button color='error' onClick={() => navigate(`/consultas`)}>Cancelar</Button>
         </BaseLayout>
     </NavBar>
 
