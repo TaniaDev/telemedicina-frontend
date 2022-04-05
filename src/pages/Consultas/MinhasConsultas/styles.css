@@ -8,3 +8,18 @@
     text-align: center;
 
 }
+
+.filters{
+    display: flex;
+    justify-content: center;
+}
+
+.filters Button{
+    padding: 10px 20px;
+    font-size: 16px;
+    text-transform: capitalize;
+}
+
+.filters Button[actived=true]{
+    background-color: #0d47a1;
+}
