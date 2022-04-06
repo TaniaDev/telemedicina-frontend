@@ -40,7 +40,7 @@ export default function AdicionarConsulta() {
       e.preventDefault()
       await api.post('/consulta/criar', {id_medico: idMedico, dt_hr_consulta: dataConsulta, id_especialidade: idEspecialidade})
       alert('Consulta criada com sucesso!')
-      navigate(`/admin`);
+      navigate(`/usuario/consultas/b2406c78-dfb5-4010-a441-553f1e69d794`);
   }
 
   return (

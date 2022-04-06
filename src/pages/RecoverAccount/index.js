@@ -7,13 +7,21 @@ function RecoverAccount(){
     const navigate = useNavigate()
     const [email, setEmail] = useState('')
     
-    async function esqueceuASenha(){
+    async function esqueceuASenha(e){
         try{
+            e.preventDefault()
             if(!email || email == null){
                 alert('Preencha o e-mail e clique em esqueceu a senha novamente')
                 return
             }
 
+            let exists = await api.get(`/usuario/getUserByEmail/${email}`)
+
+            if(exists.data == ''){
+                alert('E-mail não encontrado!')
+                return 
+            }
+            
             await api.post("/usuario/esqueceu_a_senha", { email })
             
             alert("O link foi enviado. Acesse o seu e-mail para redefinir a senha")
@@ -47,7 +55,7 @@ function RecoverAccount(){
                             onChange={e => setEmail(e.target.value)}
                         />
                         <br/><br/>
-                        <Button onClick={esqueceuASenha}>
+                        <Button tpye="submit" onClick={e => esqueceuASenha(e)}>
                             Enviar Link
                         </Button>
                     </form>
