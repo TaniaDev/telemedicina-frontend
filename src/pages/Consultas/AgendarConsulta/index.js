@@ -1,74 +1,48 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import { Box } from '@mui/material'
 import api from '../../../services/api'
 import BaseLayout from '../../../layouts/BaseLayout'
 import NavBar from '../../../components/NavBar'
+import CardConsulta from '../../../components/CardConsulta'
 
 function AgendarConsulta(){
     let navigate = useNavigate()
-    const [doctors, setDoctors] = useState([])
-    const [specialties, setSpecialties] = useState([])
-    const [idEspecialidade, setIdEspecialidade] = useState("")
-    const [idMedico, setIdMedico] = useState("")
-    const [dtHrConsulta, setDtHrConsulta] = useState("")
+    let params = useParams()
+    const [consultas, setConsultas] = useState([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        getSpecialties()
-        getDoctors()
+        async function getConsultasDisponiveis(){
+            const response = await api.get(`/consulta/getConsultasDisponiveis`)
+            setConsultas(response.data)
+            console.log(response.data)
+            setLoading(false)
+
+        }
+        getConsultasDisponiveis()
     },[])
 
-
-    async function getSpecialties(){
-        const response = await api.get('/medico/especialidades')
-        setSpecialties(response.data)
-    }
-    async function getDoctors(){   
-        const response = await api.get('/medico/getDoctors')
-        setDoctors(response.data)
-    }    
-    async function getDoctorsBySpecialty(){  
-        const response = await api.get(`/medico/getDoctorsBySpecialty/${idEspecialidade}`)
-        setDoctors(response.data)
-    }   
-    async function getSpecialtieByDoctor(){
-        const response = await api.get(`/medico/getSpecialtieByDoctor/${idMedico}`)
-        setSpecialties(response.data)
-    }
-
-    async function createAppointment(e){
-        e.preventDefault()
-        await api.post('/paciente/consulta/agendar', {id_medico: idMedico, dt_hr_consulta: dtHrConsulta, id_especialidade: idEspecialidade})
-        alert('Consulta Cadastrada com sucesso!')
-        navigate(`/inicio`);
+    if (loading) {
+        return <div>Carregando dados...</div>
     }
 
     return(
         <NavBar>
             <BaseLayout title='Agendar Consulta'>
-
-                Especialidade<br/>
-                <select name="especialidade" onChange={e => setIdEspecialidade(e.target.value)} onBlur={getDoctorsBySpecialty}>
-                <option >Selecione uma Especialidade</option>
-                    {specialties.map(specialty => (
-                            <option value={specialty.id} >{specialty.nome}</option>
-                    ))}
-                </select>
-                <br/><br/>
-                
-                Medico<br/>
-                <select name="medico" onChange={e => setIdMedico(e.target.value)} onBlur={getSpecialtieByDoctor}>
-                <option >Selecione um médico(a)</option>
-                {doctors.map(doctor => (
-                    <option value={doctor.id_usuario}>CRM: {doctor.crm}</option>
+                <Box display='flex' flexDirection='row' flexWrap='wrap'>
+                {consultas.map(consulta => (
+                    
+                        <CardConsulta
+                            key={consulta.id}
+                            id_consulta={consulta.id}
+                            status={consulta.status}
+                            id_especialidade={consulta.id_especialidade}
+                            id_medico={consulta.id_medico}
+                            data={consulta.dt_hr_consulta}
+                        />
                 ))}
-                </select><br/><br/>
-                
-                Data e hora<br/>
-                <input type="datetime-local" id="meeting-time" onChange={e => setDtHrConsulta(e.target.value)}/>
-            
-                <br/><br/>
-                <button onClick={createAppointment}><h3>Cadastrar</h3></button>
-                  
+                </Box>     
            </BaseLayout>
        </NavBar>
     )

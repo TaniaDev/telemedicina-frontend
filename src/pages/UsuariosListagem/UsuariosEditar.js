@@ -68,7 +68,7 @@ function UsuariosEditar() {
                 const response = await api.put(`/usuario/editar/${id}`, {data});
                 console.log(response.data)
                 alert('Alteração realizada!')
-                navigate('/index');
+                navigate('/admin');
             } catch (err) {
                 console.error("ops! ocorreu um erro" + err);
             }
@@ -78,7 +78,7 @@ function UsuariosEditar() {
 
     return (
       <>
-                <Link to="/index">
+                <Link to="/admin">
                     <Button type="link" className={classes.buttonBack}>
                         <ArrowBack/>
                     </Button>

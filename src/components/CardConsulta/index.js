@@ -18,11 +18,16 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
         getDoctor()
         getSpecialtie()
         getType()
-        //getPaciente()
+        getPaciente()
         limitTimeForChange()
         dateNow()
         formatDateAppointment()
-    },[])
+    }, [])
+
+    async function getPaciente(){
+        const result = await api.get(`/paciente/getPaciente/${id_paciente}`)
+    setPaciente(result.data)
+    }
 
     function limitTimeForChange(){
         let dtHrConsulta = data
@@ -58,11 +63,6 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
         setTypeUser(result.data.tipo)
     }
 
-    //async function getPaciente(){
-    //    const result = await api.get(`/paciente/getPaciente/${id_paciente}`)
-    //   setPaciente(result.data)
-    //}
-
     async function getDoctor(){
         const result = await api.get(`/medico/getDoctor/${id_medico}`)
         setMedico(result.data)
@@ -80,6 +80,15 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
             await api.put(`/consulta/cancelar/${id_consulta}`)
             alert('Consulta Cancelada!')
             window.location.reload()
+        }
+    }
+    async function agendarConsulta() {
+        const res = window.confirm('Deseja realmente agendar esta consulta?')
+        if (res) {
+            console.log(id_consulta)
+            await api.put(`/consulta/agendar/${id_consulta}`)
+            alert('Consulta Agendada!')
+            navigate('/consultas')
         }
     }
     async function removerConsulta(id){
@@ -123,11 +132,11 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
                 <Typography gutterBottom variant="p" component="span">
                     <b>Status:</b> {status}
                 </Typography>
-                {/*{(status === 'Agendado') &&
+                {(status === 'Agendado') &&
                     <Typography gutterBottom variant="p" component="div">
                         <b>Paciente:</b> {paciente.nome} 
                     </Typography>
-                }*/}              
+                }              
                 <Typography gutterBottom variant="p" component="div">
                     <b>Especialidade:</b> {especialidade.nome}
                 </Typography>
@@ -156,7 +165,7 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
                                 <Button size="small" color='warning' onClick={cancelarConsulta}>Cancelar</Button>
                             </>
                         :
-                            <Button size="small" color='warning' disabled>Agendar</Button>
+                            <Button size="small" color='success' onClick={agendarConsulta}>Agendar</Button>
                         }
                 </CardActions>
             </Box>
