@@ -78,7 +78,7 @@ export default function NavBar({ children, exit }) {
                                     <ListItemLink
                                         icon={<InsertInvitation />}
                                         label='Agendar Consulta'
-                                        to='/agendar'
+                                        to='/consulta/adicionar'
                                     />
                                     <ListItemLink
                                         icon={<Assignment />}

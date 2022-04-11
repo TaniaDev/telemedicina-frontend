@@ -23,7 +23,7 @@ function MinhasConsultas(){
         <>
             <NavBar>
                 <BaseLayout title='Minhas Consultas'>
-                    <div class="filters">
+                    <div className="filters">
                         <ButtonGroup variant="contained" aria-label="outlined primary button group">
                             <Button onClick={(e) => setFilterActived('all')} actived={filterActived == "all"? "true" : "false"}>Todos</Button>
                             <Button onClick={(e) => setFilterActived('today')} actived={filterActived == "today"? "true" : "false"}>Hoje</Button>
@@ -33,8 +33,15 @@ function MinhasConsultas(){
                         </ButtonGroup>
                     </div>
                     <div className="container">
-                        {appointments.map(appointment => (
-                            <CardConsulta key={appointment.id} id_consulta={appointment.id} status={appointment.status} id_especialidade={appointment.id_especialidade} id_medico={appointment.id_medico} data={appointment.dt_hr_consulta}/>
+                        {appointments?.map(appointment => (
+                            <CardConsulta key={appointment.id} 
+                                id_consulta={appointment.id} 
+                                status={appointment.status} 
+                                id_especialidade={appointment.id_especialidade} 
+                                id_medico={appointment.id_medico} 
+                                id_paciente={appointment.id_paciente} 
+                                data={appointment.dt_hr_consulta}
+                            />
                         ))}
                     </div>
                 </BaseLayout>

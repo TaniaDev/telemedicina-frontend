@@ -7,17 +7,105 @@ import BaseLayout from '../../../layouts/BaseLayout'
 
 export default function AdicionarConsulta() {
     let navigate = useNavigate()
-    const [dataConsulta, setDataConsulta] = useState("")
+
+    let now = new Date()
+    let dia = String(now.getDate()).padStart(2, '0');
+    let mes = String(now.getMonth() + 1).padStart(2, '0');
+    let ano = now.getFullYear();
+    
     const [especialidades, setEspecialidades] = useState([])
     const [medicos, setMedicos] = useState([])
     const [idEspecialidade, setIdEspecialidade] = useState("")
     const [idMedico, setIdMedico] = useState("")
+    const [data, setData] = useState("")
+    const [hora, setHora] = useState("")
+    const [horas, setHoras] = useState([])
+    const [dayOfWeek , setDayOfWeek] = useState("")
 
     useEffect(() => {
       getSpecialties()
       getDoctors()
   },[])
 
+  useEffect(() => {
+    verifyDayOfWeek(data)
+    horasDisponiveisMedico(idMedico)
+  }, [idMedico, data])
+
+  async function horasDisponiveisMedico(id_medico){
+    const response = await api.get(`/horasdisponiveismedico/${id_medico}/${data}`)
+
+    //Verificar se o médico atende naquele dia da semana
+      //Array com os dias da semana que o médico atende
+    let dia_da_semana = response.data.dia_semana.split(",")
+
+    let aux = response.data.horas
+    let livres = []
+
+    if(dia_da_semana.indexOf(dayOfWeek.toString()) !== -1){
+      aux.forEach(item => {
+        console.log(item)
+        livres.push(item)
+      })
+    }else{
+      // livres.push('')
+    }
+    setHoras(livres)
+    
+    //Trazer as horas daquele dia (Descontando as já agendadas)
+
+    
+  }
+
+  function verifyDayOfWeek(date){    
+    let inputDate = document.querySelector('#date').value
+    let dateSplited = inputDate.split("-")
+    let dia = dateSplited[2]
+    let mes = ''
+    let ano = dateSplited[0]
+
+    switch(dateSplited[1]){
+      case '01':
+          mes = 'January'
+          break
+      case '02':
+          mes = 'February'
+          break
+      case '03':
+          mes = 'March'
+          break
+      case '04':
+          mes = 'April'
+          break
+      case '05':
+          mes = 'May'
+          break
+      case '06':
+          mes = 'June'
+          break
+      case '07':
+          mes = 'July'
+          break
+      case '08':
+          mes = 'August'
+          break
+      case '09':
+          mes = 'September'
+          break
+      case '10':
+          mes = 'October'
+          break
+      case '11':
+          mes = 'November'
+          break
+      case '12':
+          mes = 'December'
+          break
+    }
+
+    let formatedDate = new Date(`${mes} ${dia} ${ano} 00:00:01`);
+    setDayOfWeek(parseInt(formatedDate.getDay()))
+  }
 
   async function getSpecialties(){
       const response = await api.get('/medico/especialidades')
@@ -38,9 +126,9 @@ export default function AdicionarConsulta() {
 
   async function criarConsulta(e){
       e.preventDefault()
-      await api.post('/consulta/criar', {id_medico: idMedico, dt_hr_consulta: dataConsulta, id_especialidade: idEspecialidade})
+      await api.post('/agendarconsulta', {id_medico: idMedico, id_especialidade: idEspecialidade, data, hora})
       alert('Consulta criada com sucesso!')
-      navigate(`/usuario/consultas/b2406c78-dfb5-4010-a441-553f1e69d794`);
+      navigate(`/inicio`);
   }
 
   return (
@@ -63,20 +151,43 @@ export default function AdicionarConsulta() {
 
             <Typography>Selecione o Medico.</Typography>
             <br/>
-            
-            <select name="medico" onChange={e => setIdMedico(e.target.value)} onBlur={getSpecialtieByDoctor}>
-              <option>Selecione um(a) médico(a)</option>
-              {medicos.map(doctor => (
-                <option value={doctor.id_usuario}> CRM: {doctor.crm}</option>
-              ))}
-            </select>
+            {data === '' ? 
+              <select name="medico" disabled>
+                <option>Selecione um(a) médico(a)</option>
+              </select>
+            :
+              <select name="medico" onChange={(e) => setIdMedico(e.target.value)} onBlur={getSpecialtieByDoctor}>
+                <option>Selecione um(a) médico(a)</option>
+                {medicos.map(doctor => (
+                  <option value={doctor.id_usuario}> CRM: {doctor.crm}</option>
+                ))}
+              </select>
+            }
 
             <br/>
             <br/>
 
             <Typography>Selecione a data da consulta.</Typography>
-          <h6>{dataConsulta}</h6>
-          <input type="datetime-local" id="meeting-time" onChange={e => setDataConsulta(e.target.value)}/>         
+          
+            <input id="date" type="date" onChange={(e) => setData(e.target.value)} min={`${ano}-${mes}-${dia}`} />
+          {/* {(idEspecialidade === '') || (idMedico === '')  ? 
+            <input type="date" disabled min={`${ano}-${mes}-${dia}`} />
+          :
+            <input id="date" type="date" onChange={(e) => verifyDayOfWeek(e.target.value)} min={`${ano}-${mes}-${dia}`} />
+          } */}
+
+          {(data === '') || (idMedico === '')  ? 
+            <select onChange={(e) => setHora(e.target.value)} disabled>
+              <option>Selecione a hora da consulta</option>
+            </select>
+          :
+            <select onChange={(e) => setHora(e.target.value)}>
+              <option>Selecione a hora da consulta</option>
+              {horas.map((hr) => (
+                <option value={hr}>{hr}</option>
+              ))}
+            </select>
+          }
           <br/>
           <br/>
           <Button onClick={e => criarConsulta(e)}>Salvar</Button>

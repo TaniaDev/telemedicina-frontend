@@ -9,6 +9,7 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Perfil from './pages/Perfil'
 import Configuracoes from './pages/Configuracoes'
+import DisponibilidadeMedica from './pages/Configuracoes/DisponibilidadeMedica'
 import UsuariosListagem from './pages/UsuariosListagem'
 import UsuariosEditar from './pages/UsuariosListagem/UsuariosEditar'
 import UsuariosCadastrar from './pages/UsuariosListagem/UsuariosCadastrar'
@@ -47,10 +48,11 @@ export default function AppRoutes() {
                     <Route path='/inicio' exact element={<Private><Dashboard /></Private>} /> 
                     <Route path='/perfil' exact element={<Private><Perfil/></Private>} />
                     <Route path='/config' exact element={<Private><Configuracoes/></Private>} />
+                    <Route path='/config/disponibilidademedica' exact element={<Private><DisponibilidadeMedica/></Private>} />
                     <Route path='/admin' exact element={<Private><UsuariosListagem/></Private>} /> 
                     <Route path='/usuario/editar/:id' exact element={<Private><UsuariosEditar/></Private>} /> {/* Falta resolver o problema do value={xxx} */}
                     {/* <Route path='/usuario/:id' exact element={UsuariosEditar} /> Mesma página que a rota usuario/editar/:id */}
-                    <Route path='/agendar' exact element={<Private><AgendarConsulta/></Private>} />
+                    <Route path='/consulta/agendar' exact element={<Private><AgendarConsulta/></Private>} />
                     <Route path='/consultas' exact element={<Private><MinhasConsultas/></Private>} />
                     <Route path='/consulta/editar/:id' exact element={<Private><EditarConsulta/></Private>} />
                     <Route path='/consulta/adicionar' exact element={<Private><AdicionarConsulta/></Private>} />

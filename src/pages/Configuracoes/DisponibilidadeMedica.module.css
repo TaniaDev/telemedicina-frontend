@@ -1,0 +1,70 @@
+.container{
+    display: flex;
+    justify-content: center;
+    
+}
+
+.container form .filtrosDias,
+.container form .expediente,
+.container form .almoco{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px 30px;
+}
+
+.container form fieldset.filtrosDias .dia{
+    margin: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.container form .expediente,
+.container form .almoco{
+    justify-content: space-around;
+    flex-wrap: wrap;
+    
+}
+
+.container form .expediente .leftSide,
+.container form .expediente .rightSide,
+.container form .almoco .leftSide,
+.container form .almoco .rightSide{
+    flex: 1;
+}
+
+
+.container form .expediente .leftSide input,
+.container form .expediente .rightSide input,
+.container form .almoco .leftSide input,
+.container form .almoco .rightSide input{
+    padding: 0px 20px;
+}
+
+.container form fieldset .expediente p,
+.container form fieldset .almoco p{
+    font-size: 16px;
+    font-weight: bold;
+    margin: 8px 0px;
+}
+
+.container form .submit{
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+input[type="submit"]{
+    transition: .5s;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-family: roboto;
+    font-weight: bold;
+    cursor: pointer;
+
+}
+
+input[type="submit"]:hover{
+    background: #1E88E5;  
+    color: #fff; 
+}
+
