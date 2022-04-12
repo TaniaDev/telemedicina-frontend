@@ -65,7 +65,7 @@ function Dashboard() {
                     {tipo === 'Medico' && 
                         <>
                             <h2>MÉDICO</h2>
-                            <Button variant="contained" size="large" color="warning" sx={{margin: 1}}><h2>Definir disponibilidade (horário)</h2></Button>
+                            <Button variant="contained" size="large" color="warning" sx={{margin: 1}} onClick={() => navigate('/config/disponibilidademedica')}><h2>Definir disponibilidade (horário)</h2></Button>
                         </>   
                     }
                 </BaseLayout>
