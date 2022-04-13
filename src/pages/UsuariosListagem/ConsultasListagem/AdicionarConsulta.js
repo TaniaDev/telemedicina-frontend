@@ -128,7 +128,8 @@ export default function AdicionarConsulta() {
   async function criarConsulta(e){
       e.preventDefault()
       setDr_hr_consulta(`${data} ${hora}`)
-      await api.post('/agendarconsulta', {id_medico: idMedico, id_especialidade: idEspecialidade, data, hora, dt_hr_consulta})
+      let url_consulta = `telemed${idMedico}${data}${idEspecialidade}`
+      await api.post('/agendarconsulta', {id_medico: idMedico, id_especialidade: idEspecialidade, data, hora, dt_hr_consulta, url_consulta})
       alert('Consulta criada com sucesso!')
       navigate(`/inicio`);
   }

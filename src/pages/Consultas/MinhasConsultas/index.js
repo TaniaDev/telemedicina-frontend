@@ -41,6 +41,7 @@ function MinhasConsultas(){
                                 id_medico={appointment.id_medico} 
                                 id_paciente={appointment.id_paciente} 
                                 data={appointment.dt_hr_consulta}
+                                url_consulta={appointment.url_consulta}
                             />
                         ))}
                     </div>

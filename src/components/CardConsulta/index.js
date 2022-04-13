@@ -1,10 +1,24 @@
 import React, { useState, useEffect } from 'react'
-import {Box, Card, CardActions, CardContent, CardMedia, Button, Typography} from '@mui/material'
+import {Box, Card, CardActions, CardContent, CardMedia, Button, Typography, Modal } from '@mui/material'
 import { BorderColor, Delete } from '@mui/icons-material'
 import api from '../../services/api'
 import { useNavigate } from 'react-router-dom'
 
-function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, status, data}){
+const style = {
+    position: 'absolute',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '95vw',
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 4,
+};
+  
+function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, status, data, url_consulta}){
     let navigate = useNavigate()
     const [paciente, setPaciente] = useState([])
     const [medico, setMedico] = useState([])
@@ -13,6 +27,11 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
     const [limitTime, setLimitTime] = useState('')
     const [agora, setAgora] = useState('')
     const [formattedDate, setFormattedDate] = useState('')
+    const [open, setOpen] = useState(false);
+
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+  
 
     useEffect(() => {
         getDoctor()
@@ -113,6 +132,19 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
             maxWidth: 300,
             margin: 3,
         }}>
+
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
+                    <Button onClick={handleClose} color='error' >X</Button>
+                    <iframe src={`https://meet.jit.si/${url_consulta}`} frameborder="0" width="100%" height="500"></iframe>
+                </Box>
+            </Modal>
+
             <Box
                 display='flex'
                 flexDirection='column'
@@ -172,7 +204,7 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
 
                         {(status === 'Agendado') && (agora >= data) && (
                             <>
-                                <Button size="small" color='primary' onClick={editarConsulta}>Acessar</Button>
+                                <Button onClick={handleOpen}>Acessa Consulta</Button>
                             </>
                         )}
                 </CardActions>
