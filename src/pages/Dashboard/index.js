@@ -20,10 +20,6 @@ function Dashboard() {
         setTipo(result.data.tipo)
     }
 
-    function agendarConsulta(){
-        navigate('/consulta/agendar')
-    }
-
     function minhasConsultas(){
         navigate('/consultas')
     }
@@ -57,7 +53,7 @@ function Dashboard() {
                     {tipo === 'Paciente' && 
                         <>
                             <h2>PACIENTE</h2>
-                            <Button variant="contained" size="large" color="success" sx={{margin: 1}} onClick={agendarConsulta}><h2>Agendar Consulta</h2></Button>
+                            <Button variant="contained" size="large" color="success" sx={{margin: 1}} onClick={() => navigate('/consulta/adicionar')}><h2>Agendar Consulta</h2></Button>
                             <Button variant="contained" size="large" color="success" sx={{margin: 1}} onClick={minhasConsultas}><h2>Minhas Consultas</h2></Button>
                         </>                    
                     }

@@ -29,6 +29,10 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
         setPaciente(result.data)
     }
 
+    function editarConsulta(){
+        navigate(`/consulta/editar/${id_consulta}`)
+    }
+
     function limitTimeForChange(){
         let dtHrConsulta = data
         let hrConsulta = dtHrConsulta.substr(11, 2)
@@ -159,14 +163,18 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
                                 </Button>
                         }
 
-                        {(status === 'Agendado') && (agora <= limitTime) ?
+                        {(status === 'Agendado') && (agora <= limitTime) && (
                             <>
-                                
+                                <Button size="small" color='primary' onClick={editarConsulta}>Editar</Button>
                                 <Button size="small" color='warning' onClick={cancelarConsulta}>Cancelar</Button>
                             </>
-                        :
-                            <Button size="small" color='success' onClick={agendarConsulta}>Agendar</Button>
-                        }
+                        )}
+
+                        {(status === 'Agendado') && (agora >= data) && (
+                            <>
+                                <Button size="small" color='primary' onClick={editarConsulta}>Acessar</Button>
+                            </>
+                        )}
                 </CardActions>
             </Box>
             

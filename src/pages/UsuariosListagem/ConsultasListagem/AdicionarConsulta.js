@@ -21,6 +21,7 @@ export default function AdicionarConsulta() {
     const [hora, setHora] = useState("")
     const [horas, setHoras] = useState([])
     const [dayOfWeek , setDayOfWeek] = useState("")
+    const [dt_hr_consulta, setDr_hr_consulta] = useState("")
 
     useEffect(() => {
       getSpecialties()
@@ -126,7 +127,8 @@ export default function AdicionarConsulta() {
 
   async function criarConsulta(e){
       e.preventDefault()
-      await api.post('/agendarconsulta', {id_medico: idMedico, id_especialidade: idEspecialidade, data, hora})
+      setDr_hr_consulta(`${data} ${hora}`)
+      await api.post('/agendarconsulta', {id_medico: idMedico, id_especialidade: idEspecialidade, data, hora, dt_hr_consulta})
       alert('Consulta criada com sucesso!')
       navigate(`/inicio`);
   }
