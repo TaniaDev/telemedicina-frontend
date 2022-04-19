@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 import api from '../../services/api'
 import Prontuario from '../Prontuario'
+import FormProntuario from '../Prontuario/FormProntuario'
 
 const style = {
     position: 'absolute',
@@ -144,9 +145,19 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style}>
-                    <Button onClick={handleCloseConsulta} color='error' >X</Button>
-                    <iframe src={`https://meet.jit.si/${url_consulta}`} frameborder="0" width="100%" height="500"></iframe>
+                <Box sx={style} style={{padding: '0px 1.5rem 1.5rem 1.5rem'}}>
+                    <Button onClick={handleCloseConsulta} color='error' style={{fontSize: '25px', fontWeight: 'bold'}}>X</Button>
+                    <div style={{display: 'flex', width: '100%'}}>
+                        <div style={{flex: 1}}>
+                            <iframe src={`https://meet.jit.si/${url_consulta}`} frameborder="0" width="100%" height="500"/>
+                        </div>
+
+                        {(typeUser === 'Medico') && (
+                            <div>
+                                <FormProntuario id_paciente={id_paciente}/>
+                            </div>
+                        )}
+                    </div>
                 </Box>
             </Modal>
 
