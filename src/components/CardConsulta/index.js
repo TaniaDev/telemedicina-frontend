@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import {Box, Card, CardActions, CardContent, CardMedia, Button, Typography, Modal } from '@mui/material'
 import { BorderColor, Delete } from '@mui/icons-material'
-import api from '../../services/api'
 import { useNavigate } from 'react-router-dom'
+
+import api from '../../services/api'
+import Prontuario from '../Prontuario'
 
 const style = {
     position: 'absolute',
@@ -27,10 +29,13 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
     const [limitTime, setLimitTime] = useState('')
     const [agora, setAgora] = useState('')
     const [formattedDate, setFormattedDate] = useState('')
-    const [open, setOpen] = useState(false);
+    const [openConsulta, setOpenConsulta] = useState(false);
+    const [openProntuario, setOpenProntuario] = useState(false);
 
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleOpenConsulta = () => setOpenConsulta(true);
+    const handleCloseConsulta = () => setOpenConsulta(false);
+    const handleOpenProntuario = () => setOpenProntuario(true);
+    const handleCloseProntuario = () => setOpenProntuario(false);
   
 
     useEffect(() => {
@@ -134,14 +139,26 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
         }}>
 
             <Modal
-                open={open}
-                onClose={handleClose}
+                open={openConsulta}
+                onClose={handleCloseConsulta}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <Button onClick={handleClose} color='error' >X</Button>
+                    <Button onClick={handleCloseConsulta} color='error' >X</Button>
                     <iframe src={`https://meet.jit.si/${url_consulta}`} frameborder="0" width="100%" height="500"></iframe>
+                </Box>
+            </Modal>
+
+            <Modal
+                open={openProntuario}
+                onClose={handleCloseProntuario}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style} style={{padding: '0px 1.5rem 1.5rem 1.5rem'}}>
+                    <Button onClick={handleCloseProntuario} color='error' style={{fontSize: '25px', fontWeight: 'bold'}}>X</Button>
+                    <Prontuario idPaciente={id_paciente}/>
                 </Box>
             </Modal>
 
@@ -195,6 +212,12 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
                                 </Button>
                         }
 
+                        {(typeUser === 'Medico') && (
+                            <Button onClick={handleOpenProntuario}>
+                                Prontuário
+                            </Button>
+                        )}
+
                         {(status === 'Agendado') && (agora <= limitTime) && (
                             <>
                                 <Button size="small" color='primary' onClick={editarConsulta}>Editar</Button>
@@ -204,7 +227,7 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
 
                         {(status === 'Agendado') && (agora >= data) && (
                             <>
-                                <Button onClick={handleOpen}>Acessa Consulta</Button>
+                                <Button onClick={handleOpenConsulta}>Acessa Consulta</Button>
                             </>
                         )}
                 </CardActions>
