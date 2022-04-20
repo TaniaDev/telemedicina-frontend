@@ -5,7 +5,9 @@ import { Navigate, Routes } from 'react-router-dom'
 import AuthProvider, { useAuthContext } from './context/AuthContext'
 
 import Cadastro from './pages/Cadastro'
+import Cadastro2 from './pages/Cadastro/Cadastro2'
 import Login from './pages/Login'
+import Login2 from './pages/Login/Login'
 import Dashboard from './pages/Dashboard'
 import Perfil from './pages/Perfil'
 import Configuracoes from './pages/Configuracoes'
@@ -40,8 +42,21 @@ export default function AppRoutes() {
         <Router>
             <AuthProvider>
                 <Routes>
-                    <Route path='/' exact element={<Login />} />
-                    <Route path='/cadastro' exact element={<Cadastro/>} />
+                    {/* Views Refatoradas */}
+                    <Route path='/login' exact element={<Login />} /> {/* View Antiga*/}
+                    <Route path='/' exact element={<Login2 />} /> 
+
+
+
+                    {/* Refatorando */}
+                    <Route path='/cadastroAntigo' exact element={<Cadastro/>} /> {/* View Antiga*/}
+                    <Route path='/cadastro' exact element={<Cadastro2/>} />
+
+
+
+
+                    
+                    
                     <Route path='/recuperar-senha' exact element={<RecoverAccount/>} />
                     <Route path='/usuario/redefinir_senha/:token' exact element={<ResetPassword/>} />
                     {/* <Route path='/login' exact element={Login} /> Mesma página que a rota raiz */}

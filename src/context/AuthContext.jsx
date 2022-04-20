@@ -41,6 +41,7 @@ export default function AuthProvider({ children }) {
             navigate('/inicio')
         } catch (err) {
             console.error("ops! ocorreu um erro" + err)
+            alert('Usuário e/ou Senha Incorreto(s)!')
         }
     }
     
