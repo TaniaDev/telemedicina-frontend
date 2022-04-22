@@ -9,6 +9,18 @@ import photoLogin from '../../img/photo-login.jpg'
 import { useAuthContext } from '../../context/AuthContext'
 import logo from '../../img/logoAzulHoriz.png'
 
+import {
+    Container,
+    Left,
+    Right,
+    Img,
+    Form,
+    Div,
+    LinkStyled,
+    DivCadastreSe,
+    DivEsqueceuASenha
+} from '../../styles/Login/Login'
+
 let Login = () => {
     const navigate = useNavigate()
     const { login } = useAuthContext()
@@ -39,15 +51,15 @@ let Login = () => {
       });
 
     return(
-        <div style={{display: 'flex', height: '100vh', width: '100vw', maxWidth: '1440px'}}>
+        <Container>
             
-            <div style={{flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
-                <img src={logo} alt="Logo" style={{width: '50%'}}/>
+            <Left>
+                <Img src={logo} alt="Logo"/>
 
                 <h1>Login</h1>
 
-                <form onSubmit={formik.handleSubmit} style={{width: '90%'}}>
-                    <div style={{marginBottom: '1rem'}}>
+                <Form onSubmit={formik.handleSubmit}>
+                    <Div>
                         <TextField 
                             fullWidth 
                             error={formik.touched.email && formik.errors.email}
@@ -63,9 +75,9 @@ let Login = () => {
                             {formik.touched.email && formik.errors.email ? (
                                 <div style={{color: 'red'}}>{formik.errors.email}</div>
                             ) : null}
-                    </div>
+                    </Div>
 
-                    <div style={{marginBottom: '1rem'}}>
+                    <Div>
                         <TextField 
                             fullWidth 
                             error={formik.touched.password && formik.errors.password}
@@ -79,8 +91,8 @@ let Login = () => {
                             value={formik.values.password}
                             InputProps={{
                                 endAdornment: (
-                                    <div onClick={toggleShowPassword} style={{cursor: 'pointer'}}>
-                                        {showPassword ? <Visibility size={20} style={{color: '#343434'}} /> : <VisibilityOff size={20}  style={{color: '#343434'}} />}
+                                    <div onClick={toggleShowPassword} style={{cursor: 'pointer', color: '#343434'}}>
+                                        {showPassword ? <Visibility size={20} /> : <VisibilityOff size={20} />}
                                     </div>  
                                 ),
                             }}
@@ -90,30 +102,29 @@ let Login = () => {
                         {formik.touched.password && formik.errors.password ? (
                             <div style={{color: 'red'}}>{formik.errors.password}</div>
                         ) : null}
-                    </div>
+                    </Div>
 
-                    <div style={{display: 'flex', marginBottom: '1rem', justifyContent: 'end', paddingRight: '1rem'}}>
-                        <Link underline="hover" onClick={() => navigate('/recuperar-senha')} style={{cursor: 'pointer'}}>Esqueceu a senha?</Link>
-                    </div>
+                    <DivEsqueceuASenha>
+                        <LinkStyled underline="hover" onClick={() => navigate('/recuperar-senha')}>Esqueceu a senha?</LinkStyled>
+                    </DivEsqueceuASenha>
 
-                    <div style={{marginBottom: '1rem'}}>
+                    <Div>
                         <Button fullWidth variant="contained" size="large" onClick={formik.handleSubmit}>
                             Login
                         </Button>
-                    </div>
+                    </Div>
 
-                </form>
+                </Form>
 
-                <div style={{display: 'flex', marginBottom: '1rem', justifyContent: 'center'}}>
-                    Você não tem uma conta? <Link underline="hover" style={{marginBottom: '1rem', marginLeft: '5px', cursor: 'pointer'}} onClick={() => navigate('/cadastro')}> Cadastre-se</Link>
-                </div>
+                <DivCadastreSe>
+                    Você não tem uma conta? <LinkStyled underline="hover" onClick={() => navigate('/cadastro')}> Cadastre-se</LinkStyled>
+                </DivCadastreSe>
                 
-            </div>
-            <div style={{flex: 1, backgroundImage: `url(${photoLogin})`, backgroundPosition: 'center', backgroundSize: 'cover'}}>
-            </div>
-        </div>
+            </Left>
+            
+            <Right/>
 
-        
+        </Container> 
     )
 }
 
