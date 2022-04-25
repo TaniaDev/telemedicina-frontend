@@ -1,6 +1,6 @@
 import {useState} from 'react'
 import { useNavigate } from 'react-router-dom'
-import {TextField, Link, Button} from '@mui/material';
+import {TextField, Link, Button, Modal, Box} from '@mui/material';
 import {Visibility, VisibilityOff } from '@mui/icons-material'
 import { useFormik } from "formik";
 import * as yup from 'yup';
@@ -8,6 +8,7 @@ import * as yup from 'yup';
 import photoLogin from '../../img/photo-login.jpg'
 import { useAuthContext } from '../../context/AuthContext'
 import logo from '../../img/logoAzulHoriz.png'
+import RecoverAccount from '../RecoverAccount'
 
 import {
     Container,
@@ -25,6 +26,10 @@ let Login = () => {
     const navigate = useNavigate()
     const { login } = useAuthContext()
     const [showPassword, setShowPassword] = useState(false)
+    const [open, setOpen] = useState(false);
+    
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     function toggleShowPassword(e){
         e.preventDefault()
@@ -52,7 +57,21 @@ let Login = () => {
 
     return(
         <Container>
-            
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box style={{position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: '#fff', boxShadow: 24, p: 4,padding: '0px 1.5rem 1.5rem 1.5rem'}}>
+                    <Button onClick={handleClose} color='error' style={{fontSize: '25px', fontWeight: 'bold'}}>X</Button>
+                    <div style={{display: 'flex', width: '100%'}}>
+                        <div style={{flex: 1}}>
+                            <RecoverAccount/>
+                        </div>
+                    </div>
+                </Box>
+            </Modal>
             <Left>
                 <Img src={logo} alt="Logo"/>
 
@@ -105,7 +124,7 @@ let Login = () => {
                     </Div>
 
                     <DivEsqueceuASenha>
-                        <LinkStyled underline="hover" onClick={() => navigate('/recuperar-senha')}>Esqueceu a senha?</LinkStyled>
+                        <LinkStyled underline="hover" onClick={handleOpen}>Esqueceu a senha?</LinkStyled>
                     </DivEsqueceuASenha>
 
                     <Div>
