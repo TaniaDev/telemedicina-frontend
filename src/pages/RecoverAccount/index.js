@@ -32,36 +32,30 @@ function RecoverAccount(){
     }
 
     return(
-        <Container>
-            <Grid container marginY={5}> 
-                <Grid item xs={4}></Grid>
-                <Grid item xs={4}>
-                    <h1>RECUPERAR CONTA</h1>
-                    <p>Insira o seu email e enviaremos um link para você redefinir a senha da sua conta.</p>
-                </Grid>
-                <Grid item xs={4}></Grid>
+        <Container style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+            <Grid item xs={12} sm={12} md={10} lg={7}>
+                <h1>RECUPERAR CONTA</h1>
+                <p>Insira o seu email e enviaremos um link para você redefinir a senha da sua conta.</p>
             </Grid>
-            <Grid container marginY={2}> 
-                <Grid item xs={4}></Grid>
-                <Grid item xs={4}>
-                    <form>
-                        <TextField
-                            type="text"
-                            fullWidth
-                            id="standard-basic"
-                            label="E-mail"
-                            variant="standard"
-                            value={email}
-                            onChange={e => setEmail(e.target.value)}
-                        />
-                        <br/><br/>
-                        <Button tpye="submit" onClick={e => esqueceuASenha(e)}>
-                            Enviar Link
-                        </Button>
-                    </form>
-                </Grid>
-                <Grid item xs={4}></Grid>
-            </Grid>  
+                
+            
+            <Grid item xs={12} sm={12} md={10} lg={7}>
+                <form>
+                    <TextField style={{marginBottom: '1rem'}}
+                        type="text"
+                        fullWidth
+                        id="standard-basic"
+                        label="E-mail"
+                        variant="standard"
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                    />
+                    <Button tpye="submit" onClick={e => esqueceuASenha(e)}>
+                        Enviar Link
+                    </Button>
+                </form>
+            </Grid>
+            
         </Container>
     )
 }
