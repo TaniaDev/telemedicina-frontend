@@ -43,13 +43,12 @@ export default function AppRoutes() {
             <AuthProvider>
                 <Routes>
                     {/* Views Refatoradas */}
-                    <Route path='/login' exact element={<Login />} /> {/* View Antiga*/}
+                    <Route path='/login' exact element={<Login />} /> {/* View Antiga */}
                     <Route path='/' exact element={<Login2 />} /> 
 
 
-
                     {/* Refatorando */}
-                    <Route path='/cadastroAntigo' exact element={<Cadastro/>} /> {/* View Antiga*/}
+                    <Route path='/cadastroAntigo' exact element={<Cadastro/>} /> {/* View Antiga */}
                     <Route path='/cadastro' exact element={<Cadastro2/>} />
 
 
