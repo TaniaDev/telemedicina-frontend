@@ -5,7 +5,6 @@ import {Visibility, VisibilityOff } from '@mui/icons-material'
 import { useFormik } from "formik";
 import * as yup from 'yup';
 
-import photoLogin from '../../img/photo-login.jpg'
 import { useAuthContext } from '../../context/AuthContext'
 import logo from '../../img/logoAzulHoriz.png'
 import RecoverAccount from '../RecoverAccount'
