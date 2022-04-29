@@ -37,6 +37,15 @@ export default function AppRoutes() {
 
         return children
     }
+    
+    const Logged = ({children}) => {
+        const { authenticated } = useAuthContext()
+
+        if(authenticated) {
+            return <Navigate to="/inicio"/>
+        }
+        return children
+    }
 
     return (
         <Router>
@@ -44,10 +53,8 @@ export default function AppRoutes() {
                 <Routes>
                     {/* Views Refatoradas */}
                     <Route path='/login' exact element={<Login />} /> {/* View Antiga */}
-                    <Route path='/' exact element={<Login2 />} /> 
+                    <Route path='/' exact element={<Logged><Login2/></Logged>}/>
 
-
-                    {/* Refatorando */}
                     <Route path='/cadastroAntigo' exact element={<Cadastro/>} /> {/* View Antiga */}
                     <Route path='/cadastro' exact element={<Cadastro2/>} />
 
