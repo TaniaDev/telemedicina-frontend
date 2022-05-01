@@ -149,7 +149,7 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
                     <Button onClick={handleCloseConsulta} color='error' style={{fontSize: '25px', fontWeight: 'bold'}}>X</Button>
                     <div style={{display: 'flex', width: '100%'}}>
                         <div style={{flex: 1}}>
-                            <iframe src={`https://meet.jit.si/${url_consulta}`} frameborder="0" width="100%" height="500"/>
+                        <iframe src={`https://meet.jit.si/${url_consulta}`} frameborder="0" width="100%" height="500" allow="microphone; camera"/>
                         </div>
 
                         {(typeUser === 'Medico') && (
