@@ -56,7 +56,7 @@ export default function AppRoutes() {
                     <Route path='/' exact element={<Logged><Login2/></Logged>}/>
 
                     <Route path='/cadastroAntigo' exact element={<Cadastro/>} /> {/* View Antiga */}
-                    <Route path='/cadastro' exact element={<Cadastro2/>} />
+                    <Route path='/cadastro' exact element={<Logged><Cadastro2/></Logged>} />
 
 
 
