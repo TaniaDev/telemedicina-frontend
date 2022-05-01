@@ -66,7 +66,7 @@ let Login = () => {
                     <Button onClick={handleClose} color='error' style={{fontSize: '25px', fontWeight: 'bold'}}>X</Button>
                     <div style={{display: 'flex', width: '100%'}}>
                         <div style={{flex: 1}}>
-                            <RecoverAccount/>
+                            <RecoverAccount handleClose={handleClose}/>
                         </div>
                     </div>
                 </Box>

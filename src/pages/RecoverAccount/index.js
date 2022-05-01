@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { Container, Button, Grid, TextField } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 
-function RecoverAccount(){
+function RecoverAccount({handleClose}){
     const navigate = useNavigate()
     const [email, setEmail] = useState('')
     
@@ -25,6 +25,7 @@ function RecoverAccount(){
             await api.post("/usuario/esqueceu_a_senha", { email })
             
             alert("O link foi enviado. Acesse o seu e-mail para redefinir a senha")
+            handleClose()
             navigate('/')
         } catch (err) {
             console.error("ops! ocorreu um erro" + err)
