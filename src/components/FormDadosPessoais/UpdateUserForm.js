@@ -9,7 +9,7 @@ import {
     Div,
 } from '../../styles/Cadastro/Cadastro'
 
-function FormDadosPessoais({toggleModal, name, gender, telephone, email}){
+function UpdateUserForm({toggleModal, name, gender, telephone, email}){
 
     const formik = useFormik({
         initialValues: {
@@ -140,4 +140,4 @@ function FormDadosPessoais({toggleModal, name, gender, telephone, email}){
     )
 }
 
-export default FormDadosPessoais
+export default UpdateUserForm

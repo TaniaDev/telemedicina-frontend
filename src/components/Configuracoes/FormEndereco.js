@@ -4,7 +4,7 @@ import api from '../../services/api'
 import { Box, InputAdornment, Button } from '@mui/material'
 import {DoubleItem, InputItem} from '../../styles/Cadastro'
 
-function FormEndereco() {
+function UpdateAddressForm() {
     const [cep, setCep] = useState("")
     const [logradouro, setLogradouro] = useState("")
     const [bairro, setBairro] = useState("")
@@ -187,4 +187,4 @@ function FormEndereco() {
     )
 }
 
-export default FormEndereco
+export default UpdateAddressForm

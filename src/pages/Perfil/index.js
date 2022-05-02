@@ -5,9 +5,9 @@ import NavBar from '../../components/NavBar'
 import BaseLayout from '../../layouts/BaseLayout'
 import api from '../../services/api'
 import { useAuthContext } from '../../context/AuthContext'
-import FormDadosPessoais from '../../components/FormDadosPessoais/FormDadosPessoais'
-import FormEndereco from '../../components/FormEndereco/FormEndereco'
-import FormPaciente from '../../components/FormPaciente/FormPaciente'
+import UpdateUserForm from '../../components/FormDadosPessoais/UpdateUserForm'
+import UpdateAddressForm from '../../components/FormEndereco/UpdateAddressForm'
+import UpdatePatientForm from '../../components/FormPaciente/UpdatePatientForm'
 
 const style = {
   position: 'absolute',
@@ -110,7 +110,7 @@ export default function Perfil() {
                   
                   <Box sx={style} style={{padding: '0px 1.5rem 1.5rem 1.5rem'}}>
                     <Button onClick={handleOpenModalUser} color='error' style={{fontSize: '25px', fontWeight: 'bold'}}>X</Button>
-                    <FormDadosPessoais 
+                    <UpdateUserForm 
                       toggleModal={handleOpenModalUser} 
                       name={user.nome} 
                       gender={user.genero} 
@@ -142,7 +142,7 @@ export default function Perfil() {
                   
                   <Box sx={style} style={{padding: '0px 1.5rem 1.5rem 1.5rem'}}>
                     <Button onClick={handleOpenModalAddress} color='error' style={{fontSize: '25px', fontWeight: 'bold'}}>X</Button>
-                    <FormEndereco
+                    <UpdateAddressForm
                       toggleModal={handleOpenModalAddress} 
                       cep={address.cep}
                       number={address.numero} 
@@ -176,7 +176,7 @@ export default function Perfil() {
                     
                     <Box sx={style} style={{padding: '0px 1.5rem 1.5rem 1.5rem'}}>
                       <Button onClick={handleOpenModalPatient} color='error' style={{fontSize: '25px', fontWeight: 'bold'}}>X</Button>
-                      <FormPaciente
+                      <UpdatePatientForm
                         toggleModal={handleOpenModalPatient} 
                         height={patient.altura}
                         weight={patient.peso}

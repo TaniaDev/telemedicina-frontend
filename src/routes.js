@@ -6,6 +6,7 @@ import AuthProvider, { useAuthContext } from './context/AuthContext'
 
 import Cadastro from './pages/Cadastro'
 import Cadastro2 from './pages/Cadastro/Cadastro2'
+import Cadastro3 from './pages/Cadastro/Cadastro3'
 import Login from './pages/Login'
 import Login2 from './pages/Login/Login'
 import Dashboard from './pages/Dashboard'
@@ -56,7 +57,8 @@ export default function AppRoutes() {
                     <Route path='/' exact element={<Logged><Login2/></Logged>}/>
 
                     <Route path='/cadastroAntigo' exact element={<Cadastro/>} /> {/* View Antiga */}
-                    <Route path='/cadastro' exact element={<Logged><Cadastro2/></Logged>} />
+                    <Route path='/cadastro1' exact element={<Logged><Cadastro2/></Logged>} />
+                    <Route path='/cadastro' exact element={<Logged><Cadastro3/></Logged>} />
 
 
 

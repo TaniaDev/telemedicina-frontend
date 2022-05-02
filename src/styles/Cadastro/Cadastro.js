@@ -34,9 +34,7 @@ export const Form = styled('form')({
 })
 
 export const BirthDate = styled('input')(({theme}) => ({
-    flex: 1,
     width: '100%',
-    marginRight: '2%',
     height: '40px', 
     color: 'rgba(0, 0, 0, 0.6)',
     border: '1px solid #C2C1BF',
@@ -44,7 +42,7 @@ export const BirthDate = styled('input')(({theme}) => ({
     paddingLeft: '14px',
     paddingRight: '10px',
     backgroundColor: '#F7F6F3',
-    fontSize: '1rem',  
+    fontSize: '16px',  
 }))
 
 export const Div = styled('div')(({theme}) => ({
