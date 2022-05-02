@@ -32,7 +32,6 @@ let Cadastro3 = () => {
             <Right>
                 <img src={logo} alt="Logo" style={{width: '50%'}}/>
                 <h1 style={{margin: '1rem'}}>Criar Conta</h1>
-                ID: {userId}
                 {userType === null && (
                     <>
                         <h2>Escolha o tipo:</h2>
