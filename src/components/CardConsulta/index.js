@@ -231,7 +231,6 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
 
                         {(status === 'Agendado') && (agora <= limitTime) && (
                             <>
-                                <Button size="small" color='primary' onClick={editarConsulta}>Editar</Button>
                                 <Button size="small" color='warning' onClick={cancelarConsulta}>Cancelar</Button>
                             </>
                         )}
