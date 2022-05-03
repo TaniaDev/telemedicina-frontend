@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import {Box, Card, CardActions, CardContent, CardMedia, Button, Typography, Modal } from '@mui/material'
 import { BorderColor, Delete } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
+import dayjs from 'dayjs'
 
 import api from '../../services/api'
 import Prontuario from '../Prontuario'
@@ -20,6 +21,8 @@ const style = {
     boxShadow: 24,
     p: 4,
 };
+
+dayjs().format()
   
 function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, status, data, url_consulta}){
     let navigate = useNavigate()
@@ -54,37 +57,17 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
         setPaciente(result.data)
     }
 
-    function editarConsulta(){
-        navigate(`/consulta/editar/${id_consulta}`)
-    }
-
     function limitTimeForChange(){
-        let dtHrConsulta = data
-        let hrConsulta = dtHrConsulta.substr(11, 2)
-        var limitTimeForChange = dtHrConsulta.replace('T'+hrConsulta, 'T'+(hrConsulta-1))
+        var limitTimeForChange = dayjs(data).subtract(1, 'hour').format('DD/MM/YYYY HH:mm:ss')
         setLimitTime(limitTimeForChange)
     }
 
     function dateNow(){
-        let date = new Date()
-        let hour = date.getHours()
-        let minute = date.getMinutes()
-        let day = String(date.getDate()).padStart(2, '0');
-        let month = String(date.getMonth() + 1).padStart(2, '0');
-        let year = date.getFullYear();
-        let dateNow = year + '-' + month + '-' + day + 'T' + hour + ':' + minute + ':' + '00.000Z'
-        setAgora(dateNow)
+        setAgora(dayjs().format('DD/MM/YYYY HH:mm:ss'))
     }
 
     function formatDateAppointment(){
-        let year = data.substr(0, 4)
-        let month = data.substr(5, 2)
-        let day = data.substr(8, 2)
-        let hour = data.substr(11, 2)
-        let minute = data.substr(14, 2)
-        let format = day + '/' + month + '/' + year + ' às ' + hour + 'H' + minute
-        setFormattedDate(format)
-        
+        setFormattedDate(dayjs(data).format('DD/MM/YYYY HH:mm:ss'))
     }
 
     async function getType(){
@@ -105,21 +88,12 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
     async function cancelarConsulta(){
         const res = window.confirm('Deseja realmente cancelar a consulta?')
         if (res) {
-            console.log(id_consulta)
             await api.put(`/consulta/cancelar/${id_consulta}`)
             alert('Consulta Cancelada!')
             window.location.reload()
         }
     }
-    async function agendarConsulta() {
-        const res = window.confirm('Deseja realmente agendar esta consulta?')
-        if (res) {
-            console.log(id_consulta)
-            await api.put(`/consulta/agendar/${id_consulta}`)
-            alert('Consulta Agendada!')
-            navigate('/consultas')
-        }
-    }
+
     async function removerConsulta(id){
         const res = window.confirm('Deseja realmente excluir?')
         if(res){
@@ -224,22 +198,24 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
                         }
 
                         {(typeUser === 'Medico') && (
-                            <Button onClick={handleOpenProntuario}>
-                                Prontuário
-                            </Button>
+                            <Button onClick={handleOpenProntuario}>Prontuário</Button>
                         )}
 
                         {(status === 'Agendado') && (agora <= limitTime) && (
-                            <>
-                                <Button size="small" color='warning' onClick={cancelarConsulta}>Cancelar</Button>
-                            </>
+                            <Button size="small" color='warning' onClick={cancelarConsulta}>Cancelar</Button>
                         )}
 
-                        {(status === 'Agendado') && (agora >= data) && (
-                            <>
-                                <Button onClick={handleOpenConsulta}>Acessa Consulta</Button>
-                            </>
-                        )}
+                        {
+                            (status === 'Agendado') 
+                        && 
+                            //Permite entrar com 10min de antecedencia
+                            (agora >= dayjs(data).subtract(10, 'minute').format('DD/MM/YYYY HH:mm:ss')) 
+                        && 
+                            //Permite entrar em até 1H após o inicio da consulta
+                            (agora <= dayjs(data).add(1, 'hour').format('DD/MM/YYYY HH:mm:ss')) 
+                        && 
+                            (<Button onClick={handleOpenConsulta}>Acessa Consulta</Button>)
+                        }
                 </CardActions>
             </Box>
             
