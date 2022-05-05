@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Typography } from '@mui/material'
+import {Button, Typography, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
 import { useNavigate } from 'react-router-dom'
 import api from '../../../services/api'
 import NavBar from '../../../components/NavBar'
 import BaseLayout from '../../../layouts/BaseLayout'
+
+import {
+  Div,
+  BirthDate,
+} from '../../../styles/Cadastro/Cadastro'
 
 export default function AdicionarConsulta() {
     let navigate = useNavigate()
@@ -141,57 +146,104 @@ export default function AdicionarConsulta() {
         <div style={{display: 'flex', flexDirection: 'column', alignContent: 'center', width: '100%'}}>
           <Typography variant='h4' align="center">Nova Consulta</Typography><br/>
               
-              <Typography>Selecione a especialidade.</Typography>
-              
-              <select name="especialidade" onChange={e => setIdEspecialidade(e.target.value)} onBlur={getDoctorsBySpecialty}>
-                <option>Selecione uma Especialidade</option>
-                {especialidades.map(specialty => (
-                  <option value={specialty.id}>{specialty.nome}</option>
-                ))}
-              </select>
-
-              <br/>
-
-              <Typography>Selecione o Medico.</Typography>
-              {data === '' ? 
-                <select name="medico" disabled>
-                  <option>Selecione um(a) médico(a)</option>
-                </select>
-              :
-                <select name="medico" onChange={(e) => setIdMedico(e.target.value)} onBlur={getSpecialtieByDoctor}>
-                  <option>Selecione um(a) médico(a)</option>
-                  {medicos.map(doctor => (
-                    <option value={doctor.id_usuario}> CRM: {doctor.crm}</option>
+            <Div style={{flex: 1, flexDirection: 'column', minWidth: '200px'}}>
+              <FormControl variant="outlined" fullWidth> 
+                <InputLabel size="small">Especialidade</InputLabel>
+                <Select
+                  size="small"
+                  labelId="specialty"
+                  id="specialty"
+                  name="specialty"
+                  label="Especialidade"
+                  onChange={e => setIdEspecialidade(e.target.value)} 
+                  onBlur={getDoctorsBySpecialty}
+                  // error={formik.touched.gender && formik.errors.gender}
+                  // onChange={formik.handleChange}
+                  // onBlur={formik.handleBlur}
+                  // value={formik.values.gender} 
+                >
+                  {especialidades.map(specialty => (
+                    <MenuItem value={specialty.id}>{specialty.nome}</MenuItem>
                   ))}
-                </select>
-              }
+                </Select>
+              </FormControl>
+            </Div>
 
-              <br/>
+            <Div style={{flex: 1, flexDirection: 'column', minWidth: '200px'}}>
+              <FormControl variant="outlined" fullWidth> 
+                
+                {data === '' ? 
+                  <>
+                    <InputLabel size="small">Médico</InputLabel>
+                    <Select name="medico" size="small" disabled></Select>
+                  </>
+                :
+                  <>
+                    <InputLabel size="small">Médico</InputLabel>
+                    <Select
+                      size="small"
+                      labelId="doctor"
+                      id="doctor"
+                      label="doctor"
+                      name="medico" 
+                      onChange={(e) => setIdMedico(e.target.value)} 
+                      onBlur={getSpecialtieByDoctor}
+                      // error={formik.touched.gender && formik.errors.gender}
+                      // onChange={formik.handleChange}
+                      // onBlur={formik.handleBlur}
+                      // value={formik.values.gender} 
+                    >
+                      {medicos.map(doctor => (
+                        <MenuItem value={doctor.id_usuario}>CRM: {doctor.crm}</MenuItem>
+                      ))}
+                    </Select>
+                  </>
+                } 
+              </FormControl>
+            </Div>
+                
+            <Div>
+                <BirthDate 
+                    type="date" 
+                    id="date" 
+                    name="birthDate"
+                    onChange={(e) => setData(e.target.value)} 
+                    min={`${ano}-${mes}-${dia}`}
+                />
+            </Div>
 
-              <Typography>Selecione a data da consulta.</Typography>
-            
-              <input id="date" type="date" onChange={(e) => setData(e.target.value)} min={`${ano}-${mes}-${dia}`} />
-            {/* {(idEspecialidade === '') || (idMedico === '')  ? 
-              <input type="date" disabled min={`${ano}-${mes}-${dia}`} />
-            :
-              <input id="date" type="date" onChange={(e) => verifyDayOfWeek(e.target.value)} min={`${ano}-${mes}-${dia}`} />
-            } */}
+            <Div>
+              <FormControl variant="outlined" fullWidth> 
+                
+              {(data === '') || (idMedico === '')  ? 
+                  <>
+                    <InputLabel size="small">Hora</InputLabel>
+                    <Select name="medico" size="small"  onChange={(e) => setHora(e.target.value)} disabled></Select>
+                  </>
+                :
+                  <>
+                    <InputLabel size="small">Hora</InputLabel>
+                    <Select
+                      size="small"
+                      labelId="hour"
+                      id="hour"
+                      label="hour"
+                      name="hora" 
+                      onChange={(e) => setHora(e.target.value)}
+                      // error={formik.touched.gender && formik.errors.gender}
+                      // onChange={formik.handleChange}
+                      // onBlur={formik.handleBlur}
+                      // value={formik.values.gender} 
+                    >
+                      {horas.map((hr) => (
+                        <MenuItem value={hr}>{hr}</MenuItem>
+                      ))}
+                    </Select>
+                  </>
+                } 
+              </FormControl>
+            </Div>
 
-            <br/>
-            {(data === '') || (idMedico === '')  ? 
-              <select onChange={(e) => setHora(e.target.value)} disabled>
-                <option>Selecione a hora da consulta</option>
-              </select>
-            :
-              <select onChange={(e) => setHora(e.target.value)}>
-                <option>Selecione a hora da consulta</option>
-                {horas.map((hr) => (
-                  <option value={hr}>{hr}</option>
-                ))}
-              </select>
-            }
-          
-            <br/>
             <div style={{display: 'flex', justifyContent: 'center'}}>
               <Button onClick={e => criarConsulta(e)}>Salvar</Button>
               <Button color='error' onClick={() => navigate(`/admin`)}>Cancelar</Button>
