@@ -137,66 +137,67 @@ export default function AdicionarConsulta() {
   return (
     <NavBar>
         <BaseLayout title='Adicionar Consulta'>
-        <Typography variant='h4'>Nova Consulta</Typography>
+
+        <div style={{display: 'flex', flexDirection: 'column', alignContent: 'center', width: '100%'}}>
+          <Typography variant='h4' align="center">Nova Consulta</Typography><br/>
+              
+              <Typography>Selecione a especialidade.</Typography>
+              
+              <select name="especialidade" onChange={e => setIdEspecialidade(e.target.value)} onBlur={getDoctorsBySpecialty}>
+                <option>Selecione uma Especialidade</option>
+                {especialidades.map(specialty => (
+                  <option value={specialty.id}>{specialty.nome}</option>
+                ))}
+              </select>
+
+              <br/>
+
+              <Typography>Selecione o Medico.</Typography>
+              {data === '' ? 
+                <select name="medico" disabled>
+                  <option>Selecione um(a) médico(a)</option>
+                </select>
+              :
+                <select name="medico" onChange={(e) => setIdMedico(e.target.value)} onBlur={getSpecialtieByDoctor}>
+                  <option>Selecione um(a) médico(a)</option>
+                  {medicos.map(doctor => (
+                    <option value={doctor.id_usuario}> CRM: {doctor.crm}</option>
+                  ))}
+                </select>
+              }
+
+              <br/>
+
+              <Typography>Selecione a data da consulta.</Typography>
             
-            <Typography>Selecione a especialidade.</Typography>
-            <br/>
-            
-            <select name="especialidade" onChange={e => setIdEspecialidade(e.target.value)} onBlur={getDoctorsBySpecialty}>
-              <option>Selecione uma Especialidade</option>
-              {especialidades.map(specialty => (
-                <option value={specialty.id}>{specialty.nome}</option>
-              ))}
-            </select>
+              <input id="date" type="date" onChange={(e) => setData(e.target.value)} min={`${ano}-${mes}-${dia}`} />
+            {/* {(idEspecialidade === '') || (idMedico === '')  ? 
+              <input type="date" disabled min={`${ano}-${mes}-${dia}`} />
+            :
+              <input id="date" type="date" onChange={(e) => verifyDayOfWeek(e.target.value)} min={`${ano}-${mes}-${dia}`} />
+            } */}
 
             <br/>
-            <br/>
-
-            <Typography>Selecione o Medico.</Typography>
-            <br/>
-            {data === '' ? 
-              <select name="medico" disabled>
-                <option>Selecione um(a) médico(a)</option>
+            {(data === '') || (idMedico === '')  ? 
+              <select onChange={(e) => setHora(e.target.value)} disabled>
+                <option>Selecione a hora da consulta</option>
               </select>
             :
-              <select name="medico" onChange={(e) => setIdMedico(e.target.value)} onBlur={getSpecialtieByDoctor}>
-                <option>Selecione um(a) médico(a)</option>
-                {medicos.map(doctor => (
-                  <option value={doctor.id_usuario}> CRM: {doctor.crm}</option>
+              <select onChange={(e) => setHora(e.target.value)}>
+                <option>Selecione a hora da consulta</option>
+                {horas.map((hr) => (
+                  <option value={hr}>{hr}</option>
                 ))}
               </select>
             }
-
-            <br/>
-            <br/>
-
-            <Typography>Selecione a data da consulta.</Typography>
           
-            <input id="date" type="date" onChange={(e) => setData(e.target.value)} min={`${ano}-${mes}-${dia}`} />
-          {/* {(idEspecialidade === '') || (idMedico === '')  ? 
-            <input type="date" disabled min={`${ano}-${mes}-${dia}`} />
-          :
-            <input id="date" type="date" onChange={(e) => verifyDayOfWeek(e.target.value)} min={`${ano}-${mes}-${dia}`} />
-          } */}
-
-          {(data === '') || (idMedico === '')  ? 
-            <select onChange={(e) => setHora(e.target.value)} disabled>
-              <option>Selecione a hora da consulta</option>
-            </select>
-          :
-            <select onChange={(e) => setHora(e.target.value)}>
-              <option>Selecione a hora da consulta</option>
-              {horas.map((hr) => (
-                <option value={hr}>{hr}</option>
-              ))}
-            </select>
-          }
-          <br/>
-          <br/>
-          <Button onClick={e => criarConsulta(e)}>Salvar</Button>
-          <Button color='error' onClick={() => navigate(`/admin`)}>Cancelar</Button>
+            <br/>
+            <div style={{display: 'flex', justifyContent: 'center'}}>
+              <Button onClick={e => criarConsulta(e)}>Salvar</Button>
+              <Button color='error' onClick={() => navigate(`/admin`)}>Cancelar</Button>
+            </div>
+          </div>
         </BaseLayout>
     </NavBar>
-
   )
 }
