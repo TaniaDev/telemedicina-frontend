@@ -21,8 +21,6 @@ const style = {
     boxShadow: 24,
     p: 4,
 };
-
-dayjs().format()
   
 function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, status, data, url_consulta}){
     let navigate = useNavigate()

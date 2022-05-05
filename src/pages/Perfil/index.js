@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react'
 import { Button, Modal, Container, Box } from '@mui/material'
+import dayjs from 'dayjs'
 
 import NavBar from '../../components/NavBar'
 import BaseLayout from '../../layouts/BaseLayout'
@@ -95,7 +96,7 @@ export default function Perfil() {
                                 {user.genero === 'O' && 'Outro'}
                                 
                   </p>
-                  <p style={{margin: '5px 0px'}}><b>Data de Nascimento:</b> {user.dt_nascimento}</p>
+                  <p style={{margin: '5px 0px'}}><b>Data de Nascimento:</b> {dayjs(user.dt_nascimento).format('DD/MM/YYYY')}</p>
                   <p style={{margin: '5px 0px'}}><b>Telefone:</b> {user.telefone}</p>
                   <p style={{margin: '5px 0px'}}><b>E-mail:</b> {user.email}</p>
                   <Button size="large" variant="contained" color='primary' style={{width: '100%'}} onClick={handleOpenModalUser}>Editar</Button>
