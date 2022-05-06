@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import {Button, Typography, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
+import { Button, Typography, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
 import { useNavigate } from 'react-router-dom'
+import dayjs from 'dayjs'
+
 import api from '../../../services/api'
 import NavBar from '../../../components/NavBar'
 import BaseLayout from '../../../layouts/BaseLayout'
@@ -13,11 +15,6 @@ import {
 export default function AdicionarConsulta() {
     let navigate = useNavigate()
 
-    let now = new Date()
-    let dia = String(now.getDate()).padStart(2, '0');
-    let mes = String(now.getMonth() + 1).padStart(2, '0');
-    let ano = now.getFullYear();
-    
     const [especialidades, setEspecialidades] = useState([])
     const [medicos, setMedicos] = useState([])
     const [idEspecialidade, setIdEspecialidade] = useState("")
@@ -34,100 +31,72 @@ export default function AdicionarConsulta() {
   },[])
 
   useEffect(() => {
-    verifyDayOfWeek(data)
     horasDisponiveisMedico(idMedico)
   }, [idMedico, data])
 
-  async function horasDisponiveisMedico(id_medico){
-    const response = await api.get(`/horasdisponiveismedico/${id_medico}/${data}`)
-
-    //Verificar se o médico atende naquele dia da semana
-      //Array com os dias da semana que o médico atende
-    let dia_da_semana = response.data.dia_semana.split(",")
-
-    let aux = response.data.horas
-    let livres = []
-
-    if(dia_da_semana.indexOf(dayOfWeek.toString()) !== -1){
-      aux.forEach(item => {
-        console.log(item)
-        livres.push(item)
-      })
-    }else{
-      // livres.push('')
-    }
-    setHoras(livres)
-    
-    //Trazer as horas daquele dia (Descontando as já agendadas)
-
-    
+  function setDataAndDayOfWeek(n){
+    setData(n)
+    setDayOfWeek(dayjs(n).day())
   }
 
-  function verifyDayOfWeek(date){    
-    let inputDate = document.querySelector('#date').value
-    let dateSplited = inputDate.split("-")
-    let dia = dateSplited[2]
-    let mes = ''
-    let ano = dateSplited[0]
+  async function horasDisponiveisMedico(id_medico){
+    if(id_medico && data){    
+      const response = await api.get(`/horasdisponiveismedico/${id_medico}/${data}`)
 
-    switch(dateSplited[1]){
-      case '01':
-          mes = 'January'
-          break
-      case '02':
-          mes = 'February'
-          break
-      case '03':
-          mes = 'March'
-          break
-      case '04':
-          mes = 'April'
-          break
-      case '05':
-          mes = 'May'
-          break
-      case '06':
-          mes = 'June'
-          break
-      case '07':
-          mes = 'July'
-          break
-      case '08':
-          mes = 'August'
-          break
-      case '09':
-          mes = 'September'
-          break
-      case '10':
-          mes = 'October'
-          break
-      case '11':
-          mes = 'November'
-          break
-      case '12':
-          mes = 'December'
-          break
+      if(response){
+        //Array com os dias da semana: ['1', '2', '3', '4', '5']
+        let dia_da_semana = response.data.dia_semana.split(",")
+
+        //Array com todas as horas do médico (ocupadas ou não)
+        let aux = response.data.horas
+        let livres = []
+
+        console.log('day of week')
+        console.log(dayOfWeek)
+
+        if(dia_da_semana.indexOf(dayOfWeek.toString()) !== -1){
+          alert("Atende")
+          aux.forEach(item => {
+            // console.log(item)
+            livres.push(item)
+          })
+        }else{
+          alert("não atende")
+          livres = []
+        }
+        setHoras(livres)
+      }
+    }else{
+      return
     }
 
-    let formatedDate = new Date(`${mes} ${dia} ${ano} 00:00:01`);
-    setDayOfWeek(parseInt(formatedDate.getDay()))
+    
   }
 
   async function getSpecialties(){
       const response = await api.get('/medico/especialidades')
       setEspecialidades(response.data)
   }
+
   async function getDoctors(){   
       const response = await api.get('/medico/getDoctors')
       setMedicos(response.data)
-  }    
+  }  
+
   async function getDoctorsBySpecialty(){  
-      const response = await api.get(`/medico/getDoctorsBySpecialty/${idEspecialidade}`)
-      setMedicos(response.data)
+      if(idEspecialidade){
+        const response = await api.get(`/medico/getDoctorsBySpecialty/${idEspecialidade}`)
+        setMedicos(response.data)
+      }
+      return
   }   
+
   async function getSpecialtieByDoctor(){
-      const response = await api.get(`/medico/getSpecialtieByDoctor/${idMedico}`)
-      setEspecialidades(response.data)
+      if(idMedico){
+        const response = await api.get(`/medico/getSpecialtieByDoctor/${idMedico}`)
+        setEspecialidades(response.data)
+      }
+      return
   }
 
   async function criarConsulta(e){
@@ -145,7 +114,8 @@ export default function AdicionarConsulta() {
 
         <div style={{display: 'flex', flexDirection: 'column', alignContent: 'center', width: '100%'}}>
           <Typography variant='h4' align="center">Nova Consulta</Typography><br/>
-              
+            Data: {data}<br/>
+            Day Of Week: {dayOfWeek}<br/>
             <Div style={{flex: 1, flexDirection: 'column', minWidth: '200px'}}>
               <FormControl variant="outlined" fullWidth> 
                 <InputLabel size="small">Especialidade</InputLabel>
@@ -163,7 +133,7 @@ export default function AdicionarConsulta() {
                   // value={formik.values.gender} 
                 >
                   {especialidades.map(specialty => (
-                    <MenuItem value={specialty.id}>{specialty.nome}</MenuItem>
+                    <MenuItem key={specialty.id} value={specialty.id}>{specialty.nome}</MenuItem>
                   ))}
                 </Select>
               </FormControl>
@@ -172,12 +142,12 @@ export default function AdicionarConsulta() {
             <Div style={{flex: 1, flexDirection: 'column', minWidth: '200px'}}>
               <FormControl variant="outlined" fullWidth> 
                 
-                {data === '' ? 
+                {/* {data === '' ? 
                   <>
                     <InputLabel size="small">Médico</InputLabel>
                     <Select name="medico" size="small" disabled></Select>
                   </>
-                :
+                : */}
                   <>
                     <InputLabel size="small">Médico</InputLabel>
                     <Select
@@ -194,11 +164,11 @@ export default function AdicionarConsulta() {
                       // value={formik.values.gender} 
                     >
                       {medicos.map(doctor => (
-                        <MenuItem value={doctor.id_usuario}>CRM: {doctor.crm}</MenuItem>
+                        <MenuItem key={doctor.id_usuario} value={doctor.id_usuario}>CRM: {doctor.crm}</MenuItem>
                       ))}
                     </Select>
                   </>
-                } 
+                {/* }  */}
               </FormControl>
             </Div>
                 
@@ -207,21 +177,21 @@ export default function AdicionarConsulta() {
                     type="date" 
                     id="date" 
                     name="birthDate"
-                    onChange={(e) => setData(e.target.value)} 
-                    min={`${ano}-${mes}-${dia}`}
+                    onChange={(e) => setDataAndDayOfWeek(e.target.value)} 
+                    min={dayjs().format('YYYY-MM-DD')}
                 />
             </Div>
 
             <Div>
               <FormControl variant="outlined" fullWidth> 
                 
-              {(data === '') || (idMedico === '')  ? 
+              {/* {(data === '') || (idMedico === '')  ? 
                   <>
                     <InputLabel size="small">Hora</InputLabel>
                     <Select name="medico" size="small"  onChange={(e) => setHora(e.target.value)} disabled></Select>
                   </>
-                :
-                  <>
+                : */}
+                  <>        
                     <InputLabel size="small">Hora</InputLabel>
                     <Select
                       size="small"
@@ -236,17 +206,17 @@ export default function AdicionarConsulta() {
                       // value={formik.values.gender} 
                     >
                       {horas.map((hr) => (
-                        <MenuItem value={hr}>{hr}</MenuItem>
+                        <MenuItem key={hr} value={hr}>{hr}</MenuItem>
                       ))}
                     </Select>
                   </>
-                } 
+                {/* }  */}
               </FormControl>
             </Div>
 
             <div style={{display: 'flex', justifyContent: 'center'}}>
               <Button onClick={e => criarConsulta(e)}>Salvar</Button>
-              <Button color='error' onClick={() => navigate(`/admin`)}>Cancelar</Button>
+              <Button color='error' onClick={() => navigate(`/inicio`)}>Cancelar</Button>
             </div>
           </div>
         </BaseLayout>
