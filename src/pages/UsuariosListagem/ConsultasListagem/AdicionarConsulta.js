@@ -44,24 +44,24 @@ export default function AdicionarConsulta() {
       const response = await api.get(`/horasdisponiveismedico/${id_medico}/${data}`)
 
       if(response){
-        //Array com os dias da semana: ['1', '2', '3', '4', '5']
         let dia_da_semana = response.data.dia_semana.split(",")
 
-        //Array com todas as horas do médico (ocupadas ou não)
         let aux = response.data.horas
         let livres = []
 
-        console.log('day of week')
-        console.log(dayOfWeek)
-
         if(dia_da_semana.indexOf(dayOfWeek.toString()) !== -1){
-          alert("Atende")
-          aux.forEach(item => {
-            // console.log(item)
-            livres.push(item)
-          })
+          if(data === dayjs().format('YYYY-MM-DD')){
+            aux.forEach(item => {
+              if(item >= dayjs().format('HH:mm:ss')){
+                livres.push(item)  
+              }
+            })
+          }else{
+            aux.forEach(item => {
+              livres.push(item)
+            })
+          } 
         }else{
-          alert("não atende")
           livres = []
         }
         setHoras(livres)
@@ -114,8 +114,6 @@ export default function AdicionarConsulta() {
 
         <div style={{display: 'flex', flexDirection: 'column', alignContent: 'center', width: '100%'}}>
           <Typography variant='h4' align="center">Nova Consulta</Typography><br/>
-            Data: {data}<br/>
-            Day Of Week: {dayOfWeek}<br/>
             <Div style={{flex: 1, flexDirection: 'column', minWidth: '200px'}}>
               <FormControl variant="outlined" fullWidth> 
                 <InputLabel size="small">Especialidade</InputLabel>
@@ -127,27 +125,20 @@ export default function AdicionarConsulta() {
                   label="Especialidade"
                   onChange={e => setIdEspecialidade(e.target.value)} 
                   onBlur={getDoctorsBySpecialty}
-                  // error={formik.touched.gender && formik.errors.gender}
-                  // onChange={formik.handleChange}
-                  // onBlur={formik.handleBlur}
-                  // value={formik.values.gender} 
                 >
-                  {especialidades.map(specialty => (
-                    <MenuItem key={specialty.id} value={specialty.id}>{specialty.nome}</MenuItem>
-                  ))}
+                  {especialidades.length > 0 ? (
+                    especialidades.map(specialty => (
+                      <MenuItem key={specialty.id} value={specialty.id}>{specialty.nome}</MenuItem>
+                    ))
+                  ): 
+                    <MenuItem disabled>Não há especialidades</MenuItem>
+                  }
                 </Select>
               </FormControl>
             </Div>
 
             <Div style={{flex: 1, flexDirection: 'column', minWidth: '200px'}}>
               <FormControl variant="outlined" fullWidth> 
-                
-                {/* {data === '' ? 
-                  <>
-                    <InputLabel size="small">Médico</InputLabel>
-                    <Select name="medico" size="small" disabled></Select>
-                  </>
-                : */}
                   <>
                     <InputLabel size="small">Médico</InputLabel>
                     <Select
@@ -158,17 +149,16 @@ export default function AdicionarConsulta() {
                       name="medico" 
                       onChange={(e) => setIdMedico(e.target.value)} 
                       onBlur={getSpecialtieByDoctor}
-                      // error={formik.touched.gender && formik.errors.gender}
-                      // onChange={formik.handleChange}
-                      // onBlur={formik.handleBlur}
-                      // value={formik.values.gender} 
                     >
-                      {medicos.map(doctor => (
-                        <MenuItem key={doctor.id_usuario} value={doctor.id_usuario}>CRM: {doctor.crm}</MenuItem>
-                      ))}
+                      {medicos.length > 0 ? (
+                        medicos.map(doctor => (
+                          <MenuItem key={doctor.id_usuario} value={doctor.id_usuario}>CRM: {doctor.crm}</MenuItem>
+                        ))
+                      ): 
+                        <MenuItem disabled>Não há Médicos</MenuItem>
+                      }
                     </Select>
                   </>
-                {/* }  */}
               </FormControl>
             </Div>
                 
@@ -184,13 +174,6 @@ export default function AdicionarConsulta() {
 
             <Div>
               <FormControl variant="outlined" fullWidth> 
-                
-              {/* {(data === '') || (idMedico === '')  ? 
-                  <>
-                    <InputLabel size="small">Hora</InputLabel>
-                    <Select name="medico" size="small"  onChange={(e) => setHora(e.target.value)} disabled></Select>
-                  </>
-                : */}
                   <>        
                     <InputLabel size="small">Hora</InputLabel>
                     <Select
@@ -200,17 +183,17 @@ export default function AdicionarConsulta() {
                       label="hour"
                       name="hora" 
                       onChange={(e) => setHora(e.target.value)}
-                      // error={formik.touched.gender && formik.errors.gender}
-                      // onChange={formik.handleChange}
-                      // onBlur={formik.handleBlur}
-                      // value={formik.values.gender} 
                     >
-                      {horas.map((hr) => (
-                        <MenuItem key={hr} value={hr}>{hr}</MenuItem>
-                      ))}
+
+                    {horas.length > 0 ? (
+                      horas.map(hr => (
+                        <MenuItem key={hr} value={hr}>{hr}</MenuItem> 
+                      ))
+                    ): 
+                      <MenuItem disabled>Não há Horários Disponiveis nessa Data</MenuItem>
+                    }
                     </Select>
                   </>
-                {/* }  */}
               </FormControl>
             </Div>
 
