@@ -68,6 +68,16 @@ function Cadastro() {
         }
     }
 
+    function checkCep(e){
+        const cepLimpo = cep.replace(/\D/g, '')
+        fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`)
+            .then(res => res.json())
+            .then(data => {
+                setCidade(data.localidade)
+                setEstado(data.uf)
+        })
+    }
+
     function passoUm(){
         document.getElementById("passoUm").hidden = false;
 
@@ -241,6 +251,7 @@ function Cadastro() {
                                         variant="filled"
                                         label="Informe seu cep"
                                         value={cep}
+                                        onBlur={checkCep}
                                         onChange={e => setCep(e.target.value)}
                                         InputProps={{
                                             startAdornment: (
