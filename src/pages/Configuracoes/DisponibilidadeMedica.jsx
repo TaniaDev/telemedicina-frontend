@@ -1,12 +1,13 @@
 import {useState, useEffect} from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { api } from '../../services/api'
 import NavBar from '../../components/NavBar'
 import BaseLayout from '../../layouts/BaseLayout'
 import styles from './DisponibilidadeMedica.module.css'
 
-
 let DisponibilidadeMedica = () => {
+    let navigate = useNavigate()
     const [diasSelecionados, setDiasSelecionados] = useState([])
     const [inicioExpediente, setInicioExpediente] = useState("")
     const [terminoExpediente, setTerminoExpediente] = useState("")
@@ -20,25 +21,50 @@ let DisponibilidadeMedica = () => {
 
     async function getDisponibilidadeMedica(){
         const result = await api.get("/getDisponibilidadeMedica")
-        setDisponibilidade(result.data)
-    }
 
-    function preencherFormulario(){
-        let aux = disponibilidade[0].dia_semana
-        let array = aux.split(',')
-     
-        array.forEach((item) => {
-            document.querySelectorAll('.checkbox')[item].checked = true
-        })
+        if(result.data.length > 0){
+            setDisponibilidade(result.data)
 
-        document.querySelector('#inicioExpediente').value = '09:00'
-        document.querySelector('#terminoExpediente').value = '18:00'
-        document.querySelector('#inicioAlmoco').value = '12:00'
-        document.querySelector('#terminoAlmoco').value = '13:00'
+            let aux = result.data[0].dia_semana
+            let array = aux.split(',')
+        
+            array.forEach((item) => {
+                document.querySelectorAll('.checkbox')[item].checked = true
+            })
+
+            setInicioExpediente(`${result.data[0].horas}:00`)
+            setTerminoExpediente(`${result.data[result.data.length - 1].horas}:00`)
+
+            let hrAnterior
+            for (let i = 0; i < result.data.length; i++) {
+                let hrMenosUm = result.data[i].horas
+                hrMenosUm = parseInt(hrMenosUm) - 1
+                if(hrMenosUm < 10){
+                    hrMenosUm = '0' + hrMenosUm
+                }
+                hrMenosUm = String(hrMenosUm)
+                if(i == 0){
+                    hrAnterior = hrMenosUm
+                }
+
+                if(hrAnterior !== hrMenosUm){
+                    setInicioAlmoco(`${hrMenosUm}:00`)
+                    setTerminoAlmoco(`${result.data[i].horas}:00`)
+
+                }
+
+                hrAnterior = result.data[i].horas
+            }
+            
+        }
     }
 
     async function enviar(e){
         e.preventDefault();
+
+        if(disponibilidade.length > 0){
+            await api.delete("/definirDisponibilidadeMedica")
+        }
 
         let dias_selecionados = diasSelecionados.toString()
         let inicio = parseInt(inicioExpediente)
@@ -48,12 +74,15 @@ let DisponibilidadeMedica = () => {
 
         for (let i = 0; i < intervalo; i++) {
             if(inicio !== inicioAlmo){
+                if(inicio < 10){
+                    inicio = '0' + inicio
+                }
                 await api.post("/definirDisponibilidadeMedica", { horas: inicio, dia_semana: dias_selecionados })
-            }else{
-                alert('almoco')
             }
             inicio++
         }
+        alert("Disponibilidade Definida com Sucesso!")
+        navigate('/inicio')
     }
 
     function verificarDiasSelecionados(){
@@ -69,13 +98,11 @@ let DisponibilidadeMedica = () => {
         setDiasSelecionados(dias_selecionados)
     }
 
-
     return(
         <NavBar>    
             <BaseLayout title='Configurações'>
                 <div className={styles.container}>
-                    <button onClick={preencherFormulario}>Preencher Form</button>
-                    <form onSubmit={enviar} onLoad={preencherFormulario}>
+                    <form onSubmit={enviar}>
                         <fieldset className={styles.filtrosDias}>
                         <legend>Dias da Semana</legend>
                                 <div className={styles.dia}>
@@ -113,7 +140,7 @@ let DisponibilidadeMedica = () => {
                             <div className={styles.expediente}>
                                 <div className={styles.leftSide}>
                                     <p>Inicio:</p>
-                                    <input type="time" id="inicioExpediente" onChange={(e) => setInicioExpediente(e.target.value)}/>
+                                    <input type="time" id="inicioExpediente" defaultValue={inicioExpediente} onChange={(e) => setInicioExpediente(e.target.value)}/>
                                 </div>
 
                                 <div className={styles.rightSide}>
@@ -121,7 +148,7 @@ let DisponibilidadeMedica = () => {
                                     {inicioExpediente === '' ? 
                                         <input type="time" id="terminoExpediente" disabled/>
                                     :
-                                        <input type="time" onChange={(e) => setTerminoExpediente(e.target.value)}/>
+                                        <input type="time" defaultValue={terminoExpediente} onChange={(e) => setTerminoExpediente(e.target.value)}/>
                                     }
                                 </div>
                             </div>
@@ -132,7 +159,7 @@ let DisponibilidadeMedica = () => {
                             <div className={styles.almoco}>
                                 <div className={styles.leftSide}>
                                     <p>Inicio:</p>
-                                    <input type="time" id="inicioAlmoco" onChange={(e) => setInicioAlmoco(e.target.value)}/>
+                                    <input type="time" id="inicioAlmoco" defaultValue={inicioAlmoco} onChange={(e) => setInicioAlmoco(e.target.value)}/>
                                 </div>
 
                                 <div className={styles.rightSide}>
@@ -140,7 +167,7 @@ let DisponibilidadeMedica = () => {
                                     {inicioAlmoco === '' ? 
                                         <input type="time" id="terminoAlmoco" disabled/>
                                     :
-                                        <input type="time" onChange={(e) => setTerminoAlmoco(e.target.value)}/>
+                                        <input type="time" defaultValue={terminoAlmoco} onChange={(e) => setTerminoAlmoco(e.target.value)}/>
                                     }
                                 </div>
                             </div>
