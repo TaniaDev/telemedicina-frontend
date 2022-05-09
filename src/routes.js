@@ -23,6 +23,7 @@ import RecoverAccount from './pages/RecoverAccount'
 import ConsultasListagem from './pages/UsuariosListagem/ConsultasListagem'
 import EditarConsulta from './pages/UsuariosListagem/ConsultasListagem/EditarConsulta'
 import AdicionarConsulta from './pages/UsuariosListagem/ConsultasListagem/AdicionarConsulta'
+import NotFoundPage from './pages/NotFoundPage'
 
 export default function AppRoutes() {
     const Private = ({children}) => {
@@ -81,6 +82,7 @@ export default function AppRoutes() {
                     <Route path='/consulta/adicionar' exact element={<Private><AdicionarConsulta/></Private>} />
                     <Route path='/usuario/consultas/:id' exact element={<Private><ConsultasListagem/></Private>} />
                     <Route path='/usuario/cadastrar' exact element={<Private><UsuariosCadastrar/></Private>} />
+                    <Route path="*" element={<Private><NotFoundPage/></Private>} />
                 </Routes>
             </AuthProvider>
         </Router>
