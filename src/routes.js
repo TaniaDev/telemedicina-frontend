@@ -24,6 +24,7 @@ import ConsultasListagem from './pages/UsuariosListagem/ConsultasListagem'
 import EditarConsulta from './pages/UsuariosListagem/ConsultasListagem/EditarConsulta'
 import AdicionarConsulta from './pages/UsuariosListagem/ConsultasListagem/AdicionarConsulta'
 import NotFoundPage from './pages/NotFoundPage'
+import Agenda from './pages/Agenda'
 
 export default function AppRoutes() {
     const Private = ({children}) => {
@@ -78,6 +79,7 @@ export default function AppRoutes() {
                     {/* <Route path='/usuario/:id' exact element={UsuariosEditar} /> Mesma página que a rota usuario/editar/:id */}
                     <Route path='/consulta/agendar' exact element={<Private><AgendarConsulta/></Private>} />
                     <Route path='/consultas' exact element={<Private><MinhasConsultas/></Private>} />
+                    <Route path='/agenda' exact element={<Private><Agenda/></Private>} />
                     <Route path='/consulta/editar/:id' exact element={<Private><EditarConsulta/></Private>} />
                     <Route path='/consulta/adicionar' exact element={<Private><AdicionarConsulta/></Private>} />
                     <Route path='/usuario/consultas/:id' exact element={<Private><ConsultasListagem/></Private>} />
