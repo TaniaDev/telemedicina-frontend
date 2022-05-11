@@ -26,7 +26,7 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
 
     async function getPaciente(){
         const result = await api.get(`/paciente/getPaciente/${id_paciente}`)
-    setPaciente(result.data)
+        setPaciente(result.data)
     }
 
     function limitTimeForChange(){
