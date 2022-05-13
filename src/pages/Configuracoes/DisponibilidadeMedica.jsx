@@ -232,7 +232,7 @@ let DisponibilidadeMedica = () => {
                             </Div>
 
                             <Div style={{width: '100%'}}>
-                                <FormControl variant="outlined" fullWidth> 
+                                <FormControl variant="outlined" fullWidth disabled={(!inicioExpediente) ? true : false}> 
                                     <>       
                                         <InputLabel size="small">Termino Expediente</InputLabel>
                                         <Select
@@ -244,7 +244,11 @@ let DisponibilidadeMedica = () => {
                                             onChange={(e) => setTerminoExpediente(e.target.value)}
                                             value={terminoExpediente}
                                         >
-                                            {horas.map(hr => (<MenuItem key={hr} value={hr}>{hr}</MenuItem>))}
+                                            {horas.map(hr => {
+                                                if(parseInt(hr) > parseInt(inicioExpediente)){
+                                                    return(<MenuItem key={hr} value={hr}>{hr}</MenuItem>)
+                                                }
+                                            })}
                                         </Select>
                                     </>
                                 </FormControl>
@@ -269,7 +273,7 @@ let DisponibilidadeMedica = () => {
                             </div> */}
 
                             <Div style={{width: '100%'}}>
-                                <FormControl variant="outlined" fullWidth> 
+                                <FormControl variant="outlined" fullWidth disabled={(!inicioExpediente && !terminoExpediente) ? true : false}> 
                                     <>        
                                         <InputLabel size="small">Inicio Almoço</InputLabel>
                                         <Select
@@ -281,14 +285,19 @@ let DisponibilidadeMedica = () => {
                                             onChange={(e) => setAlmoco(e.target.value)}
                                             value={inicioAlmoco}
                                         >
-                                            {/* <MenuItem key={inicioAlmoco} value={inicioAlmoco}>{inicioAlmoco}</MenuItem> */}
-                                            {horas.map(hr => (<MenuItem key={hr} value={hr}>{hr}</MenuItem>))}
+                                            {horas.map(hr => {
+                                                if((parseInt(hr) > parseInt(inicioExpediente)) && parseInt(hr) < parseInt(terminoExpediente)){
+                                                    return(<MenuItem key={hr} value={hr}>{hr}</MenuItem>)
+                                                }
+                                            })}   
                                         </Select>
                                     </>
                                 </FormControl>
                             </Div>
                             
                             
+                            {/* {horas.map(hr => (<h1>{hr}</h1>))}    */}
+
                             <Div style={{width: '100%'}}>
                                 <FormControl variant="outlined" fullWidth disabled> 
                                     <>       
