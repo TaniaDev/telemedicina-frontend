@@ -28,7 +28,7 @@ export default function EditarConsulta() {
   async function changeDate(){
     await api.put('/consulta/changeDate', {id_consulta: params.id, new_date: newDate})
     alert('Data da consulta atualizada com sucesso')
-    navigate(`/inicio`)
+    navigate(`/`)
   }
 
   return (

@@ -12,7 +12,7 @@ function Dashboard() {
     const [tipo, setTipo] = useState("")
 
     useEffect(() => {
-        getType()
+        //getType()
     }, [])
 
     async function getType(){

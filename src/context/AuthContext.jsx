@@ -1,5 +1,4 @@
 import { createContext, useEffect, useContext, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { api, createSession } from '../services/api'
 
 const AuthContext = createContext()
@@ -9,13 +8,14 @@ export const useAuthContext = () => {
 }
 
 export default function AuthProvider({ children }) {
-    const navigate = useNavigate()
     const [usuario, setUsuario] = useState(null)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const recoveredUsuario = localStorage.getItem('usuario')
+        console.log(recoveredUsuario)
         const token = localStorage.getItem('token')
+        console.log(token)
 
         if (recoveredUsuario && token) {
             setUsuario(JSON.parse(recoveredUsuario))
@@ -30,7 +30,9 @@ export default function AuthProvider({ children }) {
             const res = await createSession(email, senha)
 
             const usuarioLogado = res.data
+            console.log(usuarioLogado)
             const accessToken = res.data.accessToken
+            console.log(accessToken)
 
             localStorage.setItem('usuario', JSON.stringify(usuarioLogado))
             localStorage.setItem('token', accessToken)
@@ -38,7 +40,7 @@ export default function AuthProvider({ children }) {
             api.defaults.headers.Authorization = `Bearer ${accessToken}`
             
             setUsuario(usuarioLogado)
-            navigate('/inicio')
+            return 
         } catch (err) {
             console.error("ops! ocorreu um erro" + err)
         }
@@ -46,9 +48,9 @@ export default function AuthProvider({ children }) {
     
     function logout(){
         localStorage.removeItem('token')
+        localStorage.removeItem('usuario')
         api.defaults.headers.Authorization = null
         setUsuario(null)
-        navigate('/')
     }  
 
     return (

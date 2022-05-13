@@ -59,7 +59,7 @@ export default function NavBar({ children, exit }) {
                             <ListItemLink
                                 icon={<Dashboard/>}
                                 label='Página inicial'
-                                to='/inicio'                            
+                                to='/'                            
                             />
                             {tipo === 'Admin' && 
                                 <ListItemLink
