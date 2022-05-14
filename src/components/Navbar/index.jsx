@@ -29,8 +29,10 @@ import api from '../../services/api'
 import ListItemLink from './ListItemLink'
 import Logo from '../../img/logoAzul.png'
 import { useDrawerContext } from '../../context/DrawerContext'
+import { useAuthContext } from '../../context/AuthContext'
 
 export default function NavBar({ children, exit }) {
+    const { usuario } = useAuthContext()
     const theme = useTheme()
     const smDown = useMediaQuery(theme.breakpoints.down('sm'))
     const [tipo, setTipo] = useState("")
@@ -42,8 +44,7 @@ export default function NavBar({ children, exit }) {
     }, [])
 
     async function getType(){
-        const result = await api.get('/usuario/getType')
-        setTipo(result.data.tipo)
+        setTipo(usuario.result[0].tipo)
     }
     
     return (
@@ -59,7 +60,7 @@ export default function NavBar({ children, exit }) {
                             <ListItemLink
                                 icon={<Dashboard/>}
                                 label='Página inicial'
-                                to='/inicio'                            
+                                to='/'                            
                             />
                             {tipo === 'Admin' && 
                                 <ListItemLink

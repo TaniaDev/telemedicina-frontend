@@ -9,10 +9,14 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { BorderColor } from '@mui/icons-material'
 
 import api from '../../services/api'
+import { useAuthContext } from '../../context/AuthContext';
+import { useParams } from 'react-router';
 
 export default function FormDialog({idConsulta}) {
-  const [open, setOpen] = React.useState(false);
+  const { usuario } = useAuthContext()
+  const [open, setOpen] = React.useState(false)
   const [newDate, setNewDate] = React.useState("")
+  const params = useParams()
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -22,8 +26,15 @@ export default function FormDialog({idConsulta}) {
     setOpen(false);
   };
 
+  const 
+
   async function changeDate(id){
-    await api.put('/consulta/changeDate', {id_consulta: idConsulta, new_date: newDate})
+    await api.put(`/consulta/editar/${params.id_consulta}`, {
+      id_medico_admin: usuario.result[0].id,
+      id_paciente:,
+      id_especialidade:,
+      dt_hr_consulta: newDate
+    })
     alert('Data da consulta atualizada com sucesso')
   }
 

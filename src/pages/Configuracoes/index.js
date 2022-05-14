@@ -15,7 +15,7 @@ import { Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { Container } from '../../styles/Configuracoes'
 import BaseLayout from '../../layouts/BaseLayout'
-
+import { useAuthContext } from '../../context/AuthContext'
 
 const blue = {
   50: '#F0F7FF',
@@ -85,6 +85,7 @@ const TabsList = styled(TabsListUnstyled)`
 `;
 
 export default function Configuracoes() {
+  const { usuario } = useAuthContext()
   const navigate = useNavigate()
   const [tipo, setTipo] = useState("")
 
@@ -93,15 +94,14 @@ export default function Configuracoes() {
   },[])
 
   async function getType(){
-    const result = await api.get('/usuario/getType')
-    setTipo(result.data.tipo)
+    setTipo(usuario.result[0].tipo)
   }
 
   async function desativarConta() {
     const res = window.confirm('Deseja realmente excluir?')
     if (res) {
         try {
-            await api.put('/usuario/disable')
+            await api.put('/usuario/desativar')
             alert('Usuário desativado!')
             localStorage.removeItem("token")
             navigate('/');
