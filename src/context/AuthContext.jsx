@@ -13,9 +13,9 @@ export default function AuthProvider({ children }) {
 
     useEffect(() => {
         const recoveredUsuario = localStorage.getItem('usuario')
-        console.log(recoveredUsuario)
+        //console.log(recoveredUsuario)
         const token = localStorage.getItem('token')
-        console.log(token)
+        //console.log(token)
 
         if (recoveredUsuario && token) {
             setUsuario(JSON.parse(recoveredUsuario))
