@@ -5,8 +5,11 @@ import { Box, FormControl, InputAdornment, InputLabel, MenuItem, Select } from '
 import {AccountBox, Email, Lock, LocalPhone} from '@mui/icons-material'
 import api from '../../services/api'
 import {DoubleItem, InputItem} from '../../styles/Cadastro'
+import { useAuthContext } from '../../context/AuthContext'
 
 function FormUsuario() {
+    const { usuario } = useAuthContext()
+    const [id, setId] = useState('')
     const [nome, setNome] = useState("")
     const [genero, setGenero] = useState("")
     const [email, setEmail] = useState("")
@@ -14,11 +17,16 @@ function FormUsuario() {
     const [senha, setSenha] = useState("")
 
     useEffect(() => {
-        getUsuario();
+        getUsuario()
+        getIdUsuario()
     },[])
 
+    function getIdUsuario(){
+        setId(usuario.result[0].id)
+    }
+
     async function getUsuario(){
-        const result = await api.get('/usuario')
+        const result = await api.get('/usuario/obter')
         setNome(result.data.nome)
         setGenero(result.data.genero)
         setEmail(result.data.email)
@@ -47,9 +55,9 @@ function FormUsuario() {
         }
 
         if(senha){
-            await api.put('/usuario/editar', {data:{nome, genero, email, telefone, senha}})
+            await api.put('/usuario/atualizar', { nome, genero, email, telefone, senha })
         }else{
-            await api.put('/usuario/editar', {data:{nome, genero, email, telefone}})
+            await api.put('/usuario/atualizar', { nome, genero, email, telefone })
         }
         alert('Dados de usuário atualizado com sucesso!')
         window.location.reload(false)

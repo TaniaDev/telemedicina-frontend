@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react'
 import {Box, Card, CardActions, CardContent, CardMedia, Button, Typography} from '@mui/material'
 import { BorderColor, Delete } from '@mui/icons-material'
 import api from '../../services/api'
+import { useAuthContext } from '../../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 
-function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, status, data}){
+function CardConsulta({ id_consulta, id_especialidade, id_medico, id_paciente, status, data }){
     let navigate = useNavigate()
+    const { usuario } = useAuthContext()
     const [paciente, setPaciente] = useState([])
     const [medico, setMedico] = useState([])
     const [especialidade, setEspecialidade] = useState([])
@@ -25,7 +27,7 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
     }, [])
 
     async function getPaciente(){
-        const result = await api.get(`/paciente/getPaciente/${id_paciente}`)
+        const result = await api.get(`/paciente/obter/${id_paciente}`)
         setPaciente(result.data)
     }
 
@@ -59,17 +61,16 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
     }
 
     async function getType(){
-        const result = await api.get('/usuario/getType')
-        setTypeUser(result.data.tipo)
+        setTypeUser(usuario.result[0].tipo)
     }
 
     async function getDoctor(){
-        const result = await api.get(`/medico/getDoctor/${id_medico}`)
+        const result = await api.get(`/medico/obter/${id_medico}`)
         setMedico(result.data)
     }
 
     async function getSpecialtie(){
-        const result = await api.get(`/medico/getSpecialtie/${id_especialidade}`)
+        const result = await api.get(`/especialidade/obter/${id_especialidade}`)
         setEspecialidade(result.data)
     }
 
@@ -95,7 +96,7 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
         const res = window.confirm('Deseja realmente excluir?')
         if(res){
             try {
-                const result = await api.delete(`/admin/consultas/deletar/${id_consulta}`)
+                await api.delete(`/consulta/deletar/${id_consulta}`)
                 alert('Consulta excluida com sucesso!')
                 window.location.reload()
             } catch(err) {

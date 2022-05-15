@@ -23,15 +23,14 @@ function ConsultasListagem(){
 
     useEffect(() => {
         async function loadConsultas(){
-            const response = await api.get(`/admin/consultas/${params.id}`)
-            setConsultas(response.data.results)
-            console.log(response.data.results)
-            setUsuario(response.data.others)
+            const response = await api.get(`/consulta/obter/${params.id}`)
+            console.log(response)
+            setConsultas(response.data.results || [])
+            setUsuario(response.data.others || [])
             setLoading(false)
-
         }
         loadConsultas()
-    },[])
+    },[ params.id ])
 
     if (loading) {
         return <div>Carregando dados...</div>
@@ -40,8 +39,8 @@ function ConsultasListagem(){
     return (
         <>
             <NavBar>
-                <BaseLayout title={`Consultas agendadas para ${usuario[0].nome}`}>
-                    {(usuario[0].tipo === 'Medico') && 
+                <BaseLayout title={ usuario.length ? `Consultas agendadas para ${usuario[0].nome}` : ''}>
+                    {(usuario.length  && usuario[0].tipo === 'Medico') && 
                         <Box
                             display='flex'
                             alignItems='center'
@@ -72,7 +71,7 @@ function ConsultasListagem(){
                     
                     <div className="container">
                 
-                    {consultas.map(consulta => (
+                    {consultas.length && consultas.map(consulta => (
                         <CardConsulta
                             key={consulta.id}
                             id_consulta={consulta.id}
