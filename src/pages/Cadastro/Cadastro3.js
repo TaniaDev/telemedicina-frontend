@@ -7,6 +7,7 @@ import logo from '../../img/logoAzulHoriz.png'
 import CreateUserType from '../../components/FormDadosPessoais/CreateUserForm'
 import CreateAddressForm from '../../components/FormEndereco/CreateAddressForm'
 import CreatePatientForm from '../../components/FormPaciente/CreatePatientForm'
+import CreateDoctorForm from '../../components/FormMedico'
 
 import {
     Container,
@@ -32,6 +33,7 @@ let Cadastro3 = () => {
             <Right>
                 <img src={logo} alt="Logo" style={{width: '50%'}}/>
                 <h1 style={{margin: '1rem'}}>Criar Conta</h1>
+                
                 {userType === null && (
                     <>
                         <h2>Escolha o tipo:</h2>
@@ -60,7 +62,7 @@ let Cadastro3 = () => {
                     </>
                 )}
 
-                {userType === 'Paciente' && step === 1  &&(
+                {userType !== null && step === 1  &&(
                     <CreateUserType handleOnChange={handleOnChange} handleOnSetUserId={handleOnSetUserId} type={userType}/>
                 )}
 
@@ -68,16 +70,20 @@ let Cadastro3 = () => {
                     <CreateAddressForm handleOnChange={handleOnChange} userId={userId}/>
                 )}
 
-                {step === 3 && userId && (
+                {userType === 'Paciente' && step === 3 && userId && (
                     <CreatePatientForm userId={userId}/>
                 )}
 
-                {userType === 'Medico' && (
+                {userType === 'Medico' && step === 3 && userId && (
+                    <CreateDoctorForm userId={userId}/>
+                )}
+
+                {/* {userType === 'Medico' && (
                     <div style={{display: 'flex', flexDirection: 'column'}}>
                         <Alert severity="warning" style={{flex: 1, width: '45vw', minWidth: '300px', textAlign: 'center'}}>Em construção!</Alert>
                         <Button onClick={() => setUserType(null)} style={{borderRadius: '0px'}}>Voltar</Button>
                     </div>
-                )}
+                )} */}
                              
             </Right>
         </Container>
