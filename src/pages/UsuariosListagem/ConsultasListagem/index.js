@@ -11,36 +11,39 @@ import { ButtonTool, PaperStyled } from '../../../styles/UsuariosListagem'
 import NavBar from '../../../components/NavBar'
 import CardConsulta from '../../../components/CardConsulta'
 import BaseLayout from '../../../layouts/BaseLayout'
-import { configure } from '@testing-library/react'
 
 function ConsultasListagem(){
     let navigate = useNavigate()
     let params = useParams()
     const theme = useTheme()
-    const [usuario, setUsuario] = useState([])
     const [consultas, setConsultas] = useState([])
+    const [usuario, setUsuario] = useState({})
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         async function loadConsultas(){
-            const response = await api.get(`/consulta/obter/${params.id}`)
-            console.log(response)
-            setConsultas(response.data.results || [])
-            setUsuario(response.data.others || [])
+            const response = await api.get(`/consulta/obter_admin/${params.id}`)
+            setConsultas(response.data)
             setLoading(false)
         }
         loadConsultas()
-    },[ params.id ])
+        getUsuario()
+    },[params.id])
 
     if (loading) {
         return <div>Carregando dados...</div>
     }
 
+    async function getUsuario() {
+        const res = await api.get(`/usuario/obter_admin/${params.id}`)
+        setUsuario(res.data)
+    }
+
     return (
         <>
             <NavBar>
-                <BaseLayout title={ usuario.length ? `Consultas agendadas para ${usuario[0].nome}` : ''}>
-                    {(usuario.length  && usuario[0].tipo === 'Medico') && 
+                <BaseLayout title={ `Consultas agendadas para ${usuario.nome}`}>
+                    {(usuario.tipo === 'Medico') && 
                         <Box
                             display='flex'
                             alignItems='center'
@@ -71,7 +74,7 @@ function ConsultasListagem(){
                     
                     <div className="container">
                 
-                    {consultas.length && consultas.map(consulta => (
+                    {consultas.map(consulta => (
                         <CardConsulta
                             key={consulta.id}
                             id_consulta={consulta.id}

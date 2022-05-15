@@ -31,7 +31,7 @@ export default function AuthRoutes() {
                 <Route path='/consultas' exact element={<MinhasConsultas/>} />
                 <Route path='/consulta/editar/:id' exact element={<EditarConsulta/>} />
                 <Route path='/consulta/adicionar' exact element={<AdicionarConsulta/>} />
-                <Route path='/usuario/consultas/:id' exact element={<ConsultasListagem/>} />
+                <Route path='/admin/usuario/consultas/:id' exact element={<ConsultasListagem/>} />
                 <Route path='/usuario/cadastrar' exact element={<UsuariosCadastrar/>} />
             </Routes>
         </Router>

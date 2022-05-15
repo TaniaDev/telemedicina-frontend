@@ -124,7 +124,7 @@ function UsuariosListagem(){
                                                     size="small"
                                                     variant="outlined"
                                                     color="primary"
-                                                    onClick={() => navigate(`/usuario/consultas/${u.id}`)}
+                                                    onClick={() => navigate(`/admin/usuario/consultas/${u.id}`)}
                                                 >
                                                     <Event/>
                                                 </ButtonTool>
