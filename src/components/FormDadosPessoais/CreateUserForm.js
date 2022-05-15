@@ -53,15 +53,31 @@ function CreateUserForm({handleOnChange, handleOnSetUserId, type}){
     });
 
     async function create({name, birthDate, gender, telephone, email, password}){     
-        let res = await api.post("/usuario/createUser", {
-            nome: name, 
-            dt_nascimento: birthDate,
-            genero: gender, 
-            telefone: telephone, 
-            email,
-            senha: password,
-            tipo: type
-        });
+        let res
+        if(type === "Medico"){
+            alert('doctor')
+            res = await api.post("/usuario/createUser", {
+                nome: name, 
+                dt_nascimento: birthDate,
+                genero: gender, 
+                telefone: telephone, 
+                email,
+                senha: password,
+                tipo: type,
+                aguardando_validacao: 1
+            });
+        }else{
+            res = await api.post("/usuario/createUser", {
+                nome: name, 
+                dt_nascimento: birthDate,
+                genero: gender, 
+                telefone: telephone, 
+                email,
+                senha: password,
+                tipo: type
+            });
+        }
+        
         handleOnSetUserId(res.data.id)
         handleOnChange(2)
     }
