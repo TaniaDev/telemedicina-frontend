@@ -14,6 +14,7 @@ import Perfil from './pages/Perfil'
 import Configuracoes from './pages/Configuracoes'
 import DisponibilidadeMedica from './pages/Configuracoes/DisponibilidadeMedica'
 import UsuariosListagem from './pages/UsuariosListagem'
+import CheckNewDoctors from './pages/CheckNewDoctors'
 import UsuariosEditar from './pages/UsuariosListagem/UsuariosEditar'
 import UsuariosCadastrar from './pages/UsuariosListagem/UsuariosCadastrar'
 import ResetPassword from './pages/ResetPassword'
@@ -61,11 +62,6 @@ export default function AppRoutes() {
                     <Route path='/cadastroAntigo' exact element={<Cadastro/>} /> {/* View Antiga */}
                     <Route path='/cadastro1' exact element={<Logged><Cadastro2/></Logged>} />
                     <Route path='/cadastro' exact element={<Logged><Cadastro3/></Logged>} />
-
-
-
-
-                    
                     
                     <Route path='/recuperar-senha' exact element={<RecoverAccount/>} />
                     <Route path='/usuario/redefinir_senha/:token' exact element={<ResetPassword/>} />
@@ -75,6 +71,7 @@ export default function AppRoutes() {
                     <Route path='/config' exact element={<Private><Configuracoes/></Private>} />
                     <Route path='/config/disponibilidademedica' exact element={<Private><DisponibilidadeMedica/></Private>} />
                     <Route path='/admin' exact element={<Private><UsuariosListagem/></Private>} /> 
+                    <Route path='/novos_medicos' exact element={<Private><CheckNewDoctors/></Private>} /> 
                     <Route path='/usuario/editar/:id' exact element={<Private><UsuariosEditar/></Private>} /> {/* Falta resolver o problema do value={xxx} */}
                     {/* <Route path='/usuario/:id' exact element={UsuariosEditar} /> Mesma página que a rota usuario/editar/:id */}
                     <Route path='/consulta/agendar' exact element={<Private><AgendarConsulta/></Private>} />

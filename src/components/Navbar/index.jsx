@@ -23,7 +23,6 @@ import {
     MedicalServices,
     Person,
     Settings,
-    
   } from '@mui/icons-material'
 import api from '../../services/api'
 import ListItemLink from './ListItemLink'
@@ -62,11 +61,18 @@ export default function NavBar({ children, exit }) {
                                 to='/inicio'                            
                             />
                             {tipo === 'Admin' && 
-                                <ListItemLink
-                                    icon={<Group />}
-                                    label='Gerenciar Usuários'
-                                    to='/admin'                            
-                                />                 
+                                <>
+                                    <ListItemLink
+                                        icon={<Group />}
+                                        label='Gerenciar Usuários'
+                                        to='/admin'                            
+                                    />                 
+                                    <ListItemLink
+                                        icon={<MedicalServices />}
+                                        label='Novos Médicos'
+                                        to='/novos_medicos'                            
+                                    />  
+                                </>               
                             }
                             {tipo === 'Paciente' && 
                                 <>
