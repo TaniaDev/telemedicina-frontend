@@ -69,19 +69,19 @@ export default function AppRoutes() {
                     {/* <Route path='/login' exact element={Login} /> Mesma página que a rota raiz */}
                     <Route path='/inicio' exact element={<Private><Dashboard /></Private>} /> 
                     <Route path='/perfil' exact element={<Private><Perfil/></Private>} />
-                    <Route path='/config' exact element={<Private><Configuracoes/></Private>} />
+                    {/* <Route path='/config' exact element={<Private><Configuracoes/></Private>} /> */}
                     <Route path='/config/disponibilidademedica' exact element={<Private><DisponibilidadeMedica/></Private>} />
                     <Route path='/admin' exact element={<Private><UsuariosListagem/></Private>} /> 
                     <Route path='/novos_medicos' exact element={<Private><CheckNewDoctors/></Private>} /> 
                     <Route path='/usuario/editar/:id' exact element={<Private><UsuariosEditar/></Private>} /> {/* Falta resolver o problema do value={xxx} */}
                     {/* <Route path='/usuario/:id' exact element={UsuariosEditar} /> Mesma página que a rota usuario/editar/:id */}
-                    <Route path='/consulta/agendar' exact element={<Private><AgendarConsulta/></Private>} />
+                    {/* <Route path='/consulta/agendar' exact element={<Private><AgendarConsulta/></Private>} /> */}
                     <Route path='/consultas' exact element={<Private><MinhasConsultas/></Private>} />
                     <Route path='/agenda' exact element={<Private><Agenda/></Private>} />
                     <Route path='/consulta/editar/:id' exact element={<Private><EditarConsulta/></Private>} />
                     <Route path='/consulta/adicionar' exact element={<Private><AdicionarConsulta/></Private>} />
                     <Route path='/usuario/consultas/:id' exact element={<Private><ConsultasListagem/></Private>} />
-                    <Route path='/usuario/cadastrar' exact element={<Private><UsuariosCadastrar/></Private>} />
+                    {/* <Route path='/usuario/cadastrar' exact element={<Private><UsuariosCadastrar/></Private>} /> */}
                     <Route path='/historico' exact element={<Private><HistoricoConsultas/></Private>} />
                     <Route path="*" element={<Private><NotFoundPage/></Private>} />
                 </Routes>

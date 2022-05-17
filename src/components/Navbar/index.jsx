@@ -128,11 +128,11 @@ export default function NavBar({ children, exit }) {
                                 label='Perfil'
                                 to='/perfil'
                             />                             
-                            <ListItemLink
+                            {/* <ListItemLink
                                 icon={<Settings />}
                                 label='Configurações'
                                 to='/config'
-                            />
+                            /> */}
                             <ListItemLink
                                 icon={<ExitToApp />}
                                 label='Sair'
