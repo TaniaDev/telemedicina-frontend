@@ -14,13 +14,13 @@ import api from '../../services/api'
 
 const columns = [
   { id: 'especialidade', label: 'Especialidade', minWidth: 170 },
-  { id: 'medico', label: 'Médico', minWidth: 170 },
-  { id: 'status', label: 'Status Consulta', minWidth: 170 },
+  { id: 'paciente', label: 'Paciente', minWidth: 170 },
+  { id: 'status', label: 'Status', minWidth: 170 },
   { id: 'dt_hr_consulta', label: 'Data', minWidth: 170 },
 ];
 
 
-export default function StickyHeadTable() {
+export default function DoctorsAppointmentHistory() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [rows, setRows] = useState([])
@@ -39,7 +39,7 @@ export default function StickyHeadTable() {
   };
 
   async function getAppointments(){
-    const result = await api.get('/consultas/getAppointments')
+    const result = await api.get('/consultas/getDoctorAppointments')
     setRows(result.data)
   }
 
@@ -73,7 +73,7 @@ export default function StickyHeadTable() {
 
                           {(column.id === 'especialidade') && value}
 
-                          {column.id === 'medico' && value}
+                          {column.id === 'paciente' && value}
 
                           {column.id === 'status' && value}
 
