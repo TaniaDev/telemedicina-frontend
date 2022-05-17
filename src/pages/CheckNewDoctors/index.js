@@ -12,9 +12,7 @@ import {ExpandMore} from '@mui/icons-material';
 import NavBar from '../../components/NavBar'
 import BaseLayout from '../../layouts/BaseLayout'
 
-function CheckNewDoctors(){
-    let navigate = useNavigate()
-    
+function CheckNewDoctors(){    
     const [newDoctors, setNewDoctors] = useState([])
     const [specialties, setSpecialties] = useState([])
       
@@ -50,16 +48,26 @@ function CheckNewDoctors(){
             getNewDoctors()
         }
     }
+    async function reprovarCadastro(id_medico, nome, email){
+        const res = window.confirm("Deseja realmente reprovar o cadastro?")
+        if (res) {
+            await api.delete(`/medico/reprovarMedico/${id_medico}/${nome}/${email}`)
+            alert('Médico Reprovado!')
+            getNewDoctors()
+        }
+    }
 
     return (
         <>
             <NavBar>
                 <BaseLayout title='Gerenciar Usuários'>
                     <h1>NOVOS MÉDICOS</h1>
-                    <p>Aguardando Verificação do Administrador.</p>
+                    {newDoctors.length === 0 ? <p>Não Há Registros.</p> : <p>Aguardando Verificação do Administrador.</p>}
+                    
+                    
                     <div>
                         {newDoctors.map(doctor => (
-                            
+                            <>
                             <Accordion>
                                 {/* Head */}
                                 <AccordionSummary
@@ -67,7 +75,7 @@ function CheckNewDoctors(){
                                     aria-controls="panel1a-content"
                                     id="panel1a-header"
                                 >
-                                    <Typography><b>Médico:</b> {doctor.nome} - ID: {doctor.id}</Typography>
+                                    <Typography><b>Médico:</b> {doctor.nome}</Typography>
                                 </AccordionSummary>
                                 
                                 {/* Body */}
@@ -97,12 +105,13 @@ function CheckNewDoctors(){
                                     </ul>
                                    
                                 </AccordionDetails>
-                                <Button variant="contained" size="small" fullWidth onClick={() => {aprovarCadastro(doctor.id)}}>Aprovar</Button>
+                                <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around'}}>
+                                    <Button variant="contained" size="small" fullWidth onClick={() => {aprovarCadastro(doctor.id)}} style={{flex: 1, maxWidth: '45%'}}>Aprovar</Button>
+                                    <Button variant="contained" size="small" color="error" fullWidth onClick={() => {reprovarCadastro(doctor.id, doctor.nome, doctor.email)}} style={{flex: 1, maxWidth: '45%'}}>Reprovar</Button>
+                                </div>
                             </Accordion>
-                            
+                            </>  
                         ))}
-                        
-
 
                     </div>
                 </BaseLayout>
