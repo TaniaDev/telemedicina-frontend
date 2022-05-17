@@ -26,6 +26,7 @@ import EditarConsulta from './pages/UsuariosListagem/ConsultasListagem/EditarCon
 import AdicionarConsulta from './pages/UsuariosListagem/ConsultasListagem/AdicionarConsulta'
 import NotFoundPage from './pages/NotFoundPage'
 import Agenda from './pages/Agenda'
+import HistoricoConsultas from './pages/HistoricoConsultas'
 
 export default function AppRoutes() {
     const Private = ({children}) => {
@@ -81,6 +82,7 @@ export default function AppRoutes() {
                     <Route path='/consulta/adicionar' exact element={<Private><AdicionarConsulta/></Private>} />
                     <Route path='/usuario/consultas/:id' exact element={<Private><ConsultasListagem/></Private>} />
                     <Route path='/usuario/cadastrar' exact element={<Private><UsuariosCadastrar/></Private>} />
+                    <Route path='/historico' exact element={<Private><HistoricoConsultas/></Private>} />
                     <Route path="*" element={<Private><NotFoundPage/></Private>} />
                 </Routes>
             </AuthProvider>

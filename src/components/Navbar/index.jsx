@@ -23,6 +23,7 @@ import {
     MedicalServices,
     Person,
     Settings,
+    EventNote,
   } from '@mui/icons-material'
 import api from '../../services/api'
 import ListItemLink from './ListItemLink'
@@ -74,6 +75,16 @@ export default function NavBar({ children, exit }) {
                                     />  
                                 </>               
                             }
+                            <ListItemLink
+                                icon={<DateRange />}
+                                label='Agenda'
+                                to='/agenda'
+                            />  
+                            <ListItemLink
+                                icon={<EventNote />}
+                                label='Historico Consultas'
+                                to='/historico'
+                            />  
                             {tipo === 'Paciente' && 
                                 <>
                                     <ListItemLink
