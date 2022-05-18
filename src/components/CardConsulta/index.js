@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import {Box, Card, CardActions, CardContent, CardMedia, Button, Typography} from '@mui/material'
-import { BorderColor, Delete } from '@mui/icons-material'
+import {Box, Card, CardActions, CardContent, Button, Typography} from '@mui/material'
+import { BorderColor, Cancel } from '@mui/icons-material'
 import api from '../../services/api'
 import { useAuthContext } from '../../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
@@ -10,15 +10,15 @@ function CardConsulta({ id_consulta, id_especialidade, id_medico, id_paciente, s
     const { usuario } = useAuthContext()
     const [paciente, setPaciente] = useState([])
     const [medico, setMedico] = useState([])
-    const [especialidade, setEspecialidade] = useState([])
+    const [especialidade, setEspecialidade] = useState('')
     const [typeUser, setTypeUser] = useState('')
     const [limitTime, setLimitTime] = useState('')
     const [agora, setAgora] = useState('')
     const [formattedDate, setFormattedDate] = useState('')
 
     useEffect(() => {
-        getDoctor()
-        getSpecialtie()
+        getMedico()
+        getEspecialidade()
         getType()
         getPaciente()
         limitTimeForChange()
@@ -27,7 +27,7 @@ function CardConsulta({ id_consulta, id_especialidade, id_medico, id_paciente, s
     }, [])
 
     async function getPaciente(){
-        const result = await api.get(`/paciente/obter/${id_paciente}`)
+        const result = await api.get(`/paciente/obter_admin/${id_paciente}`)
         setPaciente(result.data)
     }
 
@@ -64,12 +64,12 @@ function CardConsulta({ id_consulta, id_especialidade, id_medico, id_paciente, s
         setTypeUser(usuario.result[0].tipo)
     }
 
-    async function getDoctor(){
-        const result = await api.get(`/medico/obter/${id_medico}`)
-        setMedico(result.data)
+    async function getMedico(){
+        const result = await api.get(`/medico/obter_admin/${id_medico}`)
+        setMedico(result.data.medico)
     }
 
-    async function getSpecialtie(){
+    async function getEspecialidade(){
         const result = await api.get(`/especialidade/obter/${id_especialidade}`)
         setEspecialidade(result.data)
     }
@@ -77,28 +77,30 @@ function CardConsulta({ id_consulta, id_especialidade, id_medico, id_paciente, s
     async function cancelarConsulta(){
         const res = window.confirm('Deseja realmente cancelar a consulta?')
         if (res) {
-            console.log(id_consulta)
-            await api.put(`/consulta/cancelar/${id_consulta}`)
-            alert('Consulta Cancelada!')
-            window.location.reload()
+            try {
+                console.log(usuario.result[0].id)
+                await api.put(`/consulta/cancelar/${id_consulta}`, { id_usuario_admin: usuario.result[0].id })
+                alert('Consulta Cancelada!')
+                window.location.reload()
+            } catch(err) {
+                alert("ops! ocorreu um erro" + err)
+            }
         }
     }
+
     async function agendarConsulta() {
         const res = window.confirm('Deseja realmente agendar esta consulta?')
         if (res) {
-            console.log(id_consulta)
-            await api.put(`/consulta/agendar/${id_consulta}`)
-            alert('Consulta Agendada!')
-            navigate('/consultas')
-        }
-    }
-    async function removerConsulta(id){
-        const res = window.confirm('Deseja realmente excluir?')
-        if(res){
-            try {
-                await api.delete(`/consulta/deletar/${id_consulta}`)
-                alert('Consulta excluida com sucesso!')
-                window.location.reload()
+            try{
+                console.log(id_consulta)
+                await api.put(`/consulta/agendar/${id_consulta}`, { id_usuario_admin: usuario.result[0].id })
+                alert('Consulta Agendada!')
+                
+                if (usuario.result[0].tipo === 'Admin') {
+                    window.location.reload()
+                } else {
+                    navigate('/consultas')
+                }
             } catch(err) {
                 alert("ops! ocorreu um erro" + err)
             }
@@ -119,15 +121,9 @@ function CardConsulta({ id_consulta, id_especialidade, id_medico, id_paciente, s
                 <Typography gutterBottom variant="h6" component="div" alignSelf='center'>
                     <b>Data</b>
                 </Typography>
-            {status != 'Cancelado' ? 
                     <Typography gutterBottom variant="p" component="div">
                         {formattedDate}
                     </Typography>
-                :
-                    <Typography gutterBottom variant="p" component="div">
-                        Cancelada
-                    </Typography>
-                }
             </Box>
             <CardContent>
                 <Typography gutterBottom variant="p" component="span">
@@ -149,25 +145,36 @@ function CardConsulta({ id_consulta, id_especialidade, id_medico, id_paciente, s
           
             <Box display='flex' alignItems='center' justifyContent='center'>
                 <CardActions>
-                        {((typeUser === 'Medico' || typeUser === 'Admin') && status === 'Livre') &&
+                        {(typeUser === 'Medico' || status === 'Disponível') &&
                             <Button size="small" color='secondary' onClick={() => navigate(`/consulta/editar/${id_consulta}`)}>
                                 <BorderColor/>
                             </Button>
                         }
-                        {(typeUser === 'Admin') && 
-                                <Button size="small" color='error' onClick={removerConsulta}>
-                                    <Delete/>
-                                </Button>
+
+                        {((status === 'Agendado') && (agora <= limitTime)) &&
+                            <>    
+                                <Button size="small" color='error' onClick={cancelarConsulta}>Cancelar</Button>
+                            </>
                         }
 
-                        {(status === 'Agendado') && (agora <= limitTime) ?
-                            <>
-                                
-                                <Button size="small" color='warning' onClick={cancelarConsulta}>Cancelar</Button>
+                        {(status === 'Não Realizada') &&
+                            <>    
+                                <Button size="small" disabled>Não Realizada</Button>
                             </>
-                        :
-                            <Button size="small" color='success' onClick={agendarConsulta}>Agendar</Button>
                         }
+
+                        {(status === 'Realizada') &&
+                            <>    
+                                <Button size="small" disabled>Realizada</Button>
+                            </>
+                        }
+
+                        {((status === 'Cancelado') && (agora <= limitTime)) &&
+                            <>
+                                <Button size="small" color='success' onClick={agendarConsulta}>Agendar</Button>
+                            </>
+                        }
+
                 </CardActions>
             </Box>
             
