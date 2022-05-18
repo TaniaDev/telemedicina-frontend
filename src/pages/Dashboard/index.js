@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import api from '../../services/api'
 import { useNavigate } from 'react-router-dom'
-import { Box, Button } from '@mui/material'
+import { Box, Button, Snackbar, IconButton, Alert} from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
 
 import NavBar from '../../components/NavBar'
 import BaseLayout from '../../layouts/BaseLayout'
@@ -10,10 +11,36 @@ import BaseLayout from '../../layouts/BaseLayout'
 function Dashboard() {
     const navigate = useNavigate()
     const [tipo, setTipo] = useState("")
+    const [open, setOpen] = React.useState(false);
 
     useEffect(() => {
         getType()
     }, [])
+
+    const handleClick = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
+        setOpen(false);
+    };
+
+    const action = (
+        <React.Fragment>
+          <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={handleClose}
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </React.Fragment>
+    );
 
     async function getType(){
         const result = await api.get('/usuario/getType')
@@ -43,6 +70,21 @@ function Dashboard() {
 
                 <BaseLayout title="Página Inicial">
                     <h1>TIPO DO USUARIO LOGADO: {tipo}</h1>
+                    <button onClick={(e) => alert('Clicou')}>ALERT</button>
+
+                    <div>
+                        <Button onClick={handleClick}>Open simple snackbar</Button>
+                        <Snackbar
+                            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                            open={open}
+                            autoHideDuration={6000}
+                            onClose={handleClose}
+                            style={{width: '40%'}}
+                        >
+                            <Alert variant="filled" severity="error" onClose={handleClose} sx={{ width: '100%' }}>Alert Clicou!</Alert>
+                        </Snackbar>
+                    </div>
+                    
                     <br/><hr/><br/>
 
                     <h2>USUÁRIO</h2>

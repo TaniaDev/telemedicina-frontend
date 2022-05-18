@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Typography, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
+import { Button, Typography, Select, MenuItem, InputLabel, FormControl, Snackbar, IconButton, Alert } from '@mui/material';
+import {Done, Close} from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom'
 import dayjs from 'dayjs'
 
@@ -14,6 +15,7 @@ import {
 
 export default function AdicionarConsulta() {
     let navigate = useNavigate()
+    const [open, setOpen] = useState(false);
 
     const [especialidades, setEspecialidades] = useState([])
     const [medicos, setMedicos] = useState([])
@@ -41,31 +43,35 @@ export default function AdicionarConsulta() {
 
   async function horasDisponiveisMedico(id_medico){
     if(id_medico && data){    
+      console.log(id_medico)
+      console.log(data)
       const response = await api.get(`/horasdisponiveismedico/${id_medico}/${data}`)
+      console.log(response.data)
 
-      if(response){
-        let dia_da_semana = response.data.dia_semana.split(",")
+      // if(response){
+      //   let dia_da_semana = response.data.dia_semana.split(",")
 
-        let aux = response.data.horas
-        let livres = []
+      //   let aux = response.data.horas
+      //   let livres = []
 
-        if(dia_da_semana.indexOf(dayOfWeek.toString()) !== -1){
-          if(data === dayjs().format('YYYY-MM-DD')){
-            aux.forEach(item => {
-              if(item >= dayjs().format('HH:mm:ss')){
-                livres.push(item)  
-              }
-            })
-          }else{
-            aux.forEach(item => {
-              livres.push(item)
-            })
-          } 
-        }else{
-          livres = []
-        }
-        setHoras(livres)
-      }
+      //   if(dia_da_semana.indexOf(dayOfWeek.toString()) !== -1){
+      //     if(data === dayjs().format('YYYY-MM-DD')){
+      //       aux.forEach(item => {
+      //         if(item >= dayjs().format('HH:mm:ss')){
+      //           livres.push(item)  
+      //         }
+      //       })
+      //     }else{
+      //       aux.forEach(item => {
+      //         livres.push(item)
+      //       })
+      //     } 
+      //   }else{
+      //     livres = []
+      //   }
+      //   setHoras(livres)
+      // }
+
     }else{
       return
     }
@@ -104,14 +110,49 @@ export default function AdicionarConsulta() {
       setDr_hr_consulta(`${data} ${hora}`)
       let url_consulta = `telemed${idMedico}${data}${idEspecialidade}`
       await api.post('/agendarconsulta', {id_medico: idMedico, id_especialidade: idEspecialidade, data, hora, dt_hr_consulta, url_consulta})
-      alert('Consulta criada com sucesso!')
-      navigate(`/inicio`);
+      handleClick()
+      setTimeout(() => {
+        navigate(`/inicio`);
+    }, 7000);
+      
   }
 
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+      setOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <Close fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+);
+  
   return (
     <NavBar>
         <BaseLayout title='Adicionar Consulta'>
-
+        <Snackbar
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            open={open}
+            autoHideDuration={6000}
+            onClose={handleClose}
+            style={{width: '40%'}}
+        >
+          <Alert variant="filled" severity="success" onClose={handleClose} sx={{ width: '100%' }}>Consulta Criada com Sucesso!</Alert>
+        </Snackbar>
         <div style={{display: 'flex', flexDirection: 'column', alignContent: 'center', width: '100%'}}>
           <Typography variant='h4' align="center">Nova Consulta</Typography><br/>
             <Div style={{flex: 1, flexDirection: 'column', minWidth: '200px'}}>
