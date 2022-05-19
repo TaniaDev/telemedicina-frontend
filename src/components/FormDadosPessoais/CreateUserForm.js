@@ -55,7 +55,6 @@ function CreateUserForm({handleOnChange, handleOnSetUserId, type}){
     async function create({name, birthDate, gender, telephone, email, password}){     
         let res
         if(type === "Medico"){
-            alert('doctor')
             res = await api.post("/usuario/createUser", {
                 nome: name, 
                 dt_nascimento: birthDate,

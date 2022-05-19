@@ -40,10 +40,10 @@ function CheckNewDoctors(){
         }
     }
 
-    async function aprovarCadastro(id_medico){
+    async function aprovarCadastro(id_medico, nome, email){
         const res = window.confirm("Ao clicar em 'OK' você concorda com todas as especialidades selecionadas")
         if (res) {
-            await api.put(`/medico/validar_medico/${id_medico}`)
+            await api.put(`/medico/validar_medico/${id_medico}/${nome}/${email}`)
             alert('Médico Aprovado!')
             getNewDoctors()
         }
@@ -106,7 +106,7 @@ function CheckNewDoctors(){
                                    
                                 </AccordionDetails>
                                 <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around'}}>
-                                    <Button variant="contained" size="small" fullWidth onClick={() => {aprovarCadastro(doctor.id)}} style={{flex: 1, maxWidth: '45%'}}>Aprovar</Button>
+                                    <Button variant="contained" size="small" fullWidth onClick={() => {aprovarCadastro(doctor.id, doctor.nome, doctor.email)}} style={{flex: 1, maxWidth: '45%'}}>Aprovar</Button>
                                     <Button variant="contained" size="small" color="error" fullWidth onClick={() => {reprovarCadastro(doctor.id, doctor.nome, doctor.email)}} style={{flex: 1, maxWidth: '45%'}}>Reprovar</Button>
                                 </div>
                             </Accordion>
