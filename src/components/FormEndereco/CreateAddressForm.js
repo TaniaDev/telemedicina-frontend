@@ -60,10 +60,11 @@ function FormEndereco({handleOnChange, userId}){
         })
     }
 
-    async function create({cep, number, complement, city, state}){       
+    async function create({cep, address, number, complement, city, state}){     
         await api.post("/usuario/endereco", {
             id_usuario: userId,
             cep, 
+            logradouro: address,
             numero: number,
             complemento: complement,
             cidade: city,

@@ -126,7 +126,7 @@ export default function Perfil() {
                 <Box style={{padding: '10px', maxWidth: '250px', width: '100%'}} xs={12} sm={6} md={4} >
                   <h2>Endereço:</h2> {/* Tabela endereço */}
                   
-                  <p style={{margin: '5px 0px'}}><b>Endereço:</b> Logradouro, {address.numero}</p>
+                  <p style={{margin: '5px 0px'}}><b>Endereço:</b> {address.logradouro}, {address.numero}</p>
                   <p style={{margin: '5px 0px'}}><b>Cep:</b> {address.cep}</p>
                   <p style={{margin: '5px 0px'}}><b>Complemento: </b>{!address.completo? 'editar para adicionar' : address.complemento}</p>
                   <p style={{margin: '5px 0px'}}><b>Cidade:</b> {address.cidade}</p>
