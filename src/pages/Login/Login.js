@@ -71,6 +71,7 @@ let Login = () => {
                     </div>
                 </Box>
             </Modal>
+            <Right/>
             <Left>
                 <Img src={logo} alt="Logo"/>
 
@@ -140,7 +141,7 @@ let Login = () => {
                 
             </Left>
             
-            <Right/>
+            
 
         </Container> 
     )
