@@ -39,8 +39,8 @@ let Prontuario = ({idPaciente}) => {
             {(registro) ? (
                 <Registro 
                     key={registro.id}
-                    id_paciente={registro.id_paciente} 
-                    id_medico={registro.id_medico}
+                    id_paciente={registro.paciente} 
+                    id_medico={registro.medico}
                     dt_hr_consulta={registro.dt_hr_consulta} 
                     doenca={registro.doenca} 
                     motivo_consulta={registro.motivo_consulta} 

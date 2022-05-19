@@ -1,10 +1,12 @@
+import dayjs from 'dayjs'
+
 let Registro = ({id_paciente, id_medico, dt_hr_consulta, doenca, motivo_consulta, tempo_doente, sintoma, resumo}) => {
     return(
         <div style={{display: 'flex', width: '100%', flexWrap: 'wrap'}}>
             <div style={{flex: 1}}>
                 <p><b>Paciente:</b> {id_paciente}</p> 
                 <p><b>Médico:</b> {id_medico}</p>
-                <p><b>Data Consulta:</b> {dt_hr_consulta}</p>
+                <p><b>Data Consulta:</b> {dayjs(dt_hr_consulta).format('DD/MM/YYYY HH:mm:ss')}</p>
                 <p><b>Enfermidade:</b> {doenca}</p>
             </div>
             <div style={{flex: 1}}>
