@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -9,21 +9,28 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { BorderColor } from '@mui/icons-material'
 
 import api from '../../services/api'
+import { useAuthContext } from '../../context/AuthContext'
 
-export default function FormDialog({idConsulta}) {
-  const [open, setOpen] = React.useState(false);
-  const [newDate, setNewDate] = React.useState("")
+export default function FormDialog({ idConsulta, idPaciente, idEspecialidade }) {
+  const { usuario } = useAuthContext()
+  const [open, setOpen] = useState(false)
+  const [newDate, setNewDate] = useState("")
 
   const handleClickOpen = () => {
-    setOpen(true);
-  };
+    setOpen(true)
+  }
 
   const handleClose = () => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
-  async function changeDate(id){
-    await api.put('/consulta/changeDate', {id_consulta: idConsulta, new_date: newDate})
+  async function changeAppointment(){
+    await api.put(`/consulta/editar/${idConsulta}`, {
+      id_medico_admin: usuario.result[0].id,
+      id_paciente: idPaciente,
+      id_especialidade: idEspecialidade,
+      dt_hr_consulta: newDate
+    })
     alert('Data da consulta atualizada com sucesso')
   }
 
@@ -48,7 +55,7 @@ export default function FormDialog({idConsulta}) {
 
         <DialogActions>
           <Button onClick={handleClose}>Cancelar</Button>
-          <Button onClick={changeDate}>Alterar</Button>
+          <Button onClick={changeAppointment}>Editar</Button>
         </DialogActions>
 
       </Dialog>

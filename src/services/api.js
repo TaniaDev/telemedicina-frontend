@@ -1,11 +1,11 @@
 import axios from 'axios'
 
 export const api = axios.create({
-  baseURL: "http://localhost:3333"
+  baseURL: "http://localhost:3333/api"
 })
 
 export const createSession = async (email, senha) => {
-  return await api.post('/login', { email: email, senha: senha })
+  return await api.post('/sessao/', { email: email, senha: senha })
 }
 
 /*api.interceptors.request.use(async config => {

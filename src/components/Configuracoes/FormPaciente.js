@@ -4,8 +4,11 @@ import {
 import api from '../../services/api'
 import { Box, InputAdornment, Button } from '@mui/material'
 import {DoubleItem, InputItem} from '../../styles/Cadastro'
+import { useAuthContext } from '../../context/AuthContext'
 
 function FormPaciente() {
+    const { usuario } = useAuthContext()
+    const [id, setId] = useState("")
     const [peso, setPeso] = useState("")
     const [altura, setAltura] = useState("")
     const [alergia, setAlergia] = useState("")
@@ -14,11 +17,17 @@ function FormPaciente() {
     const [medicamento, setMedicamento] = useState("")
 
     useEffect(() => {
-        getPaciente();
+        getPaciente()
+        getIdUsuario()
     }, [])
 
+    function getIdUsuario(){
+        setId(usuario.result[0].id)
+    }
+
     async function getPaciente() {
-        const result = await api.get('/paciente')
+        const result = await api.get('/paciente/obter')
+        setId(result.data.id)
         setPeso(result.data.peso)
         setAltura(result.data.altura)
         setAlergia(result.data.alergia)
@@ -39,7 +48,7 @@ function FormPaciente() {
         }
 
         alert('Usuario atualizado com sucesso!')
-        await api.put('/paciente', { peso, altura, alergia, doenca_cronica: doenca, vicio, medicamento })
+        await api.put(`/paciente/${id}`, { id_usuario_admin: id, peso, altura, alergia, doenca_cronica: doenca, vicio, medicamento })
         window.location.reload(false)
 
     }

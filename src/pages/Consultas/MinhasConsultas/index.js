@@ -5,8 +5,10 @@ import api from '../../../services/api'
 import BaseLayout from '../../../layouts/BaseLayout'
 import NavBar from '../../../components/NavBar'
 import { ButtonGroup, Button } from '@mui/material'
+import { useAuthContext } from '../../../context/AuthContext'
 
 function MinhasConsultas(){
+    const { usuario } = useAuthContext()
     const [appointments, setAppointments] = useState([])
     const [filterActived, setFilterActived] = useState("all")
 
@@ -15,7 +17,7 @@ function MinhasConsultas(){
     },[filterActived])
 
     async function getAppointments(){
-        const response = await api.get(`/consultas/getMyAppointments/${filterActived}`)
+        const response = await api.get(`/consulta/obter`)
         setAppointments(response.data)
     }
 

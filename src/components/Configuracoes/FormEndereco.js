@@ -3,8 +3,11 @@ import { LocationOn, LooksOne, Add, LocationCity, EmojiTransportation} from '@mu
 import api from '../../services/api'
 import { Box, InputAdornment, Button } from '@mui/material'
 import {DoubleItem, InputItem} from '../../styles/Cadastro'
+import { useAuthContext } from '../../context/AuthContext'
 
 function FormEndereco() {
+    const { usuario } = useAuthContext()
+    const [id, setId] = useState('')
     const [cep, setCep] = useState("")
     const [logradouro, setLogradouro] = useState("")
     const [bairro, setBairro] = useState("")
@@ -14,16 +17,21 @@ function FormEndereco() {
     const [estado, setEstado] = useState("")
 
     useEffect(() => {
-        getEndereco();
+        getEndereco()
+        getIdUsuario()
     },[])
 
     async function getEndereco(){
-        const result = await api.get('/usuario/endereco')       
+        const result = await api.get('/usuario/obter')       
         setCep(result.data.cep)
         setNumero(result.data.numero)
         setComplemento(result.data.complemento)
         setCidade(result.data.cidade)     
-        setEstado(result.data.estado)     
+        setEstado(result.data.estado)
+        setLogradouro(result.data.logradouro)
+        setBairro(result.data.bairro)
+        setCidade(result.data.cidade)
+        setEstado(result.data.estado)    
     }
 
     function checkCep(e){
@@ -36,6 +44,10 @@ function FormEndereco() {
                 setCidade(data.localidade)
                 setEstado(data.uf)
         })
+    }
+
+    function getIdUsuario(){
+        setId(usuario.result[0].id)
     }
 
     async function atualizarEndereco(){
@@ -60,7 +72,7 @@ function FormEndereco() {
         }
     
         alert('Endereço atualizado com sucesso!')
-        await api.put('/usuario/endereco', {cep, numero, complemento, cidade, estado})
+        await api.put('/usuario/atualizar/endereco', {id_usuario_admin: id, logradouro, bairro, cep, numero, complemento, cidade, estado})
         window.location.reload(false)
         
     }
@@ -90,8 +102,7 @@ function FormEndereco() {
                         style={{ width: 300 }}
                         variant="filled"
                         label="Logradouro"
-                        value={logradouro}
-                        disabled={true}
+                        value={logradouro || ''}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -106,7 +117,7 @@ function FormEndereco() {
                         style={{ width: 300 }}
                         variant="filled"
                         label="Número"
-                        value={numero}
+                        value={numero || ''}
                         onChange={e => setNumero(e.target.value)}
                         InputProps={{
                             startAdornment: (
@@ -124,8 +135,7 @@ function FormEndereco() {
                         style={{ width: 300 }}
                         variant="filled"
                         label="Bairro"
-                        value={bairro}
-                        disabled={true}
+                        value={bairro || ''}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -139,7 +149,7 @@ function FormEndereco() {
                         style={{ width: 300 }}
                         variant="filled"
                         label="Complemento"
-                        value={complemento}
+                        value={complemento || ''}
                         onChange={e => setComplemento(e.target.value)}
                         InputProps={{
                             startAdornment: (
@@ -156,8 +166,7 @@ function FormEndereco() {
                         style={{ width: 300 }}
                         variant="filled"
                         label="Cidade"
-                        value={cidade}
-                        disabled={true}
+                        value={cidade || ''}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -171,8 +180,7 @@ function FormEndereco() {
                         style={{ width: 300 }}
                         variant="filled"
                         label="Estado"
-                        value={estado}
-                        disabled={true}
+                        value={estado || ''}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">

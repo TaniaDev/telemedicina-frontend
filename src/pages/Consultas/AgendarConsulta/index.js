@@ -14,7 +14,7 @@ function AgendarConsulta(){
 
     useEffect(() => {
         async function getConsultasDisponiveis(){
-            const response = await api.get(`/consulta/getConsultasDisponiveis`)
+            const response = await api.get(`/consulta/obter`)
             setConsultas(response.data)
             console.log(response.data)
             setLoading(false)

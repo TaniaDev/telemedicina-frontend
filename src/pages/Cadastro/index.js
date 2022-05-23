@@ -49,15 +49,15 @@ function Cadastro() {
         e.preventDefault()
         const data = {nome, dt_nascimento, genero, telefone, email, senha, tipo}
 
-        if(!nome || !dt_nascimento || !genero || !telefone || !email || !senha || !tipo || !cep || !numero || !cidade || !estado || (tipo == 'Paciente' ? (!peso || !altura) : (!crm))) {
+        if (!nome || !dt_nascimento || !genero || !telefone || !email || !senha || !tipo || !cep || !numero || !cidade || !estado || (tipo == 'Paciente' ? (!peso || !altura) : (!crm))) {
             if(senha != confirmasenha){
                 alert("Senhas não correspondem.")
             }
 
             alert("Preencha todos os campos!")
-        }else {
+        } else {
             try {
-                const response = await api.post("/cadastrar", {nome, dt_nascimento, genero, telefone, email, senha, tipo, cep, numero, complemento, cidade, estado, peso, altura, alergia, doenca, vicio, medicamento, crm});
+                const response = await api.post("/usuario/cadastrar", {nome, dt_nascimento, genero, telefone, email, senha, tipo, cep, numero, complemento, cidade, estado, peso, altura, alergia, doenca, vicio, medicamento, crm});
 
                 console.log(response.data)
                 alert('Seu cadastro foi realizado!')

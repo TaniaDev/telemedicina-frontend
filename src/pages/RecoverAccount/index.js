@@ -15,14 +15,14 @@ function RecoverAccount(){
                 return
             }
 
-            let exists = await api.get(`/usuario/getUserByEmail/${email}`)
+            let exists = await api.get(`/usuario/obter/${email}`)
 
             if(exists.data == ''){
                 alert('E-mail não encontrado!')
                 return 
             }
             
-            await api.post("/usuario/esqueceu_a_senha", { email })
+            await api.post("/usuario/esqueceu_senha", { email })
             
             alert("O link foi enviado. Acesse o seu e-mail para redefinir a senha")
             navigate('/')

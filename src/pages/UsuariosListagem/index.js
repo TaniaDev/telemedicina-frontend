@@ -15,12 +15,14 @@ import {
     useTheme
 } from '@mui/material'
 import { Add, BorderColor, Delete, Event } from '@mui/icons-material'
+import { useAuthContext } from '../../context/AuthContext'
 import { ButtonBox, ButtonTool, PaperStyled } from '../../styles/UsuariosListagem'
 import NavBar from '../../components/NavBar'
 import BaseLayout from '../../layouts/BaseLayout'
 
 function UsuariosListagem(){
     let navigate = useNavigate()
+    const { usuario } = useAuthContext()
     const theme = useTheme()
     const [users, setUsers] = useState([])
     const [tipo, setTipo] = useState("")
@@ -29,7 +31,7 @@ function UsuariosListagem(){
     useEffect(() => {
         getType()
         async function loadUsers(){
-            const response = await api.get('/admin')
+            const response = await api.get('/usuario/obter/todos')
             setUsers(response.data)
             setLoading(false)
         }
@@ -37,15 +39,14 @@ function UsuariosListagem(){
     },[])
 
     async function getType(){
-        const result = await api.get('/usuario/getType')
-        setTipo(result.data.tipo)
+        setTipo(usuario.result[0].tipo)
     }
 
     async function remove(id){
         const res = window.confirm('Deseja realmente excluir?')
         if(res){
             try {
-                const result = await api.put(`/usuario/${id}`)
+                const result = await api.put(`/usuario/deletar/${id}`)
                 console.log(result.data)
                 alert('Usuário excluido com sucesso!')
                 window.location.reload()
@@ -123,7 +124,7 @@ function UsuariosListagem(){
                                                     size="small"
                                                     variant="outlined"
                                                     color="primary"
-                                                    onClick={() => navigate(`/usuario/consultas/${u.id}`)}
+                                                    onClick={() => navigate(`/admin/usuario/consultas/${u.id}`)}
                                                 >
                                                     <Event/>
                                                 </ButtonTool>
