@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button, Typography, Select, MenuItem, InputLabel, FormControl, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
+import { Button, Typography, Select, MenuItem, InputLabel, FormControl, FormGroup, FormControlLabel, Checkbox, Snackbar, IconButton, Alert } from '@mui/material';
 import { api } from '../../services/api'
 import NavBar from '../../components/NavBar'
 import BaseLayout from '../../layouts/BaseLayout'
@@ -20,6 +20,7 @@ let DisponibilidadeMedica = () => {
     const [inicioAlmoco, setInicioAlmoco] = useState("")
     const [terminoAlmoco, setTerminoAlmoco] = useState("")
     const [disponibilidade, setDisponibilidade] = useState([])
+    const [open, setOpen] = useState(false);
     const horas = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23']
     // const horas = ['00:00', '01:00', '02:00', '03:00']
 
@@ -128,9 +129,10 @@ let DisponibilidadeMedica = () => {
             }      
         })
 
-        
-        alert("Disponibilidade Definida com Sucesso!")
-        navigate('/inicio')
+        handleClick()
+        setTimeout(() => {
+            navigate('/inicio')
+        }, 3000)        
     }
 
     function verificarDiasSelecionados(){
@@ -151,8 +153,27 @@ let DisponibilidadeMedica = () => {
         setTerminoAlmoco(parseInt(hora)+1)
     }
 
+    const handleClick = () => {
+        setOpen(true);
+    };	
+    
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
+
     return(
-        <NavBar>    
+        <NavBar>  
+            <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                style={{width: '40%'}}
+            >
+                <Alert variant="filled" severity="success" onClose={handleClose} sx={{ width: '100%' }}>Disponibilidade Definida com Sucesso.</Alert>
+            </Snackbar>  
             <BaseLayout title='Configurações'>
                 {/* <div className={styles.container}> */}
                     <form onSubmit={enviar} style={{width: '100%'}}>

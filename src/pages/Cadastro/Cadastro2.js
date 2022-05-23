@@ -1,6 +1,6 @@
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 import { useNavigate } from 'react-router-dom'
-import {TextField, Button, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
+import {TextField, Button, Select, MenuItem, InputLabel, FormControl, Snackbar, IconButton, Alert } from '@mui/material';
 import {ChevronLeft, ChevronRight} from '@mui/icons-material'
 
 import { useFormik } from "formik";
@@ -22,6 +22,11 @@ import {
 
 let Cadastro2 = () => {
     const navigate = useNavigate()
+    const [open, setOpen] = useState(false);
+
+    useEffect(() => {
+        step1();
+    },[])
 
     const formik = useFormik({
         initialValues: {
@@ -145,8 +150,10 @@ let Cadastro2 = () => {
             crm
         });
 
-        alert('Cadastro Realizado')
-        navigate('/')
+        handleClick();
+        setTimeout(() => {
+            navigate('/')
+        }, 3000)
     }
 
     function step1(){
@@ -175,12 +182,27 @@ let Cadastro2 = () => {
         }
     }
 
-    useEffect(() => {
-        step1();
-    },[])
+    const handleClick = () => {
+        setOpen(true);
+    };	
+    
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
 
     return(
         <Container>
+            <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                style={{width: '40%'}}
+            >
+                <Alert variant="filled" severity="success" onClose={handleClose} sx={{ width: '100%' }}>Cadastro Realizado.</Alert>
+            </Snackbar>
             <Left>
                 <Button fullWidth variant="contained" size="large" onClick={() => navigate('/')} style={{borderRadius: '0px'}}><ChevronLeft fontSize="large" /> Voltar</Button>
             </Left>

@@ -7,6 +7,9 @@ import {
     AccordionDetails,
     Typography,
     Button,
+    Snackbar, 
+    IconButton, 
+    Alert
 } from '@mui/material'
 import {ExpandMore} from '@mui/icons-material';
 import NavBar from '../../components/NavBar'
@@ -15,7 +18,10 @@ import BaseLayout from '../../layouts/BaseLayout'
 function CheckNewDoctors(){    
     const [newDoctors, setNewDoctors] = useState([])
     const [specialties, setSpecialties] = useState([])
-      
+    const [open, setOpen] = useState(false);
+    const [open1, setOpen1] = useState(false);
+    const [open2, setOpen2] = useState(false);
+
     useEffect(() => {
         getNewDoctors()
         getAllSpecialities()
@@ -35,7 +41,7 @@ function CheckNewDoctors(){
         const res = window.confirm('Deseja Realmente Remover Essa Especialidade?')
         if (res) {
             await api.delete(`/medico/medico_especialidade/${id_medico}/${id_especialidade}`)
-            alert('Especialidade Removida!')
+            handleClick()
             getAllSpecialities()
         }
     }
@@ -44,7 +50,7 @@ function CheckNewDoctors(){
         const res = window.confirm("Ao clicar em 'OK' você concorda com todas as especialidades selecionadas")
         if (res) {
             await api.put(`/medico/validar_medico/${id_medico}/${nome}/${email}`)
-            alert('Médico Aprovado!')
+            handleClick1()
             getNewDoctors()
         }
     }
@@ -52,13 +58,76 @@ function CheckNewDoctors(){
         const res = window.confirm("Deseja realmente reprovar o cadastro?")
         if (res) {
             await api.delete(`/medico/reprovarMedico/${id_medico}/${nome}/${email}`)
-            alert('Médico Reprovado!')
+            handleClick2()
             getNewDoctors()
         }
     }
 
+    const handleClick = () => {
+        setOpen(true);
+    };	
+    
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
+
+    
+    const handleClick1 = () => {
+        setOpen1(true);
+    };	
+    
+    const handleClose1 = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen1(false);
+    };
+
+    const handleClick2 = () => {
+        setOpen2(true);
+    };	
+    
+    const handleClose2 = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen2(false);
+    };
+
+
+
     return (
         <>
+        <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            open={open}
+            autoHideDuration={6000}
+            onClose={handleClose}
+            style={{width: '40%'}}
+        >
+            <Alert variant="filled" severity="success" onClose={handleClose} sx={{ width: '100%' }}>Especialidade Removida.</Alert>
+        </Snackbar>
+
+        <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            open={open1}
+            autoHideDuration={6000}
+            onClose={handleClose1}
+            style={{width: '40%'}}
+        >
+            <Alert variant="filled" severity="success" onClose={handleClose1} sx={{ width: '100%' }}>Médico Aprovado.</Alert>
+        </Snackbar>
+
+        <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            open={open2}
+            autoHideDuration={6000}
+            onClose={handleClose2}
+            style={{width: '40%'}}
+        >
+            <Alert variant="filled" severity="error" onClose={handleClose2} sx={{ width: '100%' }}>Médico Reprovado.</Alert>
+        </Snackbar>
+
             <NavBar>
                 <BaseLayout title='Gerenciar Usuários'>
                     <h1>NOVOS MÉDICOS</h1>

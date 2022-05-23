@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AccountBox, ArrowBack, Email, Lock } from '@mui/icons-material'
-import { Box, Button, FormControl, InputAdornment, InputLabel, Paper, NativeSelect, TextField } from '@mui/material'
+import { Box, Button, FormControl, InputAdornment, InputLabel, Paper, NativeSelect, TextField, Snackbar, IconButton, Alert } from '@mui/material'
 import api from '../../services/api'
 import { Link } from 'react-router-dom'
 import { makeStyles } from '@mui/styles'
@@ -37,6 +37,8 @@ function UsuariosEditar() {
     const [senha, setSenha] = useState("")
     const [confirmasenha, setConfirmaSenha] = useState("")
     const { id } = useParams()
+    const [open, setOpen] = useState(false);
+    const [open1, setOpen1] = useState(false);
 
     useEffect(() => {
       async function getUsuario() {
@@ -56,19 +58,17 @@ function UsuariosEditar() {
           if(nome !== '' && dt_nascimento !== '' && genero !== '' && email !== '' && senha !== ''){
               console.log('1')
             if(!senha) {
-              alert("Por favor, digite a senha para confirmar a alteração.")
-            } 
-            // else if (confirmasenha !== senha) {
-            //   alert("Senhas não correspondem.")
-            // }
-            else {
+              handleClick1()
+            }else {
                 console.log('3')
               try {
                 console.log('4')
                 const response = await api.put(`/usuario/editar/${id}`, {data});
                 console.log(response.data)
-                alert('Alteração realizada!')
-                navigate('/admin');
+                handleClick()
+                setTimeout(() => {
+                    navigate('/admin');
+                }, 3000)
             } catch (err) {
                 console.error("ops! ocorreu um erro" + err);
             }
@@ -76,8 +76,48 @@ function UsuariosEditar() {
         }
     }
 
+    const handleClick = () => {
+        setOpen(true);
+    };	
+    
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
+
+    const handleClick1 = () => {
+        setOpen1(true);
+    };	
+    
+    const handleClose1 = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen1(false);
+    };
+
     return (
       <>
+        <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            open={open}
+            autoHideDuration={6000}
+            onClose={handleClose}
+            style={{width: '40%'}}
+        >
+            <Alert variant="filled" severity="success" onClose={handleClose} sx={{ width: '100%' }}>Alteração realizada.</Alert>
+        </Snackbar>
+
+        <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            open={open1}
+            autoHideDuration={6000}
+            onClose={handleClose1}
+            style={{width: '40%'}}
+        >
+            <Alert variant="filled" severity="warning" onClose={handleClose1} sx={{ width: '100%' }}>Por favor, digite a senha para confirmar a alteração.</Alert>
+        </Snackbar>
+
                 <Link to="/admin">
                     <Button type="link" className={classes.buttonBack}>
                         <ArrowBack/>

@@ -74,7 +74,7 @@ export default function Perfil() {
             await api.put('/usuario/disable')
             logout()
         } catch (err) {
-            alert("ops! ocorreu um erro" + err)
+            console.log("ops! ocorreu um erro" + err)
         }
     }
   }

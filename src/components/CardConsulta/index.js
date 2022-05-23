@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {Box, Card, CardActions, CardContent, CardMedia, Button, Typography, Modal } from '@mui/material'
+import {Box, Card, CardActions, CardContent, CardMedia, Button, Typography, Modal, Snackbar, IconButton, Alert } from '@mui/material'
 import { BorderColor, Delete } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
 import dayjs from 'dayjs'
@@ -33,6 +33,8 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
     const [formattedDate, setFormattedDate] = useState('')
     const [openConsulta, setOpenConsulta] = useState(false);
     const [openProntuario, setOpenProntuario] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [open1, setOpen1] = useState(false);
 
     const handleOpenConsulta = () => setOpenConsulta(true);
     const handleCloseConsulta = () => setOpenConsulta(false);
@@ -87,8 +89,10 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
         const res = window.confirm('Deseja realmente cancelar a consulta?')
         if (res) {
             await api.put(`/consulta/cancelar/${id_consulta}`)
-            alert('Consulta Cancelada!')
-            window.location.reload()
+            handleClick()
+            setTimeout(() => {
+                window.location.reload()
+            }, 3000)
         }
     }
 
@@ -97,20 +101,59 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
         if(res){
             try {
                 const result = await api.delete(`/admin/consultas/deletar/${id_consulta}`)
-                alert('Consulta excluida com sucesso!')
+                handleClick1()
                 window.location.reload()
             } catch(err) {
-                alert("ops! ocorreu um erro" + err)
+                console.log("ops! ocorreu um erro" + err)
             }
         }
     }
-    
+
+    const handleClick = () => {
+        setOpen(true);
+    };
+
+    const handleClick1 = () => {
+        setOpen1(true);
+    };	
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
+
+    const handleClose1 = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen1(false);
+    };
+
     return(
         <Card sx={{ 
             maxWidth: 300,
             margin: 3,
         }}>
-
+            <Snackbar
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                style={{width: '40%'}}
+            >
+                <Alert variant="filled" severity="success" onClose={handleClose1} sx={{ width: '100%' }}>Consulta Cancelada.</Alert>
+            </Snackbar>
+            <Snackbar
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={open1}
+                autoHideDuration={6000}
+                onClose={handleClose1}
+                style={{width: '40%'}}
+            >
+                <Alert variant="filled" severity="success" onClose={handleClose1} sx={{ width: '100%' }}>Consulta excluida com sucesso.</Alert>
+            </Snackbar>
             <Modal
                 open={openConsulta}
                 onClose={handleCloseConsulta}

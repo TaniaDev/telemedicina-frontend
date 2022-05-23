@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { LocationOn, LooksOne, Add, LocationCity, EmojiTransportation} from '@mui/icons-material'
 import api from '../../services/api'
-import { Box, InputAdornment, Button } from '@mui/material'
+import { Box, InputAdornment, Button, Snackbar, IconButton, Alert } from '@mui/material'
 import {DoubleItem, InputItem} from '../../styles/Cadastro'
 
 function UpdateAddressForm() {
@@ -12,6 +12,11 @@ function UpdateAddressForm() {
     const [complemento, setComplemento] = useState("")
     const [cidade, setCidade] = useState("")
     const [estado, setEstado] = useState("")
+    const [open, setOpen] = useState(false);
+    const [open1, setOpen1] = useState(false);
+    const [open2, setOpen2] = useState(false);
+    const [open3, setOpen3] = useState(false);
+    const [open4, setOpen4] = useState(false);
 
     useEffect(() => {
         getEndereco();
@@ -40,33 +45,130 @@ function UpdateAddressForm() {
 
     async function atualizarEndereco(){
         if(!cep){
-            alert('Cep é obrigatório!')
+            handleClick()
             return
         }
 
         if(!numero){
-            alert('Número é obrigatório!')
+            handleClick1()
             return
         }
 
         if(!cidade){
-            alert('Cidade é obrigatório!')
+            handleClick2()
             return
         }
 
         if(!estado){
-            alert('Estado é obrigatório!')
+            handleClick3()
             return
         }
     
-        alert('Endereço atualizado com sucesso!')
+        handleClick4()
         await api.put('/usuario/endereco', {cep, numero, complemento, cidade, estado})
-        window.location.reload(false)
+        setTimeout(() => {
+            window.location.reload(false)
+        }, 3000)
         
     }
 
+    const handleClick = () => {
+        setOpen(true);
+    };	
+    
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
+
+    const handleClick1 = () => {
+        setOpen1(true);
+    };	
+    
+    const handleClose1 = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen1(false);
+    };
+
+    const handleClick2 = () => {
+        setOpen2(true);
+    };	
+    
+    const handleClose2 = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen2(false);
+    };
+
+    const handleClick3 = () => {
+        setOpen3(true);
+    };	
+    
+    const handleClose3 = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen3(false);
+    };
+
+    const handleClick4 = () => {
+        setOpen4(true);
+    };	
+    
+    const handleClose4 = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen4(false);
+    };
+
     return (
         <>
+            <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                style={{width: '40%'}}
+            >
+                <Alert variant="filled" severity="success" onClose={handleClose} sx={{ width: '100%' }}>Cep é obrigatório.</Alert>
+            </Snackbar>
+            <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={open1}
+                autoHideDuration={6000}
+                onClose={handleClose1}
+                style={{width: '40%'}}
+            >
+                <Alert variant="filled" severity="success" onClose={handleClose1} sx={{ width: '100%' }}>Número é obrigatório.</Alert>
+            </Snackbar>
+            <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={open2}
+                autoHideDuration={6000}
+                onClose={handleClose2}
+                style={{width: '40%'}}
+            >
+                <Alert variant="filled" severity="success" onClose={handleClose2} sx={{ width: '100%' }}>Cidade é obrigatório.</Alert>
+            </Snackbar>
+            <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={open3}
+                autoHideDuration={6000}
+                onClose={handleClose3}
+                style={{width: '40%'}}
+            >
+                <Alert variant="filled" severity="success" onClose={handleClose3} sx={{ width: '100%' }}>Estado é obrigatório.</Alert>
+            </Snackbar>
+            <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={open4}
+                autoHideDuration={6000}
+                onClose={handleClose4}
+                style={{width: '40%'}}
+            >
+                <Alert variant="filled" severity="success" onClose={handleClose4} sx={{ width: '100%' }}>Endereço Atualizado.</Alert>
+            </Snackbar>
             <Box>
                 <InputItem
                     style={{ width: 300 }}

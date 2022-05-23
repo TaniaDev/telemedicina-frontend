@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import {TextField, Button, Autocomplete } from '@mui/material';
+import {TextField, Button, Autocomplete, Snackbar, IconButton, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom'
 
 import api from '../../services/api'
@@ -10,6 +10,7 @@ function FormMedico({userId}){
     const [specialties, setSpecialties] = useState([])
     const [crm, setCrm] = useState("")
     const [selectedSpecialties, setSelectedSpecialties] = useState([])
+    const [open, setOpen] = useState(false);
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -65,55 +66,78 @@ function FormMedico({userId}){
             await api.post("/medico/createDoctorSpecialty", {id_medico: userId, id_especialidade: specialty})
         })
 
-        alert('Cadastro Concluido!')
-        navigate('/')
+        handleClick();
+        setTimeout(() => {
+            navigate('/')
+        }, 3000)
     }
 
+    const handleClick = () => {
+        setOpen(true);
+    };	
+    
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
+
     return(
-        <Form xs={12}>
-            <h3 style={{margin: 0, marginBottom: '1rem'}}>Dados do Médico</h3>
-                <Div style={{flex: 1, minWidth: '200px', flexDirection: 'column'}}>
-                    <TextField  
-                        fullWidth
-                        size="small"
-                        id="crm"
-                        name="crm"
-                        type="text"
-                        label="CRM" 
-                        variant="outlined" 
-                        onChange={e => setCrm(e.target.value)}
-                        onBlur={verifyCrmInput}
-                    /> 
-                    <p id="crmError" style={{color: 'red', margin: 0, marginTop: 10, display: 'none'}}>O Campo é Obrigatório.</p>
-                </Div>
+        <>
+            <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                style={{width: '40%'}}
+            >
+                <Alert variant="filled" severity="success" onClose={handleClose} sx={{ width: '100%' }}>Cadastro Concluido.</Alert>
+            </Snackbar>
+            <Form xs={12}>
+                <h3 style={{margin: 0, marginBottom: '1rem'}}>Dados do Médico</h3>
+                    <Div style={{flex: 1, minWidth: '200px', flexDirection: 'column'}}>
+                        <TextField  
+                            fullWidth
+                            size="small"
+                            id="crm"
+                            name="crm"
+                            type="text"
+                            label="CRM" 
+                            variant="outlined" 
+                            onChange={e => setCrm(e.target.value)}
+                            onBlur={verifyCrmInput}
+                        /> 
+                        <p id="crmError" style={{color: 'red', margin: 0, marginTop: 10, display: 'none'}}>O Campo é Obrigatório.</p>
+                    </Div>
 
-                <Div style={{flex: 1, minWidth: '200px', flexDirection: 'column'}}>
-                    <Autocomplete
-                        fullWidth
-                        multiple
-                        size="small"
-                        id="especialidades"
-                        name="especialidades"
-                        onChange={onSpecialtyChange}
-                        onBlur={verifySpecialtiesInput}
-                        options={specialties}
-                        getOptionLabel={(option) => option.nome}
-                        filterSelectedOptions
-                        renderInput={(params) => (
-                        <TextField
-                            {...params}
-                            label="Especialidades"
-                            placeholder="Escolha uma ou mais especialidades"
+                    <Div style={{flex: 1, minWidth: '200px', flexDirection: 'column'}}>
+                        <Autocomplete
+                            fullWidth
+                            multiple
+                            size="small"
+                            id="especialidades"
+                            name="especialidades"
+                            onChange={onSpecialtyChange}
+                            onBlur={verifySpecialtiesInput}
+                            options={specialties}
+                            getOptionLabel={(option) => option.nome}
+                            filterSelectedOptions
+                            renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                label="Especialidades"
+                                placeholder="Escolha uma ou mais especialidades"
+                            />
+                            )}
                         />
-                        )}
-                    />
-                    <p id="specialtiesError" style={{color: 'red', margin: 0, marginTop: 10, display: 'none'}}>Selecione um ou mais especialidades.</p>
-                </Div>
+                        <p id="specialtiesError" style={{color: 'red', margin: 0, marginTop: 10, display: 'none'}}>Selecione um ou mais especialidades.</p>
+                    </Div>
 
-            <Button fullWidth variant="contained" style={{marginBottom: '1rem'}} onClick={submit}>
-                Criar
-            </Button>
-        </Form>  
+                <Button fullWidth variant="contained" style={{marginBottom: '1rem'}} onClick={submit}>
+                    Criar
+                </Button>
+            </Form>  
+        </>
     )
 }
 
