@@ -43,8 +43,8 @@ export default function AdicionarConsulta() {
 
   async function horasDisponiveisMedico(id_medico){
     if(id_medico && data){    
-      console.log(id_medico)
-      console.log(data)
+      // console.log(id_medico)
+      // console.log(data)
       const response = await api.get(`/horasdisponiveismedico/${id_medico}/${data}`)
       console.log(response.data)
 
@@ -107,14 +107,13 @@ export default function AdicionarConsulta() {
 
   async function criarConsulta(e){
       e.preventDefault()
-      setDr_hr_consulta(`${data} ${hora}`)
+      setDr_hr_consulta(`${data} ${hora}:00:00.000`)
       let url_consulta = `telemed${idMedico}${data}${idEspecialidade}`
       await api.post('/agendarconsulta', {id_medico: idMedico, id_especialidade: idEspecialidade, data, hora, dt_hr_consulta, url_consulta})
       handleClick()
       setTimeout(() => {
         navigate(`/inicio`);
-    }, 7000);
-      
+    }, 3000);
   }
 
   const handleClick = () => {
@@ -147,14 +146,14 @@ export default function AdicionarConsulta() {
         <Snackbar
             anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
             open={open}
-            autoHideDuration={6000}
+            autoHideDuration={2000}
             onClose={handleClose}
             style={{width: '40%'}}
         >
           <Alert variant="filled" severity="success" onClose={handleClose} sx={{ width: '100%' }}>Consulta Criada com Sucesso!</Alert>
         </Snackbar>
         <div style={{display: 'flex', flexDirection: 'column', alignContent: 'center', width: '100%'}}>
-          <Typography variant='h4' align="center">Nova Consulta</Typography><br/>
+          <Typography variant='h4' align="center">Nova Consulta XX</Typography><br/>
             <Div style={{flex: 1, flexDirection: 'column', minWidth: '200px'}}>
               <FormControl variant="outlined" fullWidth> 
                 <InputLabel size="small">Especialidade</InputLabel>
@@ -193,7 +192,7 @@ export default function AdicionarConsulta() {
                     >
                       {medicos.length > 0 ? (
                         medicos.map(doctor => (
-                          <MenuItem key={doctor.id_usuario} value={doctor.id_usuario}>CRM: {doctor.crm}</MenuItem>
+                          <MenuItem key={doctor.id_usuario} value={doctor.id_usuario}>{doctor.nome}</MenuItem>
                         ))
                       ): 
                         <MenuItem disabled>Não há Médicos</MenuItem>

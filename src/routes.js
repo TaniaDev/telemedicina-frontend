@@ -24,6 +24,7 @@ import RecoverAccount from './pages/RecoverAccount'
 import ConsultasListagem from './pages/UsuariosListagem/ConsultasListagem'
 import EditarConsulta from './pages/UsuariosListagem/ConsultasListagem/EditarConsulta'
 import AdicionarConsulta from './pages/UsuariosListagem/ConsultasListagem/AdicionarConsulta'
+import AdicionarConsulta2 from './pages/UsuariosListagem/ConsultasListagem/AdicionarConsulta2'
 import NotFoundPage from './pages/NotFoundPage'
 import Agenda from './pages/Agenda'
 import HistoricoConsultas from './pages/HistoricoConsultas'
@@ -79,7 +80,7 @@ export default function AppRoutes() {
                     <Route path='/consultas' exact element={<Private><MinhasConsultas/></Private>} />
                     <Route path='/agenda' exact element={<Private><Agenda/></Private>} />
                     <Route path='/consulta/editar/:id' exact element={<Private><EditarConsulta/></Private>} />
-                    <Route path='/consulta/adicionar' exact element={<Private><AdicionarConsulta/></Private>} />
+                    <Route path='/consulta/adicionar' exact element={<Private><AdicionarConsulta2/></Private>} />
                     <Route path='/usuario/consultas/:id' exact element={<Private><ConsultasListagem/></Private>} />
                     {/* <Route path='/usuario/cadastrar' exact element={<Private><UsuariosCadastrar/></Private>} /> */}
                     <Route path='/historico' exact element={<Private><HistoricoConsultas/></Private>} />
