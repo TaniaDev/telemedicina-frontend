@@ -131,6 +131,10 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
         setOpen1(false);
     };
 
+    function done(){
+        api.put(`/consulta/done/${id_consulta}`)
+    }
+
     return(
         <Card sx={{ 
             maxWidth: 300,
@@ -254,8 +258,10 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
                         && 
                             //Permite entrar em até 1H após o inicio da consulta
                             (agora <= dayjs(data).add(1, 'hour').format('DD/MM/YYYY HH:mm:ss')) 
-                        && 
-                            (<Button onClick={handleOpenConsulta}>Acessa Consulta</Button>)
+                        &&  
+                            typeUser === "Paciente" ? (<Button onClick={() => {handleOpenConsulta(); done()}}>Acessar Consulta</Button>) : (<Button onClick={handleOpenConsulta}>Acessar Consulta</Button>)
+                            
+                            
                         }
                 </CardActions>
             </Box>
