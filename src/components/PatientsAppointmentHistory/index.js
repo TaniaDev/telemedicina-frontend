@@ -42,7 +42,9 @@ export default function PatientsAppointmentHistory() {
     const result = await api.get('/consultas/getPatientAppointments')
     setRows(result.data)
   }
-
+  
+  setInterval(getAppointments, 60000)
+  
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer sx={{ maxHeight: 440 }}>

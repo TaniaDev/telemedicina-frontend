@@ -19,6 +19,8 @@ function MinhasConsultas(){
         setAppointments(response.data)
     }
 
+    setInterval(getAppointments, 60000)
+
     return(
         <>
             <NavBar>
@@ -34,17 +36,19 @@ function MinhasConsultas(){
                     </div>
                     <div className="container" style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
                         {appointments?.map(appointment => (
-                            <CardConsulta 
-                                style={{minWidth: '200px'}}
-                                key={appointment.id} 
-                                id_consulta={appointment.id} 
-                                status={appointment.status} 
-                                id_especialidade={appointment.id_especialidade} 
-                                id_medico={appointment.id_medico} 
-                                id_paciente={appointment.id_paciente} 
-                                data={appointment.dt_hr_consulta}
-                                url_consulta={appointment.url_consulta}
-                            />
+                            <>
+                                <CardConsulta 
+                                    style={{minWidth: '200px'}}
+                                    key={appointment.id} 
+                                    id_consulta={appointment.id} 
+                                    status={appointment.status} 
+                                    id_especialidade={appointment.id_especialidade} 
+                                    id_medico={appointment.id_medico} 
+                                    id_paciente={appointment.id_paciente} 
+                                    data={appointment.dt_hr_consulta}
+                                    url_consulta={appointment.url_consulta}
+                                />
+                            </>
                         ))}
                     </div>
                 </BaseLayout>

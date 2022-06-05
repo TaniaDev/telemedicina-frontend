@@ -43,6 +43,8 @@ export default function DoctorsAppointmentHistory() {
     setRows(result.data)
   }
 
+  setInterval(getAppointments, 60000)
+
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer sx={{ maxHeight: 440 }}>

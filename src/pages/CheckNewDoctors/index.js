@@ -32,6 +32,8 @@ function CheckNewDoctors(){
         setNewDoctors(result.data)
     }
 
+    setInterval(getNewDoctors, 60000)
+
     async function getAllSpecialities(){
         const result = await api.get(`/medico/getSpecialityByDoctor`)
         setSpecialties(result.data)

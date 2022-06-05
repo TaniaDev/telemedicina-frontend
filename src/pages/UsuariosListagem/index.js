@@ -32,13 +32,16 @@ function UsuariosListagem(){
 
     useEffect(() => {
         getType()
-        async function loadUsers(){
-            const response = await api.get('/admin')
-            setUsers(response.data)
-            setLoading(false)
-        }
         loadUsers()
     },[])
+
+    setInterval(loadUsers, 60000)
+
+    async function loadUsers(){
+        const response = await api.get('/admin')
+        setUsers(response.data)
+        setLoading(false)
+    }
 
     async function getType(){
         const result = await api.get('/usuario/getType')
