@@ -35,7 +35,7 @@ export default function ReactBigCalendar() {
         url_consulta: item.url_consulta,
         start: moment(`${item.dt_hr_consulta}`)._d ,
         end: moment(`${item.dt_hr_consulta}`).add(1, 'h')._d,
-        title: `Consulta ${item.id}`
+        title: `Consulta ${item.nome}`
       })
     })
     setEventsData(aux)

@@ -19,7 +19,6 @@ function MinhasConsultas(){
         setAppointments(response.data)
     }
 
-    setInterval(getAppointments, 60000)
 
     return(
         <>

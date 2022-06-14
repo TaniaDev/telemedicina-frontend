@@ -215,18 +215,24 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
                 <Typography gutterBottom variant="p" component="span">
                     <b>Status:</b> {status}
                 </Typography>
-                {(status === 'Agendado') &&
+                
+                {(typeUser === 'Medico') &&
                     <Typography gutterBottom variant="p" component="div">
                         <b>Paciente:</b> {paciente.nome} 
                     </Typography>
-                }              
+                }       
+
+                {(typeUser === 'Paciente') &&
+                   <Typography gutterBottom variant="p" component="div">
+                       <b>Médico:</b> {medico.nome} 
+                    </Typography> 
+                }    
+
                 <Typography gutterBottom variant="p" component="div">
                     <b>Especialidade:</b> {especialidade.nome}
                 </Typography>
 
-                <Typography gutterBottom variant="p" component="div">
-                    <b>Médico:</b> {medico.nome} 
-                </Typography>         
+                        
             </CardContent>
           
             <Box display='flex' alignItems='center' justifyContent='center'>
@@ -250,19 +256,19 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
                             <Button size="small" color='warning' onClick={cancelarConsulta}>Cancelar</Button>
                         )}
 
-                        {
+                        {(
                             (status === 'Agendado') 
                         && 
-                            //Permite entrar com 10min de antecedencia
                             (agora >= dayjs(data).subtract(10, 'minute').format('DD/MM/YYYY HH:mm:ss')) 
                         && 
-                            //Permite entrar em até 1H após o inicio da consulta
-                            (agora <= dayjs(data).add(1, 'hour').format('DD/MM/YYYY HH:mm:ss')) 
-                        &&  
-                            typeUser === "Paciente" ? (<Button onClick={() => {handleOpenConsulta(); done()}}>Acessar Consulta</Button>) : (<Button onClick={handleOpenConsulta}>Acessar Consulta</Button>)
+                            (agora <= dayjs(data).add(1, 'hour').format('DD/MM/YYYY HH:mm:ss'))
+                        ) && (
+                            typeUser === "Paciente" ? (
+                            <Button onClick={() => {handleOpenConsulta(); setTimeout(done, 60000);}}>Acessar Consulta</Button>) : (
+                            <Button onClick={handleOpenConsulta}>Acessar Consulta</Button>)
+                        )}
                             
-                            
-                        }
+
                 </CardActions>
             </Box>
             

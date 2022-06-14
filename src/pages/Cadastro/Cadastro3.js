@@ -75,7 +75,9 @@ let Cadastro3 = () => {
                 )}
 
                 {userType === 'Medico' && step === 3 && userId && (
-                    <CreateDoctorForm userId={userId}/>
+                    <>
+                        <CreateDoctorForm userId={userId}/>
+                    </>
                 )}
 
                 {/* {userType === 'Medico' && (

@@ -79,7 +79,7 @@ export default function AppRoutes() {
                     {/* <Route path='/consulta/agendar' exact element={<Private><AgendarConsulta/></Private>} /> */}
                     <Route path='/consultas' exact element={<Private><MinhasConsultas/></Private>} />
                     <Route path='/agenda' exact element={<Private><Agenda/></Private>} />
-                    <Route path='/consulta/editar/:id' exact element={<Private><EditarConsulta/></Private>} />
+                    {/* <Route path='/consulta/editar/:id' exact element={<Private><EditarConsulta/></Private>} /> */}
                     <Route path='/consulta/adicionar' exact element={<Private><AdicionarConsulta2/></Private>} />
                     <Route path='/usuario/consultas/:id' exact element={<Private><ConsultasListagem/></Private>} />
                     {/* <Route path='/usuario/cadastrar' exact element={<Private><UsuariosCadastrar/></Private>} /> */}
