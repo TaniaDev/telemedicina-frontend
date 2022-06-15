@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import api from '../../services/api'
 import { useNavigate } from 'react-router-dom'
-import { Box, Button } from '@mui/material'
+import { Box, Button} from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
 
 import NavBar from '../../components/NavBar'
 import BaseLayout from '../../layouts/BaseLayout'
@@ -18,10 +19,6 @@ function Dashboard() {
     async function getType(){
         const result = await api.get('/usuario/getType')
         setTipo(result.data.tipo)
-    }
-
-    function agendarConsulta(){
-        navigate('/consulta/agendar')
     }
 
     function minhasConsultas(){
@@ -45,29 +42,35 @@ function Dashboard() {
             </Box>
             <hr/> */}
 
-                <BaseLayout title="Página Inicial">
-                    <h1>TIPO DO USUARIO LOGADO: {tipo}</h1>
-                    <br/><hr/><br/>
+                <BaseLayout title={`Página Inicial (${tipo})`}>
+                    <div style={{marginTop: '100px', display: 'flex', flexWrap: 'wrap', alignItems: 'center'}}>
+                        {tipo === 'Paciente' && 
+                            <>
+                                <Button variant="contained" size="large" color="secondary" sx={{margin: 1}} style={{color: '#fff'}} onClick={() => navigate('/consulta/adicionar')}><h2>Nova Consulta</h2></Button>
+                            </>             
+                        }
 
-                    <h2>USUÁRIO</h2>
-                        <Button variant="contained" size="large" color="secondary" sx={{margin: 1}} onClick={configuracoes}><h2>Configurações</h2></Button>
-                        <Button variant="contained" size="large" color="secondary" sx={{margin: 1}}><h2>Realizar Consulta (Video Chamada)</h2></Button>
-                        <Button variant="contained" size="large" color="secondary" sx={{margin: 1}}><h2>CONSULTAS</h2></Button>
+                        {tipo === 'Medico' && 
+                            <>
+                                <Button variant="contained" size="large" color="secondary" sx={{margin: 1}} style={{color: '#fff'}} onClick={() => navigate('/config/disponibilidademedica')}><h2>Definir Disponibilidade</h2></Button>
+                            </> 
+                        }
 
-                    {tipo === 'Paciente' && 
-                        <>
-                            <h2>PACIENTE</h2>
-                            <Button variant="contained" size="large" color="success" sx={{margin: 1}} onClick={agendarConsulta}><h2>Agendar Consulta</h2></Button>
-                            <Button variant="contained" size="large" color="success" sx={{margin: 1}} onClick={minhasConsultas}><h2>Minhas Consultas</h2></Button>
-                        </>                    
-                    }
+                        {(tipo === 'Paciente' || tipo === 'Medico')  && 
+                            <>
+                                <Button variant="contained" size="large" color="secondary" sx={{margin: 1}} style={{color: '#fff'}} onClick={() => navigate('/consultas')}><h2>Consultas</h2></Button>
+                                <Button variant="contained" size="large" color="secondary" sx={{margin: 1}} style={{color: '#fff'}} onClick={() => navigate('/agenda')}><h2>Minha Agenda</h2></Button>
+                                <Button variant="contained" size="large" color="secondary" sx={{margin: 1}} style={{color: '#fff'}} onClick={() => navigate('/historico')}><h2>Historico de Consultas</h2></Button>
+                            </>
+                        }
 
-                    {tipo === 'Medico' && 
-                        <>
-                            <h2>MÉDICO</h2>
-                            <Button variant="contained" size="large" color="warning" sx={{margin: 1}}><h2>Definir disponibilidade (horário)</h2></Button>
-                        </>   
-                    }
+                        {tipo === 'Admin' && 
+                            <>
+                                <Button variant="contained" size="large" color="secondary" sx={{margin: 1}} style={{color: '#fff'}} onClick={() => navigate('/admin')}><h2>Gerenciar Usuários</h2></Button>
+                                <Button variant="contained" size="large" color="secondary" sx={{margin: 1}} style={{color: '#fff'}} onClick={() => navigate('/novos_medicos')}><h2>Novos Médicos</h2></Button>
+                            </>  
+                        }
+                    </div>
                 </BaseLayout>
             </NavBar>
         </>

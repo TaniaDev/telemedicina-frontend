@@ -1,10 +1,28 @@
 import React, { useState, useEffect } from 'react'
-import {Box, Card, CardActions, CardContent, CardMedia, Button, Typography} from '@mui/material'
+import {Box, Card, CardActions, CardContent, CardMedia, Button, Typography, Modal, Snackbar, IconButton, Alert } from '@mui/material'
 import { BorderColor, Delete } from '@mui/icons-material'
-import api from '../../services/api'
 import { useNavigate } from 'react-router-dom'
+import dayjs from 'dayjs'
 
-function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, status, data}){
+import api from '../../services/api'
+import Prontuario from '../Prontuario'
+import FormProntuario from '../Prontuario/FormProntuario'
+
+const style = {
+    position: 'absolute',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '95vw',
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 4,
+};
+  
+function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, status, data, url_consulta}){
     let navigate = useNavigate()
     const [paciente, setPaciente] = useState([])
     const [medico, setMedico] = useState([])
@@ -13,6 +31,16 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
     const [limitTime, setLimitTime] = useState('')
     const [agora, setAgora] = useState('')
     const [formattedDate, setFormattedDate] = useState('')
+    const [openConsulta, setOpenConsulta] = useState(false);
+    const [openProntuario, setOpenProntuario] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [open1, setOpen1] = useState(false);
+
+    const handleOpenConsulta = () => setOpenConsulta(true);
+    const handleCloseConsulta = () => setOpenConsulta(false);
+    const handleOpenProntuario = () => setOpenProntuario(true);
+    const handleCloseProntuario = () => setOpenProntuario(false);
+  
 
     useEffect(() => {
         getDoctor()
@@ -26,36 +54,20 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
 
     async function getPaciente(){
         const result = await api.get(`/paciente/getPaciente/${id_paciente}`)
-    setPaciente(result.data)
+        setPaciente(result.data)
     }
 
     function limitTimeForChange(){
-        let dtHrConsulta = data
-        let hrConsulta = dtHrConsulta.substr(11, 2)
-        var limitTimeForChange = dtHrConsulta.replace('T'+hrConsulta, 'T'+(hrConsulta-1))
+        var limitTimeForChange = dayjs(data).subtract(1, 'hour').format('DD/MM/YYYY HH:mm:ss')
         setLimitTime(limitTimeForChange)
     }
 
     function dateNow(){
-        let date = new Date()
-        let hour = date.getHours()
-        let minute = date.getMinutes()
-        let day = String(date.getDate()).padStart(2, '0');
-        let month = String(date.getMonth() + 1).padStart(2, '0');
-        let year = date.getFullYear();
-        let dateNow = year + '-' + month + '-' + day + 'T' + hour + ':' + minute + ':' + '00.000Z'
-        setAgora(dateNow)
+        setAgora(dayjs().format('DD/MM/YYYY HH:mm:ss'))
     }
 
     function formatDateAppointment(){
-        let year = data.substr(0, 4)
-        let month = data.substr(5, 2)
-        let day = data.substr(8, 2)
-        let hour = data.substr(11, 2)
-        let minute = data.substr(14, 2)
-        let format = day + '/' + month + '/' + year + ' às ' + hour + 'H' + minute
-        setFormattedDate(format)
-        
+        setFormattedDate(dayjs(data).format('DD/MM/YYYY HH:mm:ss'))
     }
 
     async function getType(){
@@ -76,39 +88,110 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
     async function cancelarConsulta(){
         const res = window.confirm('Deseja realmente cancelar a consulta?')
         if (res) {
-            console.log(id_consulta)
             await api.put(`/consulta/cancelar/${id_consulta}`)
-            alert('Consulta Cancelada!')
-            window.location.reload()
+            handleClick()
+            setTimeout(() => {
+                window.location.reload()
+            }, 3000)
         }
     }
-    async function agendarConsulta() {
-        const res = window.confirm('Deseja realmente agendar esta consulta?')
-        if (res) {
-            console.log(id_consulta)
-            await api.put(`/consulta/agendar/${id_consulta}`)
-            alert('Consulta Agendada!')
-            navigate('/consultas')
-        }
-    }
+
     async function removerConsulta(id){
         const res = window.confirm('Deseja realmente excluir?')
         if(res){
             try {
                 const result = await api.delete(`/admin/consultas/deletar/${id_consulta}`)
-                alert('Consulta excluida com sucesso!')
+                handleClick1()
                 window.location.reload()
             } catch(err) {
-                alert("ops! ocorreu um erro" + err)
+                console.log("ops! ocorreu um erro" + err)
             }
         }
     }
-    
+
+    const handleClick = () => {
+        setOpen(true);
+    };
+
+    const handleClick1 = () => {
+        setOpen1(true);
+    };	
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
+
+    const handleClose1 = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen1(false);
+    };
+
+    function done(){
+        api.put(`/consulta/done/${id_consulta}`)
+    }
+
     return(
         <Card sx={{ 
             maxWidth: 300,
             margin: 3,
         }}>
+            <Snackbar
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                style={{width: '40%'}}
+            >
+                <Alert variant="filled" severity="success" onClose={handleClose1} sx={{ width: '100%' }}>Consulta Cancelada.</Alert>
+            </Snackbar>
+            <Snackbar
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={open1}
+                autoHideDuration={6000}
+                onClose={handleClose1}
+                style={{width: '40%'}}
+            >
+                <Alert variant="filled" severity="success" onClose={handleClose1} sx={{ width: '100%' }}>Consulta excluida com sucesso.</Alert>
+            </Snackbar>
+            <Modal
+                open={openConsulta}
+                onClose={handleCloseConsulta}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style} style={{padding: '0px 1.5rem 1.5rem 1.5rem'}}>
+                    <Button onClick={handleCloseConsulta} color='error' style={{fontSize: '25px', fontWeight: 'bold'}}>X</Button>
+                    <div style={{display: 'flex', width: '100%'}}>
+                        <div style={{flex: 1}}>
+                        <iframe src={`https://meet.jit.si/${url_consulta}`} frameborder="0" width="100%" height="500" allow="microphone; camera"/>
+                        </div>
+
+                        {(typeUser === 'Medico') && (
+                            <div>
+                                <FormProntuario id_paciente={id_paciente}/>
+                            </div>
+                        )}
+                    </div>
+                </Box>
+            </Modal>
+
+            <Modal
+                open={openProntuario}
+                onClose={handleCloseProntuario}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style} style={{padding: '0px 1.5rem 1.5rem 1.5rem'}}>
+                    <Button onClick={handleCloseProntuario} color='error' style={{fontSize: '25px', fontWeight: 'bold'}}>X</Button>
+                    <Prontuario idPaciente={id_paciente}/>
+                </Box>
+            </Modal>
+
             <Box
                 display='flex'
                 flexDirection='column'
@@ -132,18 +215,24 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
                 <Typography gutterBottom variant="p" component="span">
                     <b>Status:</b> {status}
                 </Typography>
-                {(status === 'Agendado') &&
+                
+                {(typeUser === 'Medico') &&
                     <Typography gutterBottom variant="p" component="div">
                         <b>Paciente:</b> {paciente.nome} 
                     </Typography>
-                }              
+                }       
+
+                {(typeUser === 'Paciente') &&
+                   <Typography gutterBottom variant="p" component="div">
+                       <b>Médico:</b> {medico.nome} 
+                    </Typography> 
+                }    
+
                 <Typography gutterBottom variant="p" component="div">
                     <b>Especialidade:</b> {especialidade.nome}
                 </Typography>
 
-                <Typography gutterBottom variant="p" component="div">
-                    <b>Médico:</b> {medico.nome} 
-                </Typography>         
+                        
             </CardContent>
           
             <Box display='flex' alignItems='center' justifyContent='center'>
@@ -159,14 +248,27 @@ function CardConsulta({id_consulta, id_especialidade, id_medico, id_paciente, st
                                 </Button>
                         }
 
-                        {(status === 'Agendado') && (agora <= limitTime) ?
-                            <>
-                                
-                                <Button size="small" color='warning' onClick={cancelarConsulta}>Cancelar</Button>
-                            </>
-                        :
-                            <Button size="small" color='success' onClick={agendarConsulta}>Agendar</Button>
-                        }
+                        {(typeUser === 'Medico') && (
+                            <Button onClick={handleOpenProntuario}>Prontuário</Button>
+                        )}
+
+                        {(status === 'Agendado') && (agora <= limitTime) && (
+                            <Button size="small" color='warning' onClick={cancelarConsulta}>Cancelar</Button>
+                        )}
+
+                        {(
+                            (status === 'Agendado') 
+                        && 
+                            (agora >= dayjs(data).subtract(10, 'minute').format('DD/MM/YYYY HH:mm:ss')) 
+                        && 
+                            (agora <= dayjs(data).add(1, 'hour').format('DD/MM/YYYY HH:mm:ss'))
+                        ) && (
+                            typeUser === "Paciente" ? (
+                            <Button onClick={() => {handleOpenConsulta(); setTimeout(done, 60000);}}>Acessar Consulta</Button>) : (
+                            <Button onClick={handleOpenConsulta}>Acessar Consulta</Button>)
+                        )}
+                            
+
                 </CardActions>
             </Box>
             

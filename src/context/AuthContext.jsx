@@ -38,12 +38,20 @@ export default function AuthProvider({ children }) {
             api.defaults.headers.Authorization = `Bearer ${accessToken}`
             
             setUsuario(usuarioLogado)
+
+            const result = await api.get(`/medico/verifyapproval/${email}`)
+            if(result.data.aguardando_validacao != null){
+                alert('Usuário Aguardando Aprovação, Você será notificado quando seu acesso for liberado!')
+                logout()
+            }
+
             navigate('/inicio')
         } catch (err) {
             console.error("ops! ocorreu um erro" + err)
+            alert('Usuário e/ou Senha Incorreto(s)!')
         }
     }
-    
+
     function logout(){
         localStorage.removeItem('token')
         api.defaults.headers.Authorization = null

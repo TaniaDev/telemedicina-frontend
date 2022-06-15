@@ -1,11 +1,13 @@
 import api from '../../services/api'
 import {useState, useEffect} from 'react'
-import { Container, Button, Grid, TextField } from '@mui/material'
+import { Container, Button, Grid, TextField, Snackbar, IconButton, Alert } from '@mui/material'
 import SaveIcon from '@mui/icons-material/Save';
 
 function ResetPassword(){  
     const [email, setEmail] = useState('')
     const [senha, setSenha] = useState('')
+    const [open, setOpen] = useState(false);
+    const [open1, setOpen1] = useState(false);
 
     useEffect(() => {
         getEmail()
@@ -23,13 +25,13 @@ function ResetPassword(){
         e.preventDefault();
         try{
             if(!senha || senha == null){
-                alert('Prencha a senha!')
+                handleClick()
                 return
             }
             const res = await api.post(`/usuario/redefinir_senha/${token}`, { senha });
     
             if(res.status === 200){
-                alert('Senha alterada!')
+                handleClick1()
                 window.location.href = '/'
             }          
         }catch (err) {
@@ -37,8 +39,47 @@ function ResetPassword(){
         }
     }
 
+    const handleClick = () => {
+        setOpen(true);
+    };	
+    
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
+
+    const handleClick1 = () => {
+        setOpen1(true);
+    };	
+    
+    const handleClose1 = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen1(false);
+    };
+
     return(
         <Container>
+            <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                style={{width: '40%'}}
+            >
+                <Alert variant="filled" severity="warning" onClose={handleClose} sx={{ width: '100%' }}>Prencha a senha.</Alert>
+            </Snackbar>
+
+            <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={open1}
+                autoHideDuration={6000}
+                onClose={handleClose1}
+                style={{width: '40%'}}
+            >
+                <Alert variant="filled" severity="success" onClose={handleClose1} sx={{ width: '100%' }}>Senha alterada.</Alert>
+            </Snackbar>
             <Grid container marginY={5}> 
                 <Grid item xs={4}></Grid>
                 <Grid item xs={4}>

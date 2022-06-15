@@ -23,7 +23,7 @@ import {
     MedicalServices,
     Person,
     Settings,
-    
+    EventNote,
   } from '@mui/icons-material'
 import api from '../../services/api'
 import ListItemLink from './ListItemLink'
@@ -61,61 +61,70 @@ export default function NavBar({ children, exit }) {
                                 label='Página inicial'
                                 to='/inicio'                            
                             />
+
                             {tipo === 'Admin' && 
-                                <ListItemLink
-                                    icon={<Group />}
-                                    label='Gerenciar Usuários'
-                                    to='/admin'                            
-                                />                 
+                                <>
+                                    <ListItemLink
+                                        icon={<Group />}
+                                        label='Gerenciar Usuários'
+                                        to='/admin'                            
+                                    />                 
+                                    <ListItemLink
+                                        icon={<MedicalServices />}
+                                        label='Novos Médicos'
+                                        to='/novos_medicos'                            
+                                    />  
+                                </>               
                             }
+
                             {tipo === 'Paciente' && 
                                 <>
                                     <ListItemLink
-                                        icon={<DateRange />}
-                                        label='Minhas Consultas'
-                                        to='/consultas'
-                                    />
-                                    <ListItemLink
                                         icon={<InsertInvitation />}
                                         label='Agendar Consulta'
-                                        to='/agendar'
+                                        to='/consulta/adicionar'
                                     />
-                                    <ListItemLink
-                                        icon={<Assignment />}
-                                        label='Histórico Médico'
-                                        to='/'
-                                    />
+                                    
                                 </>                        
                             }
                             {tipo === 'Medico' && 
                                 <>
                                     <ListItemLink
                                         icon={<DateRange />}
-                                        label='Minha Agenda'
-                                        to='/consultas'
+                                        label='Disponibilidade'
+                                        to='/config/disponibilidademedica'
                                     />
-                                    <ListItemLink
-                                        icon={<MedicalServices />}
-                                        label='Lista de Pacientes'
-                                        to=''
-                                    />
-                                    <ListItemLink
-                                        icon={<Assignment />}
-                                        label='Históricos'
-                                        to=''
-                                    />
+                                    
                                 </>     
                             }
+
+                            {tipo !== 'Admin' && 
+                                <>
+                                    <ListItemLink
+                                        icon={<DateRange />}
+                                        label='Minhas Consultas'
+                                        to='/consultas'
+                                    />
+
+                                    <ListItemLink
+                                        icon={<DateRange />}
+                                        label='Agenda'
+                                        to='/agenda'
+                                    />  
+                                    <ListItemLink
+                                        icon={<EventNote />}
+                                        label='Historico Consultas'
+                                        to='/historico'
+                                    />  
+                                </>
+                            }
+
                             <ListItemLink
                                 icon={<Person />}
                                 label='Perfil'
                                 to='/perfil'
                             />                             
-                            <ListItemLink
-                                icon={<Settings />}
-                                label='Configurações'
-                                to='/config'
-                            />
+                            
                             <ListItemLink
                                 icon={<ExitToApp />}
                                 label='Sair'

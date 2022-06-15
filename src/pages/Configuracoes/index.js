@@ -11,7 +11,7 @@ import NavBar from '../../components/NavBar'
 import FormUsuario from '../../components/Configuracoes/FormUsuario'
 import FormEndereco from '../../components/Configuracoes/FormEndereco'
 import FormPaciente from '../../components/Configuracoes/FormPaciente'
-import { Button } from '@mui/material'
+import { Button, Snackbar, IconButton, Alert } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { Container } from '../../styles/Configuracoes'
 import BaseLayout from '../../layouts/BaseLayout'
@@ -87,6 +87,7 @@ const TabsList = styled(TabsListUnstyled)`
 export default function Configuracoes() {
   const navigate = useNavigate()
   const [tipo, setTipo] = useState("")
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     getType()
@@ -102,18 +103,39 @@ export default function Configuracoes() {
     if (res) {
         try {
             await api.put('/usuario/disable')
-            alert('Usuário desativado!')
+            handleClick()
             localStorage.removeItem("token")
-            navigate('/');
+            setTimeout(() => {
+              navigate('/');
+            }, 3000)  
         } catch (err) {
-            alert("ops! ocorreu um erro" + err)
+            console.log("ops! ocorreu um erro" + err)
         }
     }
   }
 
+  const handleClick = () => {
+    setOpen(true);
+  };	
+
+  const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+          return;
+      }
+      setOpen(false);
+  };
+
   return (
     <NavBar>
       <BaseLayout title='Configurações'>
+        <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          open={open}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          style={{width: '40%'}}
+        >
+            <Alert variant="filled" severity="success" onClose={handleClose} sx={{ width: '100%' }}>Usuário desativado!.</Alert>
+        </Snackbar>
         <Container>
           <Button variant="contained" size="large" color="error" sx={{ margin: 1 }} onClick={desativarConta}><h4>DESATIVAR CONTA</h4></Button>
           <TabsUnstyled defaultValue={0}>

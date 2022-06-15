@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import {
     MonitorWeight,Height, PestControl, Coronavirus, SmokingRooms, Medication} from '@mui/icons-material'
 import api from '../../services/api'
-import { Box, InputAdornment, Button } from '@mui/material'
+import { Box, InputAdornment, Button, Snackbar, IconButton, Alert } from '@mui/material'
 import {DoubleItem, InputItem} from '../../styles/Cadastro'
 
 function FormPaciente() {
@@ -12,6 +12,9 @@ function FormPaciente() {
     const [doenca, setDoenca] = useState("")
     const [vicio, setVicio] = useState("")
     const [medicamento, setMedicamento] = useState("")
+    const [open, setOpen] = useState(false);
+    const [open1, setOpen1] = useState(false);
+    const [open2, setOpen2] = useState(false);
 
     useEffect(() => {
         getPaciente();
@@ -29,23 +32,83 @@ function FormPaciente() {
 
     async function atualizarPaciente() {
         if (!peso) {
-            alert('Peso é obrigatório!')
+            handleClick()
             return
         }
 
         if (!altura) {
-            alert('Altura é obrigatório!')
+            handleClick1()
             return
         }
 
-        alert('Usuario atualizado com sucesso!')
+        handleClick2()
         await api.put('/paciente', { peso, altura, alergia, doenca_cronica: doenca, vicio, medicamento })
-        window.location.reload(false)
+        setTimeout(() => {
+            window.location.reload(false)
+        }, 3000)
 
     }
 
+    const handleClick = () => {
+        setOpen(true);
+    };	
+    
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
+
+    const handleClick1 = () => {
+        setOpen1(true);
+    };	
+    
+    const handleClose1 = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen1(false);
+    };
+
+    const handleClick2 = () => {
+        setOpen2(true);
+    };	
+    
+    const handleClose2 = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen2(false);
+    };
+
     return (
         <>
+            <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                style={{width: '40%'}}
+            >
+                <Alert variant="filled" severity="warning" onClose={handleClose} sx={{ width: '100%' }}>Peso é obrigatório.</Alert>
+            </Snackbar>
+            <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={open1}
+                autoHideDuration={6000}
+                onClose={handleClose1}
+                style={{width: '40%'}}
+            >
+                <Alert variant="filled" severity="warning" onClose={handleClose1} sx={{ width: '100%' }}>Altura é obrigatório.</Alert>
+            </Snackbar>
+            <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={open2}
+                autoHideDuration={6000}
+                onClose={handleClose2}
+                style={{width: '40%'}}
+            >
+                <Alert variant="filled" severity="success" onClose={handleClose2} sx={{ width: '100%' }}>Usuario Atualizado.</Alert>
+            </Snackbar>
+
             <DoubleItem>
                 <Box>
                     <InputItem
