@@ -5,7 +5,7 @@ import {
     Height,  PestControl, Coronavirus, SmokingRooms, Medication, ChevronRight, KeyboardArrowLeft
 } from '@mui/icons-material'
 import api from '../../services/api'
-import { Box, FormControl, InputAdornment, InputLabel, MenuItem, Select } from '@mui/material'
+import { Box, FormControl, InputAdornment, InputLabel, MenuItem, Select, Snackbar, IconButton, Alert } from '@mui/material'
 import UnstyledTabsCustomized from './UnstyledTabsCustomized'
 import logo from '../../img/logoAzulHoriz.png'
 import {
@@ -44,6 +44,9 @@ function Cadastro() {
     const [vicio, setVicio] = useState("")
     const [medicamento, setMedicamento] = useState("")
     const [crm, setCrm] = useState("")
+    const [open, setOpen] = useState(false);
+    const [open1, setOpen1] = useState(false);
+    const [open2, setOpen2] = useState(false);
 
     async function handleCadastro(e) {
         e.preventDefault()
@@ -51,21 +54,33 @@ function Cadastro() {
 
         if(!nome || !dt_nascimento || !genero || !telefone || !email || !senha || !tipo || !cep || !numero || !cidade || !estado || (tipo == 'Paciente' ? (!peso || !altura) : (!crm))) {
             if(senha != confirmasenha){
-                alert("Senhas não correspondem.")
+                handleClick()
             }
 
-            alert("Preencha todos os campos!")
+            handleClick1()
         }else {
             try {
                 const response = await api.post("/cadastrar", {nome, dt_nascimento, genero, telefone, email, senha, tipo, cep, numero, complemento, cidade, estado, peso, altura, alergia, doenca, vicio, medicamento, crm});
 
                 console.log(response.data)
-                alert('Seu cadastro foi realizado!')
-                navigate('/');
+                handleClick2()
+                setTimeout(() => {
+                    navigate('/');
+                }, 3000)
             } catch (err) {
                 console.error("ops! ocorreu um erro: " + err);
             }
         }
+    }
+
+    function checkCep(e){
+        const cepLimpo = cep.replace(/\D/g, '')
+        fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`)
+            .then(res => res.json())
+            .then(data => {
+                setCidade(data.localidade)
+                setEstado(data.uf)
+        })
     }
 
     function passoUm(){
@@ -97,12 +112,72 @@ function Cadastro() {
         }
     }
 
+    const handleClick = () => {
+        setOpen(true);
+    };	
+    
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
+
+    
+    const handleClick1 = () => {
+        setOpen1(true);
+    };	
+    
+    const handleClose1 = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen1(false);
+    };
+
+    const handleClick2 = () => {
+        setOpen2(true);
+    };	
+    
+    const handleClose2 = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen2(false);
+    };
+
+
+
     useEffect(() => {
         passoUm();
     },[])
 
     return (
         <Principal>
+            <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                style={{width: '40%'}}
+            >
+                <Alert variant="filled" severity="warning" onClose={handleClose} sx={{ width: '100%' }}>Senhas não correspondem.</Alert>
+            </Snackbar>
+            <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={open1}
+                autoHideDuration={6000}
+                onClose={handleClose1}
+                style={{width: '40%'}}
+            >
+                <Alert variant="filled" severity="warning" onClose={handleClose1} sx={{ width: '100%' }}>Preencha todos os campos.</Alert>
+            </Snackbar>
+            <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={open2}
+                autoHideDuration={6000}
+                onClose={handleClose2}
+                style={{width: '40%'}}
+            >
+                <Alert variant="filled" severity="success" onClose={handleClose2} sx={{ width: '100%' }}>Cadastro foi realizado.</Alert>
+            </Snackbar>
             <PaperStyled>
                 <RegisterContainer>
                     <LogoContainer>
@@ -241,6 +316,7 @@ function Cadastro() {
                                         variant="filled"
                                         label="Informe seu cep"
                                         value={cep}
+                                        onBlur={checkCep}
                                         onChange={e => setCep(e.target.value)}
                                         InputProps={{
                                             startAdornment: (

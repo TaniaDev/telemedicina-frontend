@@ -12,7 +12,10 @@ import {
     TableHead,
     TableRow,
     TextField,
-    useTheme
+    useTheme,
+    Snackbar, 
+    IconButton, 
+    Alert
 } from '@mui/material'
 import { Add, BorderColor, Delete, Event } from '@mui/icons-material'
 import { ButtonBox, ButtonTool, PaperStyled } from '../../styles/UsuariosListagem'
@@ -25,16 +28,20 @@ function UsuariosListagem(){
     const [users, setUsers] = useState([])
     const [tipo, setTipo] = useState("")
     const [loading, setLoading] = useState(true)
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
         getType()
-        async function loadUsers(){
-            const response = await api.get('/admin')
-            setUsers(response.data)
-            setLoading(false)
-        }
         loadUsers()
     },[])
+
+    setInterval(loadUsers, 60000)
+
+    async function loadUsers(){
+        const response = await api.get('/admin')
+        setUsers(response.data)
+        setLoading(false)
+    }
 
     async function getType(){
         const result = await api.get('/usuario/getType')
@@ -47,10 +54,12 @@ function UsuariosListagem(){
             try {
                 const result = await api.put(`/usuario/${id}`)
                 console.log(result.data)
-                alert('Usuário excluido com sucesso!')
-                window.location.reload()
+                handleClick()
+                setTimeout(() => {
+                    window.location.reload()
+                }, 3000)                
             } catch(err) {
-                alert("ops! ocorreu um erro" + err)
+                console.log("ops! ocorreu um erro" + err)
             }
         }
     }
@@ -59,10 +68,29 @@ function UsuariosListagem(){
         return <div>Carregando dados...</div>
     }
 
+    const handleClick = () => {
+        setOpen(true);
+    };	
+    
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
+
     return (
         <>
             <NavBar>
                 <BaseLayout title='Gerenciar Usuários'>
+                    <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                        open={open}
+                        autoHideDuration={6000}
+                        onClose={handleClose}
+                        style={{width: '40%'}}
+                    >
+                        <Alert variant="filled" severity="success" onClose={handleClose} sx={{ width: '100%' }}>Usuário excluido com sucesso.</Alert>
+                    </Snackbar>
                     <Box
                         display='flex'
                         alignItems='center'

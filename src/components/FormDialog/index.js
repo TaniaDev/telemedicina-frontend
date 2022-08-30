@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
+import { Button, Snackbar, IconButton, Alert} from '@mui/material'
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -12,6 +12,7 @@ import api from '../../services/api'
 
 export default function FormDialog({idConsulta}) {
   const [open, setOpen] = React.useState(false);
+  const [open1, setOpen1] = useState(false);
   const [newDate, setNewDate] = React.useState("")
 
   const handleClickOpen = () => {
@@ -22,13 +23,33 @@ export default function FormDialog({idConsulta}) {
     setOpen(false);
   };
 
+  const handleClick1 = () => {
+    setOpen1(true);
+};	
+
+const handleClose1 = (event, reason) => {
+    if (reason === 'clickaway') {
+        return;
+    }
+    setOpen1(false);
+};
+
   async function changeDate(id){
     await api.put('/consulta/changeDate', {id_consulta: idConsulta, new_date: newDate})
-    alert('Data da consulta atualizada com sucesso')
+    handleClick1();
   }
 
   return (
     <div>
+      <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        open={open1}
+        autoHideDuration={6000}
+        onClose={handleClose1}
+        style={{width: '40%'}}
+      >
+        <Alert variant="filled" severity="success" onClose={handleClose1} sx={{ width: '100%' }}>Data Atualizada.</Alert>
+      </Snackbar>
+
       <Button size="small" onClick={handleClickOpen}>
         <BorderColor/>
       </Button>

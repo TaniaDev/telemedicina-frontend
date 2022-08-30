@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Button } from '@mui/material';
+import { Button, Snackbar, IconButton, Alert } from '@mui/material';
 import NavBar from '../../../components/NavBar'
 import BaseLayout from '../../../layouts/BaseLayout'
 import api from '../../../services/api'
@@ -11,6 +11,7 @@ export default function EditarConsulta() {
   const [newDate, setNewDate] = useState("")
   const [consulta, setConsulta] = useState([])
   const [hrConsulta, setHrConsulta] = useState('')
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     getConsulta()
@@ -27,13 +28,36 @@ export default function EditarConsulta() {
   
   async function changeDate(){
     await api.put('/consulta/changeDate', {id_consulta: params.id, new_date: newDate})
-    alert('Data da consulta atualizada com sucesso')
-    navigate(`/inicio`)
+    handleClick()
+    setTimeout(() => {
+      navigate(`/inicio`)
+    }, 3000)
+    
   }
+
+  const handleClick = () => {
+    setOpen(true);
+  };	
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+        return;
+    }
+    setOpen(false);
+  };
+
 
   return (
     <NavBar>
         <BaseLayout title='Editar Consulta'>
+          <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            open={open}
+            autoHideDuration={6000}
+            onClose={handleClose}
+            style={{width: '40%'}}
+          >
+            <Alert variant="filled" severity="success" onClose={handleClose} sx={{ width: '100%' }}>Data da consulta atualizada com sucesso.</Alert>
+          </Snackbar>
           <h4>Nova Data</h4>
 
               Selecione a nova data da consulta.
