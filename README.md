@@ -11,33 +11,56 @@
 </p>
 
 <br/><h4 align="center" id="features"> 
-	🚧  Em construção...  🚧
+	🚧  Features  🚧
 </h4>
 
 - [x] Tela de Login de Usuário
 - [x] Tela de Cadastro de Usuário
-- [ ] Dashboard
-- [ ] Cadastro de paciente
-- [ ] Cadastro de médico
-- [ ] Tela de Agenda do paciente
-- [ ] Lista de médicos e datas disponiveis
-- [ ] Tela de Agenda do médico
-- [ ] Lista de pacientes agendados
-- [ ] Histórico do Paciente
-- [ ] Anotações de prontuário
-- [ ] Anexar arquivos ao histórico
-- [ ] Realizar Consulta por Google Meets
+- [x] Dashboard
+- [x] Cadastro de paciente
+- [x] Cadastro de médico
+- [x] Tela de Agenda do paciente
+- [x] Seleção de médicos e datas disponiveis
+- [x] Tela de Agenda do médico
+- [x] Histórico do Paciente
+- [x] Anotações de prontuário
+- [x] Realizar Consulta por Jitsi Meet
 
 <br/><h4 align="center" id="demonstrativo">👀 Demonstrativo da Aplicação</h4>
 
-<h5 align="center">Tela de Login</h5>
+<h5 align="center">Login</h5>
 
-![image](https://user-images.githubusercontent.com/60274024/155029471-6f0bfd52-83f4-4459-9f42-7f499c00f5be.png)
+![Tela de Login Telemedicina](https://user-images.githubusercontent.com/60274024/187469179-879dae6e-de38-4d5b-ac69-3764be1bd2f9.jpeg)
 
-<h5 align="center">Tela de Cadastro</h5>
+![Recuperação de Senha Telemedicina](https://user-images.githubusercontent.com/60274024/187470066-3e2153da-8f8d-42d7-b035-663eaa263e53.jpeg)
 
-![image](https://user-images.githubusercontent.com/60274024/155029487-2bb6ab35-63af-42bd-af7e-6e4cc2032e6a.png)
+<h5 align="center">Cadastro</h5>
 
+![Tela de Cadastro Telemedicina Tipo de Usuário](https://user-images.githubusercontent.com/60274024/187469384-83ee064a-45b0-4ed7-976c-02aee9bc6f15.jpeg)
+
+![Tela de Cadastro Telemedicina Dados do Usuário](https://user-images.githubusercontent.com/60274024/187469409-6dd23144-a322-46bc-8bcf-8fe5c08701fe.jpeg)
+
+![Tela de Cadastro Telemedicina Endereço](https://user-images.githubusercontent.com/60274024/187469561-066a7d43-1965-4205-acfe-4ff03e114b2d.jpeg)
+
+<h5 align="center">Minhas Consultas</h5>
+
+![Minhas Consultas Telemedicina](https://user-images.githubusercontent.com/60274024/187470227-ffcee315-9002-4a8e-a4ae-e428895b85d7.jpeg)
+
+<h5 align="center">Agenda do Médico</h5>
+
+![Agenda do Médico Telemedicina](https://user-images.githubusercontent.com/60274024/187470318-3449dfef-2fb1-4176-ae18-10ba8f4cac84.jpeg)
+
+<h5 align="center">Histórico de Consultas</h5>
+
+![Histórico de Consultas Telemedicina](https://user-images.githubusercontent.com/60274024/187470447-bbeda01f-b86c-4924-82d4-e8f782ac5b0c.jpeg)
+
+<h5 align="center">Configurações de Atendimento do Médico</h5>
+
+![Configurações de Atendimento do Médico Telemedicina](https://user-images.githubusercontent.com/60274024/187470615-85ce926b-24fd-453a-8562-eb5d6854f791.jpeg)
+
+<h5 align="center">Nova Consulta: Agendamento</h5>
+
+![Nova Consulta Agendamento Telemedicina](https://user-images.githubusercontent.com/60274024/187470821-1d8f3f4d-464e-4434-a42a-4ec2a2089fbc.jpeg)
 
 <br/><h4 align="center" id="comoRodar">📋 Pré-requisitos e como rodar a aplicação</h4>
 
@@ -73,9 +96,10 @@ npm start
 As seguintes ferramentas foram usadas na construção do projeto:
 - [React](https://pt-br.reactjs.org/)
 - [MUI](https://mui.com/pt/)
-- [Jest](https://jestjs.io/pt-BR/)
+- [Formik](https://formik.org/docs/overview)
 - [Axios](https://axios-http.com/docs/intro)
-- [React Router Dom ](https://v5.reactrouter.com/web/guides/quick-start)
+- [React Router Dom](https://v5.reactrouter.com/web/guides/quick-start)
+- [Jitsi Meet](https://meet.jit.si)
 
 <br/><h3 id="contribuicao" align="center"> 🖇️ Contribuição</h3>
 
